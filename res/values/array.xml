@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string-array name="function_list">
+        <item>功能1</item>
+        <item>功能2</item>
+        <item>功能3</item>
+        <item>功能4</item>
+        <item>功能5</item>
+        <item>功能6</item>
+    </string-array>
+</resources>
