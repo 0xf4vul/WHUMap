@@ -3,7 +3,7 @@ package com.whumap.fragment;
 
 import com.whumap.activity.ContentFrameActivity;
 import com.whumap.activity.R;
-import com.whumap.map.MapFragment;
+import com.whumap.map.MyMapFragment;
 
 import android.app.Fragment;
 import android.app.ListFragment;
@@ -37,22 +37,22 @@ public class MenuListFragment extends ListFragment {
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			// TODO Auto-generated method stub
 			super.onListItemClick(l, v, position, id);
-			Fragment fragment = null;
+			Fragment fragment =  null;
 			switch(position) {
 			case 0:
-				fragment = new MapFragment();
+				fragment = new MyMapFragment();
 				break;
 			case 1:
 				fragment = new TextFragment();
 				break;
 			case 2:
-				fragment = new MapFragment();
+				fragment = new MyMapFragment();
 				break;
 			case 3:
 				fragment = new TextFragment();
 				break;
 			case 4:
-				fragment = new MapFragment();
+				fragment = new MyMapFragment();
 				break;
 			case 5:
 				fragment = new TextFragment();
