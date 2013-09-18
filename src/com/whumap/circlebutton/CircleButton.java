@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -212,9 +211,15 @@ public class CircleButton extends RelativeLayout {
 		areButtonClicked = false;
 	}
 
+	/**
+	 * 判断主按钮是处于打开或者关闭状态
+	 * @return
+	 */
 	public boolean getButtonState() {
 		return areButtonClicked;
 	}
+	
+	
 	/**
 	 * 打開
 	 */
@@ -224,6 +229,28 @@ public class CircleButton extends RelativeLayout {
 		areButtonClicked = true;
 	}
 	
+	
+	/**
+	 * 是否初始化
+	 */
+	
+	public boolean isInit() {
+		return hasInit;
+	}
+	
+	/**
+	 * 是否打开按钮
+	 */
+	
+	@Override
+	public boolean isShown() {
+		// TODO Auto-generated method stub
+		return super.isShown();
+	}
+	/**
+	 * 为按钮的点击添加事件监听
+	 * @param l
+	 */
 	public void setButtonsOnClickListener(final OnClickListener l) {
 
 		if (childButton != null) {

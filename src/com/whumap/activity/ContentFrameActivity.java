@@ -36,7 +36,7 @@ public class ContentFrameActivity extends BaseActivity{
 		getFragmentManager()
 		.beginTransaction()
 		.replace(R.id.menu_frame, new MenuListFragment()).commit();
-		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 	}
 	
 
