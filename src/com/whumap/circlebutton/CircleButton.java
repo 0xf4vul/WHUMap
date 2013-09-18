@@ -251,7 +251,7 @@ public class CircleButton extends RelativeLayout {
 	 * 为按钮的点击添加事件监听
 	 * @param l
 	 */
-	public void setButtonsOnClickListener(final OnClickListener l) {
+	public void setChildOnClickListener(final OnClickListener l) {
 
 		if (childButton != null) {
 			for (int i = 0; i < childButton.length; i++) {
