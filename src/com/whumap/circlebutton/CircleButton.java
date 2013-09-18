@@ -260,8 +260,6 @@ public class CircleButton extends RelativeLayout {
 
 						@Override
 						public void onClick(final View view) {
-							//此处添加其他事件比如按钮增大或者缩回菜单
-							collapse();
 							l.onClick(view);
 						}
 
