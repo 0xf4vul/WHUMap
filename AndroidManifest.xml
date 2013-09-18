@@ -23,6 +23,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data  
+            android:name="com.amap.api.v2.apikey"  
+            android:value="cfd4d90bb2ff47c80677b4874659c9eb" />  
         <activity
             android:name="com.whumap.activity.ContentFrameActivity"
             android:label="@string/app_name" >
