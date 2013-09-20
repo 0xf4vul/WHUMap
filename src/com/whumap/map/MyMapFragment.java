@@ -38,6 +38,7 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 	private UiSettings mUiSettings;
 	private OnLocationChangedListener mListener;
 	private LocationManagerProxy mAMapLocationManager;
+	private View v;
 	public static final LatLng WHU = new LatLng(30.535739,114.362257);
 	static final CameraPosition WHUC = new CameraPosition.Builder().target(WHU)
 			.zoom(17).bearing(100).tilt(100).build();
@@ -56,18 +57,9 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.map_fragment, container, false);
+		v = inflater.inflate(R.layout.map_fragment, container, false);
 		initCircleButton(v);
-		mapView = (MapView)v.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
-		RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.map_container);
-		rl.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				circleButton.collapse();
-			}
-		});
+		initMapView(v, savedInstanceState);
 		return v;
 	}
 
@@ -86,7 +78,7 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			DefaultUI();
-//			setUpMap();
+			setUpMap();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUC));
 		}
 	}
@@ -119,11 +111,13 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
+		deactivate();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		
 		mapView.onDestroy();
 	}
 

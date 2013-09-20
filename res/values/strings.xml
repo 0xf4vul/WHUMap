@@ -9,5 +9,11 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="normal">Normal</string>
     <string name="satellite">Satellite</string>
-
+    <string name="title_activity_search_frame">SearchFrameActivity</string>
+	<string name="search_position">搜位置</string>
+	<string name="search_route">搜路线</string>
+	<string name="my_position">我的位置</string>
+	<string name="search_text">搜索</string>
+	<string name="search_the_route">查找路线</string>
+	<string name="input_destination">输入终点</string>
 </resources>

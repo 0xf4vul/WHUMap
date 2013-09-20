@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/search_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_position" 
+        android:layout_margin="@dimen/search_frame_title_margin"
+        android:textSize="@dimen/search_frame_text" 
+        android:background="#cc00ee"/>
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/search_position_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10" 
+            android:hint="@string/search_text"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/search_frame_margin_left">
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/search_postition_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_text"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/search_frame_margin_right"/>
+
+    </TableRow>
+
+    <TextView
+        android:id="@+id/search_route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_route"
+        android:layout_marginTop="50dp" 
+        android:layout_marginLeft="@dimen/search_frame_title_margin_left"
+        android:layout_marginRight="@dimen/search_frame_title_margin_right"
+        android:textSize="@dimen/search_frame_text"
+        android:background="#cc00ee"/>
+
+    <EditText
+        android:id="@+id/search_route_my_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:hint="@string/my_position"
+        android:layout_marginTop="@dimen/search_frame_title_margin_top"
+        android:layout_marginLeft="@dimen/search_frame_margin_left"
+        android:layout_marginRight="@dimen/search_frame_margin_right"/>
+    
+
+    <EditText
+        android:id="@+id/search_route_destination_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/input_destination"
+        android:layout_marginTop="@dimen/search_frame_title_margin_top"
+        android:layout_marginLeft="@dimen/search_frame_margin_left"
+        android:layout_marginRight="@dimen/search_frame_margin_right" />
+
+    <Button
+        android:id="@+id/search_the_route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_the_route"
+        android:layout_marginLeft="@dimen/search_frame_margin_left"
+        android:layout_marginRight="@dimen/search_frame_margin_right"/>
+
+</LinearLayout>
