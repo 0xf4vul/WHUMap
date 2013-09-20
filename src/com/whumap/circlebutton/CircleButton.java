@@ -30,16 +30,16 @@ public class CircleButton extends RelativeLayout {
 		myContext = context;
 	}
 
-	public CircleButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		myContext = context;
-	}
-
 	public CircleButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		myContext = context;
 	}
 	
+	public CircleButton(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		myContext = context;
+	}
+
 	/**
 	 * 初始化一个弹出菜单的按钮
 	 * @param imgResId 用来加载需要弹出按钮子按钮的id，需要在资源文件中定义
@@ -56,6 +56,7 @@ public class CircleButton extends RelativeLayout {
 	 */
 	public void init(int[] imgResId, int showhideButtonId, int crossId,
 			byte positionId, int radius, final int durationMillis) {
+		//动画时间
 		dureTime = durationMillis;
 		
 		int align1 = 12, align2 = 14;
@@ -195,15 +196,9 @@ public class CircleButton extends RelativeLayout {
 		
 	}
 
-	@Override
-	public View getChildAt(int index) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(index);
-	}
-	
-	
+
 	/**
-	 * 收埋
+	 * 收起菜单按钮
 	 */
 	public void collapse() {
 		cbAnimation.startAnimationsOut(dureTime);
@@ -221,7 +216,7 @@ public class CircleButton extends RelativeLayout {
 	
 	
 	/**
-	 * 打開
+	 * 打开菜单按钮
 	 */
 	public void expand() {
 		cbAnimation.startAnimationsIn(dureTime);
@@ -248,7 +243,7 @@ public class CircleButton extends RelativeLayout {
 		return super.isShown();
 	}
 	/**
-	 * 为按钮的点击添加事件监听
+	 * 为子按钮的点击添加事件监听
 	 * @param l
 	 */
 	public void setChildOnClickListener(final OnClickListener l) {
@@ -260,7 +255,6 @@ public class CircleButton extends RelativeLayout {
 
 						@Override
 						public void onClick(final View view) {
-							//此处添加其他事件比如按钮增大或者缩回菜单
 							collapse();
 							l.onClick(view);
 						}

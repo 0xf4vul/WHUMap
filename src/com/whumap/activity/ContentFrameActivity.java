@@ -2,6 +2,7 @@ package com.whumap.activity;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.whumap.fragment.MenuListFragment;
+import com.whumap.fragment.TextFragment;
 import com.whumap.map.MyMapFragment;
 
 import android.app.Fragment;
@@ -27,11 +28,9 @@ public class ContentFrameActivity extends BaseActivity{
 		}*/
 		currentFragment = new MyMapFragment();
 		setContentView(R.layout.content_frame);
-		getFragmentManager()
-		.beginTransaction()
-		.replace(R.id.content_frame, currentFragment)
-		.commit();
-		
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.replace(R.id.content_frame, currentFragment);
+		ft.commit();
 		setBehindContentView(R.layout.menu_frame);
 		getFragmentManager()
 		.beginTransaction()
@@ -44,15 +43,21 @@ public class ContentFrameActivity extends BaseActivity{
 	protected void onSaveInstanceState(Bundle outState) {
 		
 		super.onSaveInstanceState(outState);
-		getFragmentManager().putFragment(outState, "fragment", currentFragment);
 	}
 	
 	public void switchContent(Fragment fragment) {
-		currentFragment = fragment;
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(R.id.content_frame, fragment);
-		ft.addToBackStack(null);
-		ft.commit();
+		if(currentFragment != fragment) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			if(!fragment.isAdded()) {
+				ft.hide(currentFragment).add(R.id.content_frame, fragment).commit();
+			} else  {
+				ft.hide(currentFragment).show(fragment).commit();
+			}
+			currentFragment = fragment;
+		}
+		/*
+		ft.add(R.id.content_frame, fragment);
+		ft.commit(); */
 		getSlidingMenu().showContent();
 	}
 }

@@ -22,5 +22,9 @@ public class TextFragment extends Fragment{
 			getActivity().setTitle("Test");
 			return v;
 	}
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 	
 }

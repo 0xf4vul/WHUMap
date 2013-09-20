@@ -1,6 +1,10 @@
 package com.whumap.map;
 
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.whumap.activity.R;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class MyMapFragment extends Fragment {
 
@@ -21,6 +26,7 @@ public class MyMapFragment extends Fragment {
 	private  CircleButton circleButton ;//新建一个菜单按钮
 	private AMap aMap;
 	private MapView mapView;
+	private ScheduledExecutorService scheduleExecutorService;
 	//定义功能按钮图片
 	private int[] imgResId = {
 			R.drawable.composer_camera,
@@ -30,31 +36,44 @@ public class MyMapFragment extends Fragment {
 			R.drawable.composer_sun,
 			R.drawable.composer_thought
 	};
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-	
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.map_fragment, container , false);
 		initCircleButton(v);
-		initMapView(v, savedInstanceState);
+		mapView = (MapView)v.findViewById(R.id.map);
+		mapView.onCreate(savedInstanceState);
+		RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.map_container);
+		rl.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				circleButton.collapse();
+			}
+		});
 		return v;
 	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+	}
+
 	
 	/**
 	 * 初始化MapView
 	 * @param v
 	 * @param savedInstanceState
 	 */
-	private void initMapView(View v, Bundle savedInstanceState) {
+	private void initMapView() {
 		
-		mapView = (MapView)v.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
+
 		if(aMap == null) {
 			aMap = mapView.getMap();
+			aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
 		}
 	}
 
@@ -68,35 +87,37 @@ public class MyMapFragment extends Fragment {
 		 // 为菜单的子按钮添加点击监听,将地图的每个功能写在对应的按钮Id中
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
 		//获得地图fragment的父容器，当菜单按钮被点击后，如果点击屏幕则将菜单收回
+		/*
 		RelativeLayout ll = (RelativeLayout) v.findViewById(R.id.map_container);
+
 		ll.setOnClickListener(new OnClickListener() { 
 			
 			@Override
 			public void onClick(View v) {
+				circleButton.collapse();
+				Toast.makeText(getActivity(), "screen click", Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+		*/
 
 	}
 	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		mapView.onResume();
-		//deactivate();
+		scheduleExecutorService = Executors.newSingleThreadScheduledExecutor();
 	}
 	
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		mapView.onPause();
+		scheduleExecutorService.shutdown();
 	}
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		mapView.onDestroy();
 	}
@@ -106,6 +127,7 @@ public class MyMapFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
+		initMapView();
 	}
 	
 	@Override
@@ -126,21 +148,25 @@ public class MyMapFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			
-			if(getId() == BASIC_CHILD_BUTTON_ID +0) {
+			if(v.getId() == BASIC_CHILD_BUTTON_ID +0) {
 				
-			} else if(getId() == BASIC_CHILD_BUTTON_ID +1) {
+				Toast.makeText(getActivity(), "id-0", Toast.LENGTH_SHORT).show();
+			} else if(v.getId() == BASIC_CHILD_BUTTON_ID +1) {
 				
-			} else if(getId() == BASIC_CHILD_BUTTON_ID +2) {
+				Toast.makeText(getActivity(), "id-1", Toast.LENGTH_SHORT).show();
+			} else if(v.getId() == BASIC_CHILD_BUTTON_ID +2) {
 			
-			} else if(getId() == BASIC_CHILD_BUTTON_ID +3) {
+				Toast.makeText(getActivity(), "id-2", Toast.LENGTH_SHORT).show();
+			} else if(v.getId() == BASIC_CHILD_BUTTON_ID +3) {
 				
-			} else if(getId() == BASIC_CHILD_BUTTON_ID +4) {
+				Toast.makeText(getActivity(), "id-3", Toast.LENGTH_SHORT).show();
+			} else if(v.getId() == BASIC_CHILD_BUTTON_ID +4) {
 				
-			} else if(getId() == BASIC_CHILD_BUTTON_ID +5) {
+				Toast.makeText(getActivity(), "id-4", Toast.LENGTH_SHORT).show();
+			} else if(v.getId() == BASIC_CHILD_BUTTON_ID +5) {
 				
+				Toast.makeText(getActivity(), "id-5", Toast.LENGTH_SHORT).show();
 			}
-			
-			circleButton.collapse();
 		}
 	}
 }

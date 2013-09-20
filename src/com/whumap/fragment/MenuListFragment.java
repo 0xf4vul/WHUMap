@@ -20,8 +20,7 @@ public class MenuListFragment extends ListFragment {
 @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.list, null);
+		return inflater.inflate(R.layout.list, container , false);
 	}
 	
 	@Override
