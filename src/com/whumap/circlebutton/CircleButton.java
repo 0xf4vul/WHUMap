@@ -260,6 +260,7 @@ public class CircleButton extends RelativeLayout {
 
 						@Override
 						public void onClick(final View view) {
+							collapse();
 							l.onClick(view);
 						}
 
