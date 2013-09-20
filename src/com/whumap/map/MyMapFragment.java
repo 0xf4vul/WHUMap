@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -27,20 +26,14 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.whumap.activity.R;
 import com.whumap.circlebutton.CircleButton;
 
-public class MyMapFragment extends Fragment implements AMapLocationListener,
-		LocationSource {
+public class MyMapFragment extends Fragment {
 	private String title;
 	private final int BASIC_CHILD_BUTTON_ID = 1000;// 初始化子菜单按钮Id
 	private CircleButton circleButton;// 新建一个菜单按钮
 	private AMap aMap;
 	private MapView mapView;
-
+	private MyLocation myLocation;
 	private UiSettings mUiSettings;
-	private OnLocationChangedListener mListener;
-	private LocationManagerProxy mAMapLocationManager;
-	public static final LatLng WHU = new LatLng(30.535739,114.362257);
-	static final CameraPosition WHUC = new CameraPosition.Builder().target(WHU)
-			.zoom(17).bearing(100).tilt(100).build();
 	private LatLng CUR;
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
@@ -58,19 +51,9 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.map_fragment, container, false);
 		initCircleButton(v);
-		mapView = (MapView)v.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
-		RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.map_container);
-		rl.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				circleButton.collapse();
-			}
-		});
+		initMapView(v, savedInstanceState);
 		return v;
 	}
-
 
 	/**
 	 * 初始化MapView
@@ -86,8 +69,7 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			DefaultUI();
-//			setUpMap();
-			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUC));
+			myLocation.setUpMap();
 		}
 	}
 
@@ -104,7 +86,6 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 		// 为菜单的子按钮添加点击监听,将地图的每个功能写在对应的按钮Id中
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
 
-
 	}
 
 	@Override
@@ -112,13 +93,13 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 		super.onResume();
 		mapView.onResume();
 
-
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
+		myLocation.deactivate();
 	}
 
 	@Override
@@ -131,7 +112,6 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 	public void onActivityCreated(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
-		initMapView();
 	}
 
 	@Override
@@ -172,7 +152,6 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 			aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 		} else if (aMap.getMapType() == AMap.MAP_TYPE_NORMAL) {
 			aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
->>>>>>> c4956dd4fc44981d83749ade0aa1a85b75fc6a5c
 		}
 	}
 
@@ -188,79 +167,87 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 		mUiSettings.setMyLocationButtonEnabled(false);
 	}
 
-	private void setUpMap() {
-		// 自定义系统定位小蓝点
-		MyLocationStyle myLocationStyle = new MyLocationStyle();
-		myLocationStyle.myLocationIcon(BitmapDescriptorFactory
-				.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
-		myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-		myLocationStyle.radiusFillColor(Color.YELLOW);// 设置圆形的填充颜色
-		// myLocationStyle.anchor(;//设置小蓝点的锚点
-		myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
-		aMap.setMyLocationStyle(myLocationStyle);
-		aMap.setLocationSource(this);// 设置定位监听
-		// aMap.getUiSettings().setMyLocationButtonEnabled(false);//
-		// 设置默认定位按钮是否显示
-		aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-	}
+	private class MyLocation implements AMapLocationListener, LocationSource {
+		private OnLocationChangedListener mListener;
+		private LocationManagerProxy mAMapLocationManager;
 
-	public void onLocationChanged(Location alocation) {
-		// TODO Auto-generated method stub
+		private void setUpMap() {
 
-	}
-
-	public void activate(OnLocationChangedListener listener) {
-		// TODO Auto-generated method stub
-		mListener = listener;
-		if (mAMapLocationManager == null) {
-			mAMapLocationManager = LocationManagerProxy
-					.getInstance(getActivity());
-			/*
-			 * mAMapLocManager.setGpsEnable(false);
-			 * 1.0.2版本新增方法，设置true表示混合定位中包含gps定位，false表示纯网络定位，默认是true Location
-			 * API定位采用GPS和网络混合定位方式
-			 * ，第一个参数是定位provider，第二个参数时间最短是5000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
-			 */
-			mAMapLocationManager.requestLocationUpdates(
-					LocationProviderProxy.AMapNetwork, 5000, 10, this);
-		}
-	}
-
-	public void deactivate() {
-		// TODO Auto-generated method stub
-		mListener = null;
-		if (mAMapLocationManager != null) {
-			mAMapLocationManager.removeUpdates(this);
-			mAMapLocationManager.destory();
-		}
-		mAMapLocationManager = null;
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLocationChanged(AMapLocation alocation) {
-		// TODO Auto-generated method stub
-		if (mListener != null) {
-			mListener.onLocationChanged(alocation);// 显示系统小蓝点
-			CUR = new LatLng(alocation.getLatitude(), alocation.getLongitude());
+			// 自定义系统定位小蓝点
+			MyLocationStyle myLocationStyle = new MyLocationStyle();
+			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
+					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
+			myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
+			myLocationStyle.radiusFillColor(Color.YELLOW);// 设置圆形的填充颜色
+			// myLocationStyle.anchor(;//设置小蓝点的锚点
+			myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
+			aMap.setMyLocationStyle(myLocationStyle);
+			aMap.setLocationSource(this);// 设置定位监听
+			// aMap.getUiSettings().setMyLocationButtonEnabled(false);//
+			// 设置默认定位按钮是否显示
+			aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
 		}
 
+		public void onLocationChanged(Location alocation) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void activate(OnLocationChangedListener listener) {
+			// TODO Auto-generated method stub
+			mListener = listener;
+			if (mAMapLocationManager == null) {
+				mAMapLocationManager = LocationManagerProxy
+						.getInstance(getActivity());
+				/*
+				 * mAMapLocManager.setGpsEnable(false);
+				 * 1.0.2版本新增方法，设置true表示混合定位中包含gps定位，false表示纯网络定位，默认是true
+				 * Location API定位采用GPS和网络混合定位方式
+				 * ，第一个参数是定位provider，第二个参数时间最短是5000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
+				 */
+				mAMapLocationManager.requestLocationUpdates(
+						LocationProviderProxy.AMapNetwork, 5000, 10, this);
+			}
+		}
+
+		public void deactivate() {
+			// TODO Auto-generated method stub
+			mListener = null;
+			if (mAMapLocationManager != null) {
+				mAMapLocationManager.removeUpdates(this);
+				mAMapLocationManager.destory();
+			}
+			mAMapLocationManager = null;
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onLocationChanged(AMapLocation alocation) {
+			// TODO Auto-generated method stub
+
+			if (mListener != null) {
+				mListener.onLocationChanged(alocation);// 显示系统小蓝点
+				CUR = new LatLng(alocation.getLatitude(),
+						alocation.getLongitude());
+			}
+
+		}
 	}
 }
