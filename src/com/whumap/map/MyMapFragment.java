@@ -131,7 +131,6 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 	public void onActivityCreated(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
-		initMapView();
 	}
 
 	@Override
@@ -172,7 +171,6 @@ public class MyMapFragment extends Fragment implements AMapLocationListener,
 			aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 		} else if (aMap.getMapType() == AMap.MAP_TYPE_NORMAL) {
 			aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
->>>>>>> c4956dd4fc44981d83749ade0aa1a85b75fc6a5c
 		}
 	}
 
