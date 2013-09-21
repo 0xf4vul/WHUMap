@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_position_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_marginLeft="@dimen/search_frame_margin_left">
 
             <requestFocus />
-        </EditText>
+       </AutoCompleteTextView>
 
         <Button
             android:id="@+id/search_postition_button"
