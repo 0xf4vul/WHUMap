@@ -14,6 +14,7 @@ import com.amap.api.services.poisearch.PoiItemDetail;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
 import com.whumap.map.MyMapFragment;
+import com.whumap.map.ToastUtil;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -37,12 +38,15 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	private Button searchButton; // 搜位置
 	private Button searchRoute; // 查找路线
 	private String keyWord = "";// poi搜索关键字
+	private String strStart = "";
+	private String strEnd = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_frame);
 		findViewById(); // 初始化搜索界面中的所有按钮
+		searchRoute.setOnClickListener(this);
 		searchButton.setOnClickListener(this);
 	}
 
@@ -51,8 +55,10 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		// findViewById(R.id.search_position_content);
 		searchPosition = (AutoCompleteTextView) findViewById(R.id.search_position_content);
 		searchPosition.addTextChangedListener(this);// 添加文本输入框监听事件
-		searchMyPosition = (EditText) findViewById(R.id.search_route_my_position);
-		searchDePosition = (EditText) findViewById(R.id.search_route_destination_position);
+		searchMyPosition = (AutoCompleteTextView) findViewById(R.id.search_route_my_position);
+		searchMyPosition.addTextChangedListener(this);// 添加文本输入框监听事件
+		searchDePosition = (AutoCompleteTextView) findViewById(R.id.search_route_destination_position);
+		searchDePosition.addTextChangedListener(this);// 添加文本输入框监听事件
 		searchButton = (Button) findViewById(R.id.search_postition_button);
 		searchRoute = (Button) findViewById(R.id.search_the_route);
 
@@ -66,14 +72,37 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	}
 
 	/**
+	 * 点击搜索按钮开始Route搜索
+	 */
+	public void searchRoute() {
+		strStart = searchMyPosition.getText().toString().trim();
+		strEnd = searchDePosition.getText().toString().trim();
+//		if (strStart == null || strStart.length() == 0) {
+//			ToastUtil.show(SearchFrameActivity.this, "请选择起点");
+//			return;
+//		}
+//		if (strEnd == null || strEnd.length() == 0) {
+//			ToastUtil.show(SearchFrameActivity.this, "请选择终点");
+//			return;
+//		}
+		Intent intent = getIntent();
+		Bundle dataBundle = new Bundle();
+		dataBundle.putString("start", strStart);
+		dataBundle.putString("end", strEnd);
+		intent.putExtras(dataBundle);
+		SearchFrameActivity.this.setResult(0, intent);
+		SearchFrameActivity.this.finish();
+		// startSearchResult();// 开始搜终点
+	}
+
+	/**
 	 * 点击搜索按钮
 	 */
 	public void searchButton() {
-		keyWord = searchPosition.getText().toString();
+		keyWord = searchPosition.getText().toString().trim();
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("key", keyWord);
-		System.out.println(keyWord);
 		intent.putExtras(dataBundle);
 		SearchFrameActivity.this.setResult(0, intent);
 		SearchFrameActivity.this.finish();
@@ -107,7 +136,8 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 								ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(
 										getApplicationContext(),
 										R.layout.route_inputs, listString);
-								((AutoCompleteTextView) searchPosition).setAdapter(aAdapter);
+								((AutoCompleteTextView) searchPosition)
+										.setAdapter(aAdapter);
 								aAdapter.notifyDataSetChanged();
 							}
 						}
@@ -130,6 +160,11 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		 */
 		case R.id.search_postition_button:
 			searchButton();
+			break;
+		case R.id.search_the_route:
+			searchRoute();
+			break;
+		default:
 			break;
 		}
 	}
