@@ -1,6 +1,11 @@
 package com.whumap.map;
 
+import java.util.List;
+
+import android.R.integer;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,20 +15,47 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.actionbarsherlock.ActionBarSherlock.Implementation;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMap.InfoWindowAdapter;
+import com.amap.api.maps.AMap.OnInfoWindowClickListener;
+import com.amap.api.maps.AMap.OnMapClickListener;
+import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.overlay.PoiOverlay;
+import com.amap.api.services.overlay.WalkRouteOverlay;
+import com.amap.api.services.poisearch.PoiItemDetail;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
+import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.RouteSearch.BusRouteQuery;
+import com.amap.api.services.route.RouteSearch.DriveRouteQuery;
+import com.amap.api.services.route.RouteSearch.OnRouteSearchListener;
+import com.amap.api.services.route.RouteSearch.WalkRouteQuery;
+import com.amap.api.services.route.WalkPath;
+import com.amap.api.services.route.WalkRouteResult;
 import com.whumap.activity.R;
 import com.whumap.circlebutton.CircleButton;
+import com.whumap.map.RouteSearchPoiDialog.OnListItemClick;
+import com.whumap.activity.*;
 
 public class MyMapFragment extends Fragment {
 	
@@ -31,12 +63,38 @@ public class MyMapFragment extends Fragment {
 	private CircleButton circleButton;// 新建一个菜单按钮
 	private AMap aMap;
 	private MapView mapView;
-	private MyLocation myLocation;
-	private UiSettings mUiSettings;
+	private MyLocation myLocation;// location
+	private UiSettings mUiSettings;// uisetting
 	private View v;
-
+	// search
+	private static final int SHOW_SUBACTIVITY = 1;
+	private MySearchPoi mySearchPoi;
+	private PoiSearch.Query query;// Poi查询条件类
+	private PoiSearch poiSearch;// POI搜索
+	private ProgressDialog progDialog = null;// 搜索时进度条
+	private int currentPage = 0;// 当前页面，从0开始计数
+	private String keyWord = "";// poi搜索关键字
+	private PoiResult poiResult; // poi返回的结果
 	private LatLng CUR;
-	/**定义功能按钮图片 */
+	static final CameraPosition WHUS = new CameraPosition.Builder()
+			.target(Constants.WHU).zoom(13).bearing(0).tilt(0).build();
+	// route
+	private MySearchRoute mySearchRoute;
+	private String strStart = "";
+	private String strEnd = "";
+	private LatLonPoint startPoint = null;
+	private LatLonPoint endPoint = null;
+	private PoiSearch.Query startSearchQuery;
+	private PoiSearch.Query endSearchQuery;
+	private int routeType = 3;// 1代表公交模式，2代表驾车模式，3代表步行模式
+	private int busMode = RouteSearch.BusDefault;// 公交默认模式
+	private int drivingMode = RouteSearch.DrivingDefault;// 驾车默认模式
+	private int walkMode = RouteSearch.WalkDefault;// 步行默认模式
+	private WalkRouteResult walkRouteResult;// 步行模式查询结果
+	private RouteSearch routeSearch;
+	private LatLonPoint CURP;
+
+	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
 			R.drawable.composer_music, R.drawable.composer_place,
 			R.drawable.composer_sleep, R.drawable.composer_sun,
@@ -48,15 +106,28 @@ public class MyMapFragment extends Fragment {
 			Bundle savedInstanceState) {
 		v = inflater.inflate(R.layout.map_fragment, container, false);
 		initCircleButton();
-		
+		initMapView(v, savedInstanceState);
+		return v;
+	}
+
+	/**
+	 * 初始化MapView
+	 * 
+	 * @param v
+	 * @param savedInstanceState
+	 */
+
+	private void initMapView(View v, Bundle savedInstanceState) {
+
 		mapView = (MapView) v.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		if(aMap == null) {
+		myLocation = new MyLocation();
+		if (aMap == null) {
 			aMap = mapView.getMap();
-			mUiSettings = aMap.getUiSettings();
-		}		
-		myLocation = new MyLocation(); 
-		return v;
+			DefaultUI();
+			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
+			// myLocation.setUpMap();
+		}
 	}
 
 
@@ -86,7 +157,7 @@ public class MyMapFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-		myLocation.deactivate();
+		// myLocation.deactivate();
 	}
 
 	@Override
@@ -123,7 +194,9 @@ public class MyMapFragment extends Fragment {
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
 				aMap.moveCamera(CameraUpdateFactory.changeLatLng(CUR));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
-
+				Intent intent = new Intent(getActivity(),
+						SearchFrameActivity.class);
+				startActivityForResult(intent, 0);
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 3) {
 
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 4) {
@@ -132,6 +205,31 @@ public class MyMapFragment extends Fragment {
 
 			}
 
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, intent);
+		if (requestCode == 0 && resultCode == 0) {
+			Bundle dataBundle = intent.getExtras();
+			keyWord = dataBundle.getString("key");
+			strStart = dataBundle.getString("start");
+			strEnd = dataBundle.getString("end");
+		}
+		if (!("".equals(keyWord))) {
+			mySearchPoi = new MySearchPoi();
+			mySearchPoi.doSearchQuery();
+		}
+		if (!("".equals(strEnd))) {
+			mySearchRoute = new MySearchRoute();
+			if ("我的位置".equals(strStart)) {
+				startPoint = CURP;
+				mySearchRoute.endSearchResult();
+			} else {
+				mySearchRoute.startSearchResult();
+			}
 		}
 	}
 
@@ -226,7 +324,330 @@ public class MyMapFragment extends Fragment {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
 				CUR = new LatLng(alocation.getLatitude(),
 						alocation.getLongitude());
+				CURP = new LatLonPoint(alocation.getLatitude(),
+						alocation.getLongitude());
 			}
+
+		}
+	}
+
+	/**
+	 * searchpoi
+	 * 
+	 * @author flsf
+	 * 
+	 */
+	private class MySearchPoi implements OnPoiSearchListener,
+			OnMarkerClickListener, InfoWindowAdapter {
+
+		protected void doSearchQuery() {
+
+			aMap.setOnMarkerClickListener(this);// 添加点击marker监听事件
+			aMap.setInfoWindowAdapter(this);// 添加显示infowindow监听事件
+			showProgressDialog();// 显示进度框
+			currentPage = 0;
+			query = new PoiSearch.Query(keyWord, "", "027".toString());// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+			query.setPageSize(10);// 设置每页最多返回多少条poiitem
+			query.setPageNum(currentPage);// 设置查第一页
+
+			poiSearch = new PoiSearch(getActivity(), query);
+			poiSearch.setOnPoiSearchListener(this);
+			poiSearch.searchPOIAsyn();
+		}
+
+		private void showProgressDialog() {
+			if (progDialog == null)
+				progDialog = new ProgressDialog(getActivity());
+			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progDialog.setIndeterminate(false);
+			progDialog.setCancelable(false);
+			progDialog.setMessage("正在搜索:\n" + keyWord);
+			progDialog.show();
+		}
+
+		/**
+		 * 隐藏进度框
+		 */
+		private void dissmissProgressDialog() {
+			if (progDialog != null) {
+				progDialog.dismiss();
+			}
+		}
+
+		@Override
+		public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public View getInfoContents(Marker arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public View getInfoWindow(Marker arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			// TODO Auto-generated method stub
+			marker.showInfoWindow();
+			return false;
+		}
+
+		@Override
+		public void onPoiSearched(PoiResult result, int rCode) {
+			dissmissProgressDialog();// 隐藏对话框
+			if (rCode == 0) {
+				if (result != null && result.getQuery() != null) {// 搜索poi的结果
+					if (result.getQuery().equals(query)) {// 是否是同一条
+						poiResult = result;
+						// 取得搜索到的poiitems有多少页
+						List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+						if (poiItems != null && poiItems.size() > 0) {
+							aMap.clear();// 清理之前的图标
+							PoiOverlay poiOverlay = new PoiOverlay(aMap,
+									poiItems);
+							poiOverlay.removeFromMap();
+							poiOverlay.addToMap();
+							poiOverlay.zoomToSpan();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * route
+	 * 
+	 * @author flsf
+	 * 
+	 */
+	private class MySearchRoute implements OnRouteSearchListener,
+			OnPoiSearchListener, InfoWindowAdapter, OnClickListener,
+			OnInfoWindowClickListener, OnMarkerClickListener {
+
+		@Override
+		public void onBusRouteSearched(BusRouteResult arg0, int arg1) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onDriveRouteSearched(DriveRouteResult arg0, int arg1) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onWalkRouteSearched(WalkRouteResult result, int rCode) {
+			// TODO Auto-generated method stub
+			dissmissProgressDialog();
+
+			if (rCode == 0) {
+				if (result != null && result.getPaths() != null
+						&& result.getPaths().size() > 0) {
+					walkRouteResult = result;
+					WalkPath walkPath = walkRouteResult.getPaths().get(0);
+					aMap.clear();// 清理地图上的所有覆盖物
+					WalkRouteOverlay walkRouteOverlay = new WalkRouteOverlay(
+							getActivity(), aMap, walkPath,
+							walkRouteResult.getStartPos(),
+							walkRouteResult.getTargetPos());
+					walkRouteOverlay.removeFromMap();
+					walkRouteOverlay.addToMap();
+					walkRouteOverlay.zoomToSpan();
+				} else {
+					ToastUtil.show(getActivity(), R.string.no_result);
+				}
+			} else {
+				ToastUtil.show(getActivity(), R.string.error_network);
+			}
+		}
+
+		/**
+		 * 显示进度框
+		 */
+		private void showProgressDialog() {
+			if (progDialog == null)
+				progDialog = new ProgressDialog(getActivity());
+			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progDialog.setIndeterminate(false);
+			progDialog.setCancelable(true);
+			progDialog.setMessage("正在搜索");
+			progDialog.show();
+		}
+
+		/**
+		 * 隐藏进度框
+		 */
+		private void dissmissProgressDialog() {
+			if (progDialog != null) {
+				progDialog.dismiss();
+			}
+		}
+
+		/**
+		 * 查询路径规划起点
+		 */
+		public void startSearchResult() {
+
+			if (startPoint != null && strStart.equals("地图上的点")) {
+				endSearchResult();
+			} else {
+				showProgressDialog();
+				startSearchQuery = new PoiSearch.Query(strStart, "", "027"); // 第一个参数表示查询关键字，第二参数表示poi搜索类型，第三个参数表示城市区号或者城市名
+				startSearchQuery.setPageNum(0);// 设置查询第几页，第一页从0开始
+				startSearchQuery.setPageSize(20);// 设置每页返回多少条数据
+				PoiSearch poiSearch = new PoiSearch(getActivity(),
+						startSearchQuery);
+				poiSearch.setOnPoiSearchListener(this);
+				poiSearch.searchPOIAsyn();// 异步poi查询
+			}
+		}
+
+		/**
+		 * 查询路径规划终点
+		 */
+		public void endSearchResult() {
+			if (endPoint != null && strEnd.equals("地图上的点")) {
+				searchRouteResult(startPoint, endPoint);
+			} else {
+				showProgressDialog();
+				endSearchQuery = new PoiSearch.Query(strEnd, "", "027"); // 第一个参数表示查询关键字，第二参数表示poi搜索类型，第三个参数表示城市区号或者城市名
+				endSearchQuery.setPageNum(0);// 设置查询第几页，第一页从0开始
+				endSearchQuery.setPageSize(20);// 设置每页返回多少条数据
+				PoiSearch poiSearch = new PoiSearch(getActivity(),
+						endSearchQuery);
+				poiSearch.setOnPoiSearchListener(this);
+				poiSearch.searchPOIAsyn(); // 异步poi查询
+			}
+		}
+
+		/**
+		 * 开始搜索路径规划方案
+		 */
+		public void searchRouteResult(LatLonPoint startPoint,
+				LatLonPoint endPoint) {
+			aMap.setOnMarkerClickListener(this);
+			aMap.setOnInfoWindowClickListener(this);
+			aMap.setInfoWindowAdapter(this);
+			routeSearch = new RouteSearch(getActivity());
+			routeSearch.setRouteSearchListener(this);
+			showProgressDialog();
+			final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
+					startPoint, endPoint);
+			if (routeType == 1) {// 公交路径规划
+				BusRouteQuery query = new BusRouteQuery(fromAndTo, busMode,
+						"027", 0);// 第一个参数表示路径规划的起点和终点，第二个参数表示公交查询模式，第三个参数表示公交查询城市区号，第四个参数表示是否计算夜班车，0表示不计算
+				routeSearch.calculateBusRouteAsyn(query);// 异步路径规划公交模式查询
+			} else if (routeType == 2) {// 驾车路径规划
+				DriveRouteQuery query = new DriveRouteQuery(fromAndTo,
+						drivingMode, null, null, "");// 第一个参数表示路径规划的起点和终点，第二个参数表示驾车模式，第三个参数表示途经点，第四个参数表示避让区域，第五个参数表示避让道路
+				routeSearch.calculateDriveRouteAsyn(query);// 异步路径规划驾车模式查询
+			} else if (routeType == 3) {// 步行路径规划
+				WalkRouteQuery query = new WalkRouteQuery(fromAndTo, walkMode);
+				routeSearch.calculateWalkRouteAsyn(query);// 异步路径规划步行模式查询
+			}
+		}
+
+		/**
+		 * POI搜索结果回调
+		 */
+		@Override
+		public void onPoiSearched(PoiResult result, int rCode) {
+			dissmissProgressDialog();
+			if (rCode == 0) {// 返回成功
+				if (result != null && result.getQuery() != null
+						&& result.getPois() != null
+						&& result.getPois().size() > 0) {// 搜索poi的结果
+					if (!("我的位置".equals(strStart))
+							&& result.getQuery().equals(startSearchQuery)) {
+						List<PoiItem> poiItems = result.getPois();// 取得poiitem数据
+						RouteSearchPoiDialog dialog = new RouteSearchPoiDialog(
+								getActivity(), poiItems);
+						dialog.setTitle("您要找的起点是:");
+						dialog.show();
+						dialog.setOnListClickListener(new OnListItemClick() {
+							@Override
+							public void onListItemClick(
+									RouteSearchPoiDialog dialog,
+									PoiItem startpoiItem) {
+								startPoint = startpoiItem.getLatLonPoint();
+								strStart = startpoiItem.getTitle();
+								// startTextView.setText(strStart);
+								endSearchResult();// 开始搜终点
+							}
+
+						});
+					} else if (result.getQuery().equals(endSearchQuery)) {
+						List<PoiItem> poiItems = result.getPois();// 取得poiitem数据
+						RouteSearchPoiDialog dialog = new RouteSearchPoiDialog(
+								getActivity(), poiItems);
+						dialog.setTitle("您要找的终点是:");
+						dialog.show();
+						dialog.setOnListClickListener(new OnListItemClick() {
+							@Override
+							public void onListItemClick(
+									RouteSearchPoiDialog dialog,
+									PoiItem endpoiItem) {
+								endPoint = endpoiItem.getLatLonPoint();
+								strEnd = endpoiItem.getTitle();
+								// endTextView.setText(strEnd);
+								searchRouteResult(startPoint, endPoint);// 进行路径规划搜索
+							}
+
+						});
+					}
+				} else {
+					ToastUtil.show(getActivity(), R.string.no_result);
+				}
+			} else {
+				ToastUtil.show(getActivity(), R.string.error_network);
+			}
+		}
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public View getInfoContents(Marker arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public View getInfoWindow(Marker arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			// TODO Auto-generated method stub
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			} else {
+				marker.showInfoWindow();
+			}
+			return false;
+		}
+
+		@Override
+		public void onInfoWindowClick(Marker arg0) {
+			// TODO Auto-generated method stub
 
 		}
 	}
