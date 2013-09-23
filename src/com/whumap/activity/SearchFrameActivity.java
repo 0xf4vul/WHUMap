@@ -40,6 +40,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	private String keyWord = "";// poi搜索关键字
 	private String strStart = "我的位置";
 	private String strEnd = "";
+	private String back = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +78,10 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	public void searchRoute() {
 		strStart = searchMyPosition.getText().toString().trim();
 		strEnd = searchDePosition.getText().toString().trim();
-//		if (strStart == null || strStart.length() == 0) {
-//			ToastUtil.show(SearchFrameActivity.this, "请选择起点");
-//			return;
-//		}
-//		if (strEnd == null || strEnd.length() == 0) {
-//			ToastUtil.show(SearchFrameActivity.this, "请选择终点");
-//			return;
-//		}
+		if (strEnd == null || strEnd.length() == 0) {
+			ToastUtil.show(SearchFrameActivity.this, "请选择终点");
+			return;
+		}
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("start", strStart);
@@ -100,6 +97,10 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	 */
 	public void searchButton() {
 		keyWord = searchPosition.getText().toString().trim();
+		if (keyWord == null || keyWord.length() == 0) {
+			ToastUtil.show(SearchFrameActivity.this, "请选择要搜索的位置");
+			return;
+		}
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("key", keyWord);
@@ -113,6 +114,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub

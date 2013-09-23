@@ -95,6 +95,8 @@ public class MyMapFragment extends Fragment {
 	private WalkRouteResult walkRouteResult;// 步行模式查询结果
 	private RouteSearch routeSearch;
 	private LatLonPoint CURP;
+	
+	
 
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
@@ -583,7 +585,6 @@ public class MyMapFragment extends Fragment {
 									PoiItem startpoiItem) {
 								startPoint = startpoiItem.getLatLonPoint();
 								strStart = startpoiItem.getTitle();
-								// startTextView.setText(strStart);
 								endSearchResult();// 开始搜终点
 							}
 
@@ -601,7 +602,6 @@ public class MyMapFragment extends Fragment {
 									PoiItem endpoiItem) {
 								endPoint = endpoiItem.getLatLonPoint();
 								strEnd = endpoiItem.getTitle();
-								// endTextView.setText(strEnd);
 								searchRouteResult(startPoint, endPoint);// 进行路径规划搜索
 							}
 
