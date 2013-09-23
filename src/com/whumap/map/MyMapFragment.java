@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.ActionBarSherlock.Implementation;
@@ -57,10 +56,9 @@ import com.whumap.activity.R;
 import com.whumap.circlebutton.CircleButton;
 import com.whumap.map.RouteSearchPoiDialog.OnListItemClick;
 import com.whumap.activity.*;
-import com.whumap.activity.R.string;
 
 public class MyMapFragment extends Fragment {
-	private String title;
+	
 	private final int BASIC_CHILD_BUTTON_ID = 1000;// 初始化子菜单按钮Id
 	private CircleButton circleButton;// 新建一个菜单按钮
 	private AMap aMap;
@@ -130,7 +128,7 @@ public class MyMapFragment extends Fragment {
 			aMap = mapView.getMap();
 			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-			// myLocation.setUpMap();
+			 myLocation.setUpMap();
 		}
 	}
 
@@ -161,7 +159,7 @@ public class MyMapFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-		// myLocation.deactivate();
+		myLocation.deactivate();
 	}
 
 	@Override
@@ -174,6 +172,8 @@ public class MyMapFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
+		myLocation.setUpMap();
+		DefaultUI();
 	}
 
 	@Override
@@ -184,7 +184,6 @@ public class MyMapFragment extends Fragment {
 
 	/**
 	 * 当菜单按钮的子按钮被按下时触发 地图的所有功能在不同的Id中
-	 * 
 	 * @author kb
 	 * 
 	 */
@@ -266,10 +265,10 @@ public class MyMapFragment extends Fragment {
 			MyLocationStyle myLocationStyle = new MyLocationStyle();
 			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
 					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
-			myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-			myLocationStyle.radiusFillColor(Color.YELLOW);// 设置圆形的填充颜色
+			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
+			myLocationStyle.radiusFillColor(R.color.location_background);// 设置圆形的填充颜色
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
-			myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
+			myLocationStyle.strokeWidth(2);// 设置圆形的边框粗细
 			aMap.setMyLocationStyle(myLocationStyle);
 			aMap.setLocationSource(this);// 设置定位监听
 			// aMap.getUiSettings().setMyLocationButtonEnabled(false);//
@@ -278,12 +277,10 @@ public class MyMapFragment extends Fragment {
 		}
 
 		public void onLocationChanged(Location alocation) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void activate(OnLocationChangedListener listener) {
-			// TODO Auto-generated method stub
 			mListener = listener;
 			if (mAMapLocationManager == null) {
 				mAMapLocationManager = LocationManagerProxy
@@ -300,7 +297,6 @@ public class MyMapFragment extends Fragment {
 		}
 
 		public void deactivate() {
-			// TODO Auto-generated method stub
 			mListener = null;
 			if (mAMapLocationManager != null) {
 				mAMapLocationManager.removeUpdates(this);
@@ -331,8 +327,8 @@ public class MyMapFragment extends Fragment {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
 				CUR = new LatLng(alocation.getLatitude(),
 						alocation.getLongitude());
-				CURP = new LatLonPoint(alocation.getLatitude(),
-						alocation.getLongitude());
+				//CURP = new LatLonPoint(alocation.getLatitude(),
+				//		alocation.getLongitude());
 			}
 
 		}
@@ -656,4 +652,5 @@ public class MyMapFragment extends Fragment {
 
 		}
 	}
+	
 }
