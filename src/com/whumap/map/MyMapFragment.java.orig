@@ -576,8 +576,12 @@ public class MyMapFragment extends Fragment {
 				if (result != null && result.getQuery() != null
 						&& result.getPois() != null
 						&& result.getPois().size() > 0) {// 搜索poi的结果
+<<<<<<< HEAD
 					if (!("我的位置".equals(strStart))
 							&& result.getQuery().equals(startSearchQuery)) {
+=======
+					if (!("我的位置".equals(strStart)) ) {
+>>>>>>> a8d4d7403cacffc7bce70e68c750fb9ab4ee537e
 						List<PoiItem> poiItems = result.getPois();// 取得poiitem数据
 						RouteSearchPoiDialog dialog = new RouteSearchPoiDialog(
 								getActivity(), poiItems);
