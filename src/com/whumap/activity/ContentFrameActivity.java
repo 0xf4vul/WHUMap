@@ -175,6 +175,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			if(!fragment.isAdded()) {
 				ft.hide(currentFragment).add(R.id.content_frame, fragment).commit();
+				System.out.println("123");
 			} else  {
 				ft.hide(currentFragment).show(fragment).commit();
 			}

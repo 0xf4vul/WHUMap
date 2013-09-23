@@ -7,76 +7,76 @@
         android:id="@+id/search_position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_position" 
         android:layout_margin="@dimen/search_frame_title_margin"
-        android:textSize="@dimen/search_frame_text" 
-        android:background="#cc00ee"/>
+        android:background="#cc00ee"
+        android:text="@string/search_position"
+        android:textSize="@dimen/search_frame_text" />
 
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_position_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10" 
-            android:hint="@string/search_text"
+            android:layout_marginLeft="@dimen/search_frame_margin_left"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/search_frame_margin_left">
+            android:ems="10"
+            android:hint="@string/search_text" >
 
             <requestFocus />
-        </EditText>
+        </AutoCompleteTextView>
 
         <Button
             android:id="@+id/search_postition_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_text"
+            android:layout_marginRight="@dimen/search_frame_margin_right"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/search_frame_margin_right"/>
-
+            android:text="@string/search_text" />
     </TableRow>
 
     <TextView
         android:id="@+id/search_route"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_route"
-        android:layout_marginTop="50dp" 
         android:layout_marginLeft="@dimen/search_frame_title_margin_left"
         android:layout_marginRight="@dimen/search_frame_title_margin_right"
-        android:textSize="@dimen/search_frame_text"
-        android:background="#cc00ee"/>
+        android:layout_marginTop="50dp"
+        android:background="#cc00ee"
+        android:text="@string/search_route"
+        android:textSize="@dimen/search_frame_text" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/search_route_my_position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" 
-        android:hint="@string/my_position"
-        android:layout_marginTop="@dimen/search_frame_title_margin_top"
         android:layout_marginLeft="@dimen/search_frame_margin_left"
-        android:layout_marginRight="@dimen/search_frame_margin_right"/>
-    
+        android:layout_marginRight="@dimen/search_frame_margin_right"
+        android:layout_marginTop="@dimen/search_frame_title_margin_top"
+        android:ems="10"
+        android:hint="@string/my_position" >
+    </AutoCompleteTextView>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/search_route_destination_position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/input_destination"
-        android:layout_marginTop="@dimen/search_frame_title_margin_top"
         android:layout_marginLeft="@dimen/search_frame_margin_left"
-        android:layout_marginRight="@dimen/search_frame_margin_right" />
+        android:layout_marginRight="@dimen/search_frame_margin_right"
+        android:layout_marginTop="@dimen/search_frame_title_margin_top"
+        android:ems="10"
+        android:hint="@string/input_destination" >
+    </AutoCompleteTextView>
 
     <Button
         android:id="@+id/search_the_route"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_the_route"
         android:layout_marginLeft="@dimen/search_frame_margin_left"
-        android:layout_marginRight="@dimen/search_frame_margin_right"/>
+        android:layout_marginRight="@dimen/search_frame_margin_right"
+        android:text="@string/search_the_route" />
 
 </LinearLayout>
