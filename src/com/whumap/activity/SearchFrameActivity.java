@@ -38,7 +38,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	private Button searchButton; // 搜位置
 	private Button searchRoute; // 查找路线
 	private String keyWord = "";// poi搜索关键字
-	private String strStart = "我的位置";
+	private String strStart = "";
 	private String strEnd = "";
 	private String back = "";
 
@@ -52,8 +52,6 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	}
 
 	public void findViewById() {
-		// searchPosition = (EditText)
-		// findViewById(R.id.search_position_content);
 		searchPosition = (AutoCompleteTextView) findViewById(R.id.search_position_content);
 		searchPosition.addTextChangedListener(this);// 添加文本输入框监听事件
 		searchMyPosition = (AutoCompleteTextView) findViewById(R.id.search_route_my_position);
@@ -78,10 +76,19 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	public void searchRoute() {
 		strStart = searchMyPosition.getText().toString().trim();
 		strEnd = searchDePosition.getText().toString().trim();
+		if (strStart == null || strStart.length() == 0) {
+			strStart = "我的位置";
+		}
 		if (strEnd == null || strEnd.length() == 0) {
 			ToastUtil.show(SearchFrameActivity.this, "请选择终点");
 			return;
 		}
+		if (strStart.equals(strEnd)) {
+			ToastUtil.show(SearchFrameActivity.this, "不能选择相同地点");
+			return;
+		}
+		
+		System.out.println(strStart);
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("start", strStart);
@@ -115,12 +122,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 
 	}
 
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
-		SearchFrameActivity.this.finish();
-	}
+
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,

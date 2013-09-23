@@ -58,7 +58,7 @@ import com.whumap.map.RouteSearchPoiDialog.OnListItemClick;
 import com.whumap.activity.*;
 
 public class MyMapFragment extends Fragment {
-	
+
 	private final int BASIC_CHILD_BUTTON_ID = 1000;// 初始化子菜单按钮Id
 	private CircleButton circleButton;// 新建一个菜单按钮
 	private AMap aMap;
@@ -93,8 +93,6 @@ public class MyMapFragment extends Fragment {
 	private WalkRouteResult walkRouteResult;// 步行模式查询结果
 	private RouteSearch routeSearch;
 	private LatLonPoint CURP;
-	
-	
 
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
@@ -102,6 +100,10 @@ public class MyMapFragment extends Fragment {
 			R.drawable.composer_sleep, R.drawable.composer_sun,
 			R.drawable.composer_thought };
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,10 +130,9 @@ public class MyMapFragment extends Fragment {
 			aMap = mapView.getMap();
 			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-//			 myLocation.setUpMap();
+			// myLocation.setUpMap();
 		}
 	}
-
 
 	/**
 	 * 初始化菜单按钮
@@ -152,14 +153,14 @@ public class MyMapFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		mapView.onResume();
-		
+
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-//		myLocation.deactivate();
+		// myLocation.deactivate();
 	}
 
 	@Override
@@ -182,6 +183,7 @@ public class MyMapFragment extends Fragment {
 
 	/**
 	 * 当菜单按钮的子按钮被按下时触发 地图的所有功能在不同的Id中
+	 * 
 	 * @author kb
 	 * 
 	 */
@@ -192,7 +194,7 @@ public class MyMapFragment extends Fragment {
 			if (v.getId() == BASIC_CHILD_BUTTON_ID + 0) {
 				setLayer();
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
-				aMap.moveCamera(CameraUpdateFactory.changeLatLng(CUR));
+				aMap.animateCamera(CameraUpdateFactory.changeLatLng(Constants.WHU));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
 				Intent intent = new Intent(getActivity(),
 						SearchFrameActivity.class);
@@ -650,5 +652,5 @@ public class MyMapFragment extends Fragment {
 
 		}
 	}
-	
+
 }
