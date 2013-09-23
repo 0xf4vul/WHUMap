@@ -17,4 +17,6 @@
 	<dimen name="search_frame_title_margin_top">10dp</dimen>
 	<dimen name="search_frame_title_margin_bottom">10dp</dimen>
 	<dimen name="search_frame_title_margin">10dp</dimen>
+	<dimen name="count_down_text_size">25dp</dimen>
+	<dimen name="count_down_days_size">45dp</dimen>
 </resources>

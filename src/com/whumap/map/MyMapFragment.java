@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -20,14 +20,13 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.whumap.activity.R;
 import com.whumap.circlebutton.CircleButton;
 
 public class MyMapFragment extends Fragment {
-	private String title;
+	
 	private final int BASIC_CHILD_BUTTON_ID = 1000;// 初始化子菜单按钮Id
 	private CircleButton circleButton;// 新建一个菜单按钮
 	private AMap aMap;
@@ -37,50 +36,35 @@ public class MyMapFragment extends Fragment {
 	private View v;
 
 	private LatLng CUR;
-	// 定义功能按钮图片
+	/**定义功能按钮图片 */
 	private int[] imgResId = { R.drawable.composer_camera,
 			R.drawable.composer_music, R.drawable.composer_place,
 			R.drawable.composer_sleep, R.drawable.composer_sun,
 			R.drawable.composer_thought };
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		v = inflater.inflate(R.layout.map_fragment, container, false);
-		initCircleButton(v);
-		initMapView(v, savedInstanceState);
+		initCircleButton();
+		
+		mapView = (MapView) v.findViewById(R.id.map);
+		mapView.onCreate(savedInstanceState);
+		if(aMap == null) {
+			aMap = mapView.getMap();
+			mUiSettings = aMap.getUiSettings();
+		}		
+		myLocation = new MyLocation(); 
 		return v;
 	}
 
-	/**
-	 * 初始化MapView
-	 * 
-	 * @param v
-	 * @param savedInstanceState
-	 */
-
-	private void initMapView(View v, Bundle savedInstanceState) {
-
-		mapView = (MapView) v.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
-		if (aMap == null) {
-			aMap = mapView.getMap();
-			DefaultUI();
-
-			myLocation.setUpMap();
-		}
-	}
 
 	/**
 	 * 初始化菜单按钮
 	 * 
 	 */
-	private void initCircleButton(View v) {
+	private void initCircleButton() {
 
 		circleButton = (CircleButton) v.findViewById(R.id.test);
 		circleButton.init(imgResId, R.drawable.composer_button,
@@ -95,21 +79,19 @@ public class MyMapFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		mapView.onResume();
-
+		
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-
 		myLocation.deactivate();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		
 		mapView.onDestroy();
 	}
 
@@ -117,6 +99,8 @@ public class MyMapFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
+		myLocation.setUpMap();
+		DefaultUI();
 	}
 
 	@Override
@@ -127,7 +111,6 @@ public class MyMapFragment extends Fragment {
 
 	/**
 	 * 当菜单按钮的子按钮被按下时触发 地图的所有功能在不同的Id中
-	 * 
 	 * @author kb
 	 * 
 	 */
@@ -161,7 +144,6 @@ public class MyMapFragment extends Fragment {
 	}
 
 	private void DefaultUI() {
-		mUiSettings = aMap.getUiSettings();
 		mUiSettings.setScaleControlsEnabled(true);
 		mUiSettings.setAllGesturesEnabled(true);
 		mUiSettings.setCompassEnabled(true);
@@ -176,16 +158,16 @@ public class MyMapFragment extends Fragment {
 		private OnLocationChangedListener mListener;
 		private LocationManagerProxy mAMapLocationManager;
 
-		private void setUpMap() {
+		public void setUpMap() {
 
 			// 自定义系统定位小蓝点
 			MyLocationStyle myLocationStyle = new MyLocationStyle();
 			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
 					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
-			myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-			myLocationStyle.radiusFillColor(Color.YELLOW);// 设置圆形的填充颜色
+			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
+			myLocationStyle.radiusFillColor(R.color.location_background);// 设置圆形的填充颜色
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
-			myLocationStyle.strokeWidth(5);// 设置圆形的边框粗细
+			myLocationStyle.strokeWidth(2);// 设置圆形的边框粗细
 			aMap.setMyLocationStyle(myLocationStyle);
 			aMap.setLocationSource(this);// 设置定位监听
 			// aMap.getUiSettings().setMyLocationButtonEnabled(false);//
@@ -194,12 +176,10 @@ public class MyMapFragment extends Fragment {
 		}
 
 		public void onLocationChanged(Location alocation) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void activate(OnLocationChangedListener listener) {
-			// TODO Auto-generated method stub
 			mListener = listener;
 			if (mAMapLocationManager == null) {
 				mAMapLocationManager = LocationManagerProxy
@@ -216,7 +196,6 @@ public class MyMapFragment extends Fragment {
 		}
 
 		public void deactivate() {
-			// TODO Auto-generated method stub
 			mListener = null;
 			if (mAMapLocationManager != null) {
 				mAMapLocationManager.removeUpdates(this);
@@ -227,25 +206,21 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onLocationChanged(AMapLocation alocation) {
-			// TODO Auto-generated method stub
 
 			if (mListener != null) {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
@@ -255,4 +230,5 @@ public class MyMapFragment extends Fragment {
 
 		}
 	}
+	
 }

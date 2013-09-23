@@ -149,8 +149,8 @@ public class CircleButton extends RelativeLayout {
 			
 		}
 		RelativeLayout.LayoutParams rlps1 = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.FILL_PARENT,
-				RelativeLayout.LayoutParams.FILL_PARENT);
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT);
 		rlps1.alignWithParent = true;
 		rlps1.addRule(align1, RelativeLayout.TRUE);
 		rlps1.addRule(align2, RelativeLayout.TRUE);

@@ -16,4 +16,6 @@
 	<string name="search_text">搜索</string>
 	<string name="search_the_route">查找路线</string>
 	<string name="input_destination">输入终点</string>
+	<string name="count_down_text_1">距离校庆</string>
+	<string name="count_down_text_2">天</string>
 </resources>
