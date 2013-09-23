@@ -126,7 +126,7 @@ public class MyMapFragment extends Fragment {
 			aMap = mapView.getMap();
 			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-			// myLocation.setUpMap();
+			 myLocation.setUpMap();
 		}
 	}
 
@@ -157,7 +157,7 @@ public class MyMapFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-		// myLocation.deactivate();
+		myLocation.deactivate();
 	}
 
 	@Override
@@ -242,6 +242,7 @@ public class MyMapFragment extends Fragment {
 	}
 
 	private void DefaultUI() {
+		mUiSettings = aMap.getUiSettings();
 		mUiSettings.setScaleControlsEnabled(true);
 		mUiSettings.setAllGesturesEnabled(true);
 		mUiSettings.setCompassEnabled(true);
@@ -324,8 +325,8 @@ public class MyMapFragment extends Fragment {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
 				CUR = new LatLng(alocation.getLatitude(),
 						alocation.getLongitude());
-				CURP = new LatLonPoint(alocation.getLatitude(),
-						alocation.getLongitude());
+				//CURP = new LatLonPoint(alocation.getLatitude(),
+				//		alocation.getLongitude());
 			}
 
 		}
