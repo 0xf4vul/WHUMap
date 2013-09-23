@@ -38,7 +38,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	private Button searchButton; // 搜位置
 	private Button searchRoute; // 查找路线
 	private String keyWord = "";// poi搜索关键字
-	private String strStart = "";
+	private String strStart = "我的位置";
 	private String strEnd = "";
 
 	@Override
