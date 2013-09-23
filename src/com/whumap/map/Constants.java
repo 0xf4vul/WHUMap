@@ -23,6 +23,7 @@ public class Constants {
 	public static final int BUSLINE_id_RESULT = 6002;// 公交id查询
 	public static final int BUSLINE_NO_RESULT = 6003;// 异常情况
 
+	public static final LatLng WHU = new LatLng(30.540364,114.361774);
 	public static final LatLng BEIJING = new LatLng(39.90403, 116.407525);// 北京市经纬度
 	public static final LatLng ZHONGGUANCUN = new LatLng(39.983456, 116.3154950);// 北京市中关村经纬度
 	public static final LatLng SHANGHAI = new LatLng(31.238068, 121.501654);// 上海市经纬度

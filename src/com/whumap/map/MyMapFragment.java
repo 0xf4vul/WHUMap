@@ -78,6 +78,8 @@ public class MyMapFragment extends Fragment {
 	private String keyWord = "";// poi搜索关键字
 	private PoiResult poiResult; // poi返回的结果
 	private LatLng CUR;
+	static final CameraPosition WHUS = new CameraPosition.Builder()
+			.target(Constants.WHU).zoom(13).bearing(0).tilt(0).build();
 	// route
 	private MySearchRoute mySearchRoute;
 	private String strStart = "";
@@ -92,7 +94,7 @@ public class MyMapFragment extends Fragment {
 	private int walkMode = RouteSearch.WalkDefault;// 步行默认模式
 	private WalkRouteResult walkRouteResult;// 步行模式查询结果
 	private RouteSearch routeSearch;
-	private Marker startMk, targetMk;
+	private LatLonPoint CURP;
 
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
@@ -129,6 +131,7 @@ public class MyMapFragment extends Fragment {
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			DefaultUI();
+			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
 			// myLocation.setUpMap();
 		}
 	}
@@ -225,7 +228,12 @@ public class MyMapFragment extends Fragment {
 		}
 		if (!("".equals(strEnd))) {
 			mySearchRoute = new MySearchRoute();
-			mySearchRoute.startSearchResult();
+			if ("我的位置".equals(strStart)) {
+				startPoint = CURP;
+				mySearchRoute.endSearchResult();
+			} else {
+				mySearchRoute.startSearchResult();
+			}
 		}
 	}
 
@@ -327,6 +335,8 @@ public class MyMapFragment extends Fragment {
 			if (mListener != null) {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
 				CUR = new LatLng(alocation.getLatitude(),
+						alocation.getLongitude());
+				CURP = new LatLonPoint(alocation.getLatitude(),
 						alocation.getLongitude());
 			}
 
@@ -496,11 +506,7 @@ public class MyMapFragment extends Fragment {
 		 * 查询路径规划起点
 		 */
 		public void startSearchResult() {
-			aMap.setOnMarkerClickListener(this);
-			aMap.setOnInfoWindowClickListener(this);
-			aMap.setInfoWindowAdapter(this);
-			routeSearch = new RouteSearch(getActivity());
-			routeSearch.setRouteSearchListener(this);
+
 			if (startPoint != null && strStart.equals("地图上的点")) {
 				endSearchResult();
 			} else {
@@ -538,6 +544,11 @@ public class MyMapFragment extends Fragment {
 		 */
 		public void searchRouteResult(LatLonPoint startPoint,
 				LatLonPoint endPoint) {
+			aMap.setOnMarkerClickListener(this);
+			aMap.setOnInfoWindowClickListener(this);
+			aMap.setInfoWindowAdapter(this);
+			routeSearch = new RouteSearch(getActivity());
+			routeSearch.setRouteSearchListener(this);
 			showProgressDialog();
 			final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
 					startPoint, endPoint);
@@ -565,7 +576,7 @@ public class MyMapFragment extends Fragment {
 				if (result != null && result.getQuery() != null
 						&& result.getPois() != null
 						&& result.getPois().size() > 0) {// 搜索poi的结果
-					if (result.getQuery().equals(startSearchQuery)) {
+					if (!("我的位置".equals(strStart)) ) {
 						List<PoiItem> poiItems = result.getPois();// 取得poiitem数据
 						RouteSearchPoiDialog dialog = new RouteSearchPoiDialog(
 								getActivity(), poiItems);
@@ -578,7 +589,6 @@ public class MyMapFragment extends Fragment {
 									PoiItem startpoiItem) {
 								startPoint = startpoiItem.getLatLonPoint();
 								strStart = startpoiItem.getTitle();
-								System.out.println(startSearchQuery);
 								// startTextView.setText(strStart);
 								endSearchResult();// 开始搜终点
 							}
