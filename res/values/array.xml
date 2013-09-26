@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         <string-array name="function_list">
-        <item>功能1</item>
-        <item>功能2</item>
-        <item>功能3</item>
-        <item>功能4</item>
-        <item>功能5</item>
-        <item>功能6</item>
+        <item>导    航</item>
+        <item>日    历</item>
+        <item>新    闻</item>
     </string-array>
+    
+        <string-array name="tab_news_titles">
+            <item>印象篇</item>
+      		<item>活动篇</item>
+      		<item>校友篇</item>
+      </string-array>
 </resources>

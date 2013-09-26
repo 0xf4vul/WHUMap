@@ -3,22 +3,12 @@ package com.whumap.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.amap.api.location.core.AMapException;
-import com.amap.api.maps.AMap.InfoWindowAdapter;
-import com.amap.api.maps.AMap.OnMarkerClickListener;
-import com.amap.api.maps.model.Marker;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
 import com.amap.api.services.help.Tip;
-import com.amap.api.services.poisearch.PoiItemDetail;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
-import com.whumap.map.MyMapFragment;
-import com.whumap.map.ToastUtil;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.SearchManager.OnCancelListener;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,7 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class SearchFrameActivity extends Activity implements TextWatcher,
-		OnClickListener {
+	OnClickListener
+	 {
 	private EditText searchPosition; // 输入的是要查找的内容
 	private EditText searchMyPosition; // 输入的是起始位置，默认为我的位置
 	private EditText searchDePosition; // 输入的是终点位置
@@ -61,7 +52,6 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		searchDePosition.addTextChangedListener(this);// 添加文本输入框监听事件
 		searchButton = (Button) findViewById(R.id.search_postition_button);
 		searchRoute = (Button) findViewById(R.id.search_the_route);
-
 	}
 
 	@Override
@@ -110,26 +100,23 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		// TODO Auto-generated method stub
 
 	}
+	
+	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
-		SearchFrameActivity.this.finish();
 	}
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		// TODO Auto-generated method stub
 		String newText = s.toString().trim();
 		Inputtips inputTips = new Inputtips(SearchFrameActivity.this,
 				new InputtipsListener() {
@@ -152,18 +139,14 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		try {
 			inputTips.requestInputtips(newText, "027".toString());
 		} catch (com.amap.api.services.core.AMapException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}// 第一个参数表示提示关键字，第二个参数默认代表全国，也可以为城市区号
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		/**
-		 * 点击搜索按钮
-		 */
+	
 		case R.id.search_postition_button:
 			searchButton();
 			break;
@@ -174,4 +157,5 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 			break;
 		}
 	}
+	
 }

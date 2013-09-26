@@ -91,23 +91,25 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private void initLeftMenu()	 {
 		
 		String[] functions = getResources().getStringArray(R.array.function_list);
+		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1,android.R.id.text1,functions);
+				R.layout.left_menu_layout,R.id.left_menu_text,functions);
 		leftMenu.setAdapter(adapter);
 	}
 	
 	/**
-	 * 初始化slidingmenu
+	 * 初始化slidingMenu
 	 */
 	private void initSlidingMenu() {
 		
+		setTitle("地图");
 		slidingMenu = getSlidingMenu();
 		slidingMenu.setMode(SlidingMenu.LEFT);
 		slidingMenu.setShadowDrawable(R.drawable.shadow);
 		slidingMenu.setShadowWidthRes(R.dimen.shadow_width);
 		slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		slidingMenu.setFadeDegree(0.35f);
-		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 	
@@ -145,18 +147,21 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					if(myMapFragment == null) {
 						myMapFragment = new MyMapFragment();
 					}
+					setTitle("地图");
 					switchContent(myMapFragment);
 					break;
 				case 1:
 					if(textFragment == null) {
 						textFragment = new TextFragment();
 					}
+					setTitle("测试");
 					switchContent(textFragment);
 					break;
 				case 2:
 					if(newsFragment == null) {
 						newsFragment = new NewsFragment();
 					}
+					setTitle("新闻");
 					switchContent(newsFragment);
 					break;
 				default :

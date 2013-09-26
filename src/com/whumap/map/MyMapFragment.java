@@ -2,20 +2,16 @@ package com.whumap.map;
 
 import java.util.List;
 
-import android.R.integer;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.actionbarsherlock.ActionBarSherlock.Implementation;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -23,7 +19,6 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnInfoWindowClickListener;
-import com.amap.api.maps.AMap.OnMapClickListener;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
@@ -36,7 +31,6 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.overlay.PoiOverlay;
 import com.amap.api.services.overlay.WalkRouteOverlay;
 import com.amap.api.services.poisearch.PoiItemDetail;
@@ -208,28 +202,36 @@ public class MyMapFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * 用来处理从searchActivity中传回来的参数
+	 * 首先需要判断传回来的Intent是否为空，如果为空，则不做处理
+	 * 如果不判断Intent是否为空，在searchActivity里按下返回按钮时会出现NullPointerException
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
+		if(intent == null) return;
 		if (requestCode == 0 && resultCode == 0) {
 			Bundle dataBundle = intent.getExtras();
 			keyWord = dataBundle.getString("key");
 			strStart = dataBundle.getString("start");
 			strEnd = dataBundle.getString("end");
-		}
-		if (!("".equals(keyWord))) {
-			mySearchPoi = new MySearchPoi();
-			mySearchPoi.doSearchQuery();
-		}
-		if (!("".equals(strEnd))) {
-			mySearchRoute = new MySearchRoute();
-			if ("我的位置".equals(strStart)) {
-				startPoint = CURP;
-				mySearchRoute.endSearchResult();
-			} else {
-				mySearchRoute.startSearchResult();
+			if (!("".equals(keyWord))) {
+				mySearchPoi = new MySearchPoi();
+				mySearchPoi.doSearchQuery();
 			}
+			if (!("".equals(strEnd))) {
+				mySearchRoute = new MySearchRoute();
+				if ("我的位置".equals(strStart)) {
+					startPoint = CURP;
+					mySearchRoute.endSearchResult();
+				} else {
+					mySearchRoute.startSearchResult();
+				}
+			}
+		} else if(requestCode == 0 && resultCode == 1) {
+			return;
 		}
 	}
 
@@ -241,6 +243,9 @@ public class MyMapFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * 设置地图相关组件
+	 */
 	private void DefaultUI() {
 		mUiSettings = aMap.getUiSettings();
 		mUiSettings.setScaleControlsEnabled(true);
@@ -325,8 +330,8 @@ public class MyMapFragment extends Fragment {
 				mListener.onLocationChanged(alocation);// 显示系统小蓝点
 				CUR = new LatLng(alocation.getLatitude(),
 						alocation.getLongitude());
-				//CURP = new LatLonPoint(alocation.getLatitude(),
-				//		alocation.getLongitude());
+				CURP = new LatLonPoint(alocation.getLatitude(),
+						alocation.getLongitude());
 			}
 
 		}

@@ -5,7 +5,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="shadow_width">10dp</dimen>
-	<dimen name="slidingmenu_offset">100dp</dimen>
+	<dimen name="slidingmenu_offset">150dp</dimen>
 	<dimen name="search_frame_text">30dp</dimen>
 	<dimen name="search_frame_margin_left">15dp</dimen>
 	<dimen name="search_frame_margin_right">15dp</dimen>
@@ -19,4 +19,8 @@
 	<dimen name="search_frame_title_margin">10dp</dimen>
 	<dimen name="count_down_text_size">25dp</dimen>
 	<dimen name="count_down_days_size">45dp</dimen>
+	<dimen name="tab_padding_top_bottom">6.0dip</dimen>
+    <dimen name="tab_padding_left_right">40.0dip</dimen>
+    <dimen name="tab_height">40.0dip</dimen>
+    <dimen name="text_size_micro">12.0sp</dimen>
 </resources>

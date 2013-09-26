@@ -3,12 +3,26 @@
     android:id="@+id/menu_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" 
+    android:background="#3d3d3d">
+	
+    <TableRow 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ccdd00"
+        android:layout_marginBottom="20dp">
+        
+        <TextView 
+            android:layout_width="match_parent"	
+            android:layout_height="wrap_content"
+            android:text="武汉大学"
+            android:textSize="36dp" 
+            android:gravity="center"/>
+    </TableRow>
     <ListView
         android:id="@+id/menulist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
     </ListView>
     
 <RelativeLayout
