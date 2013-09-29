@@ -2,23 +2,13 @@ package com.whumap.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.amap.api.location.core.AMapException;
-import com.amap.api.maps.AMap.InfoWindowAdapter;
-import com.amap.api.maps.AMap.OnMarkerClickListener;
-import com.amap.api.maps.model.Marker;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
 import com.amap.api.services.help.Tip;
-import com.amap.api.services.poisearch.PoiItemDetail;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
-import com.whumap.map.MyMapFragment;
 import com.whumap.map.ToastUtil;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.SearchManager.OnCancelListener;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -88,7 +78,6 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 			return;
 		}
 		
-		System.out.println(strStart);
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("start", strStart);
