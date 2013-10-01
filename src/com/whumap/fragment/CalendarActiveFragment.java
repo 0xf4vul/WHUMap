@@ -3,17 +3,17 @@ package com.whumap.fragment;
 
 import java.util.Date;
 
-import com.roomorama.caldroid.CaldroidFragment;
-import com.roomorama.caldroid.CaldroidListener;
 import com.whumap.activity.R;
+import com.whumap.calendar.CaldroidFragment;
+import com.whumap.calendar.CaldroidListener;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 public class CalendarActiveFragment extends Fragment{
 
@@ -29,6 +29,9 @@ public class CalendarActiveFragment extends Fragment{
 		return view; 
 	}
 
+	/**
+	 * 将日历视图添加到fragment中，并且初始化
+	 */
 	private void initCalendarView() {
 		
 		calendar = new CaldroidFragment();
@@ -37,18 +40,37 @@ public class CalendarActiveFragment extends Fragment{
 		ft.commit();
 		setListener();
 	}
-
+	
+	/**
+	 * 添加日历视图的监听事件
+	 */
 	private void setListener() {
 		
 		calendar.setCaldroidListener(new MyCalendarListener());
 			
 	}
 	
+	
+	/** 记录上次选中的时间点*/
+	private View lastView = null;
+	/**
+	 * 设置calendar的监听事件
+	 * @author kb
+	 *
+	 */
 	private class MyCalendarListener extends CaldroidListener {
 
 		@Override
 		public void onSelectDate(Date date, View view) {
 			
+			if(lastView == null) {
+				lastView = view;
+				view.setBackgroundColor(Color.RED);
+			} else {
+				lastView.setBackgroundColor(Color.WHITE);
+				view.setBackgroundColor(Color.RED);
+				lastView = view;
+			}
 		}
 
 		@Override
@@ -65,7 +87,7 @@ public class CalendarActiveFragment extends Fragment{
 		public void onCaldroidViewCreated() {
 			super.onCaldroidViewCreated();
 		}
-		
+
 	}
 	
 }

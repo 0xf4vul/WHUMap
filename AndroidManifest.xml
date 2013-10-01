@@ -44,6 +44,10 @@
             android:name="com.whumap.activity.SearchFrameActivity"
             android:label="@string/title_activity_search_frame" >
         </activity>
+        <activity
+            android:name="com.whumap.activity.ArticleActivity"
+            android:label="@string/title_activity_article" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.whumap.fragment.CalendarActiveFragment;
 import com.whumap.fragment.NewsFragment;
+import com.whumap.fragment.TextFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
 
@@ -41,6 +42,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private RelativeLayout rl;
 	/** 日历活动视图*/
 	private CalendarActiveFragment calendarFragment;
+	/** 征文*/
+	private TextFragment textFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,6 +167,12 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					setTitle("新闻");
 					switchContent(newsFragment);
 					break;
+				case 3:
+					if(textFragment == null) {
+						textFragment = new TextFragment();
+					}
+					setTitle("征文");
+					switchContent(textFragment);
 				default :
 						break;
 				}

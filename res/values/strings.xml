@@ -23,4 +23,5 @@
 	<string name="error_network">搜索失败,请检查网络连接！</string>
     <string name="load_ing">加载中···</string>
     <string name="get_data_error">获取数据失败，请重试</string>
+	<string name="title_activity_article">ArticleActivity</string>
 </resources>
