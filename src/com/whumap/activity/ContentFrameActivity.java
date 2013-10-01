@@ -4,14 +4,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.whumap.fragment.CalendarActiveFragment;
 import com.whumap.fragment.NewsFragment;
-import com.whumap.fragment.TextFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,8 +29,6 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private ListView leftMenu;
 	/** 地图fragment*/
 	private MyMapFragment myMapFragment ; 
-	/** 文字fragment*/
-	private TextFragment textFragment ;
 	/** 新闻fragment*/
 	private NewsFragment newsFragment;
 	/** 当前显示的fragment*/
@@ -41,6 +39,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private LinearLayout ll;
 	/** 倒计时容器*/
 	private RelativeLayout rl;
+	/** 日历活动视图*/
+	private CalendarActiveFragment calendarFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +79,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private void initContent()  {
 		
 		myMapFragment = new MyMapFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.content_frame, myMapFragment);
 		currentFragment = myMapFragment;
 		ft.commit();
@@ -151,11 +151,11 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					switchContent(myMapFragment);
 					break;
 				case 1:
-					if(textFragment == null) {
-						textFragment = new TextFragment();
+					if(calendarFragment == null) {
+						calendarFragment = new CalendarActiveFragment();
 					}
-					setTitle("测试");
-					switchContent(textFragment);
+					setTitle("日历");
+					switchContent(calendarFragment);
 					break;
 				case 2:
 					if(newsFragment == null) {
@@ -177,7 +177,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	 */
 	public void switchContent(Fragment fragment) {
 		if(currentFragment != fragment) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			if(!fragment.isAdded()) {
 				ft.hide(currentFragment).add(R.id.content_frame, fragment).commit();
 				System.out.println("123");
