@@ -124,7 +124,7 @@ public class MyMapFragment extends Fragment {
 			aMap = mapView.getMap();
 			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-			myLocation.setUpMap();
+//			myLocation.setUpMap();
 		}
 	}
 
