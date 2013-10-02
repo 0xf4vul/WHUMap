@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MenuFragment extends Fragment{
+public class ScheduleEmptyFragment extends Fragment{
 
+	private View view; 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.menu, container , false);
+		view = inflater.inflate(R.layout.schedule_empty, container , false);
+		return view;
 	}
 }
