@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/menu" >
-    
-    <fragment android:name="com.whumap.fragment.MenuListFragment"
-        android:layout_width="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/schedule_empty"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/menu_list"/>
+        android:text="今天没有活动" />
 
 </LinearLayout>

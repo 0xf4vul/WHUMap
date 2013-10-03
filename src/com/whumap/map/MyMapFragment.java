@@ -154,7 +154,7 @@ public class MyMapFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		mapView.onPause();
-		// myLocation.deactivate();
+		myLocation.deactivate();
 	}
 
 	@Override

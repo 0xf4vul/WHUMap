@@ -83,7 +83,7 @@ public class CountDownDate {
 			firstMonth++;
 			secondMonth--;
 		while(firstMonth <= secondMonth) {
-			days += daysOfMonth(firstMonth);
+			days += daysOfMonth(firstMonth - 1);
 			firstMonth++;
 		}	
 		return days;
