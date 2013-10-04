@@ -88,8 +88,12 @@ public class CalendarActiveFragment extends Fragment{
 	}
 	
 	
-	/** 记录上次选中的时间点*/
+	/** 记录上次选中的时间点的View*/
 	private View lastView = null;
+	/** 记录上次选中的时间，如果是当前日期则需要将其的背景改变*/
+	private Date lastDate = null;
+	private Calendar calToDate = null ;
+	private View currentView = null;
 	/**
 	 * 设置calendar的监听事件
 	 * @author kb
@@ -99,7 +103,8 @@ public class CalendarActiveFragment extends Fragment{
 
 		@Override
 		public void onSelectDate(Date date, View view) {
-			selectDate(view);
+			selectDate(date , view);
+			currentView = view;
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			initScheduleContainer(isXiaoQing(cal));
@@ -124,16 +129,24 @@ public class CalendarActiveFragment extends Fragment{
 		/**
 		 * 当点击一个新的日期时，取消上次点击留下的效果
 		 */
-		private void selectDate(View view) {
+		private void selectDate(Date date , View view) {
 			
+			Date now = currentDate.getTime();
 			if(lastView == null) {
 				lastView = view;
+				lastDate = date;
 				view.setBackgroundColor(Color.RED);
 			} else {
-				lastView.setBackgroundColor(Color.WHITE);
+				if(lastDate.equals(now)) {
+					lastView.setBackgroundColor(R.drawable.red_border);
+				} else {
+					lastView.setBackgroundColor(Color.WHITE);
+				}
 				view.setBackgroundColor(Color.RED);
 				lastView = view;
+				lastDate = date;
 			}
+			
 		}
 		
 	}

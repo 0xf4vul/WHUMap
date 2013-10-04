@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ScheduleFragment extends Fragment{
-
+	
 	private View view;
 	private ListView listView;
 	@Override
