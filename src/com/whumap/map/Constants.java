@@ -23,12 +23,9 @@ public class Constants {
 	public static final int BUSLINE_id_RESULT = 6002;// 公交id查询
 	public static final int BUSLINE_NO_RESULT = 6003;// 异常情况
 
-	public static final LatLng WHU = new LatLng(30.540364,114.361774);
-	public static final LatLng BEIJING = new LatLng(39.90403, 116.407525);// 北京市经纬度
-	public static final LatLng ZHONGGUANCUN = new LatLng(39.983456, 116.3154950);// 北京市中关村经纬度
-	public static final LatLng SHANGHAI = new LatLng(31.238068, 121.501654);// 上海市经纬度
-	public static final LatLng FANGHENG = new LatLng(39.989614, 116.481763);// 方恒国际中心经纬度
-	public static final LatLng CHENGDU = new LatLng(30.679879, 104.064855);// 成都市经纬度
-	public static final LatLng XIAN = new LatLng(34.341568, 108.940174);// 西安市经纬度
-	public static final LatLng ZHENGZHOU = new LatLng(34.7466, 113.625367);// 郑州市经纬度
+	public static final LatLng WHU = new LatLng(30.540364,114.361774);//武汉大学
+	public static final LatLng WHU1 = new LatLng(30.538289,114.361954);//宋卿体育馆
+	public static final LatLng WHU2 = new LatLng(30.537832,114.365157); //梅园小操场
+	public static final LatLng WHU3 = new LatLng(30.540079,114.363741); //校史馆
+	public static final LatLng WHU4 = new LatLng(30.532158,114.358993); //珞珈山庄
 }
