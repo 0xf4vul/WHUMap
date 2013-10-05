@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.whumap.fragment.ScheduleDetailOfDayFragment;
 import com.whumap.fragment.ScheduleMapFragment;
 
@@ -22,10 +23,12 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 	private ActionBar actionBar;
 	/** ViewPager容器*/
 	private MyViewPagerAdapter myAdapter;
-	/** 从日历中传递来的参数title,将其作为参数再传给ScheduleDetailOfDayFragment,用来明确选中活动的详细信息*/
-	private static String title;
-	/** 从日历中传递来的参数mapPosition,将其作为参数再传给ScheduleMapFragment,用来确定地图定位的位置*/
-	private static String mapPosition;
+	/** 从日历中传递来的参数,记录了当前选中活动在listView中位置*/
+	private static int schedulePosition;
+	private static ScheduleDetailOfDayFragment detailFragment ;
+	private static ScheduleMapFragment mapFragment;
+	private static int day;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 		
 		//设置ActionBar使用Tab导航
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setSubtitle("时间");
 		
 		initSchedulePara();
 	}
@@ -68,9 +73,19 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 	 */
 	private void initSchedulePara() {
 		Intent intent = getIntent();
-		Bundle bundle = intent.getBundleExtra("message");
-		title = bundle.getString("title");
-		mapPosition = bundle.getString("mapPosition");
+		Bundle bundle = intent.getBundleExtra("XQDetail");
+		schedulePosition = bundle.getInt("position");
+		day = bundle.getInt("XiaoQing");
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	/**
@@ -86,19 +101,23 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 
 		@Override
 		public Fragment getItem(int position) {
+			Bundle args = new Bundle();
+			args.putInt("position", schedulePosition);
+			args.putInt("XiaoQing", day);
 			switch (position){
 			case 0:
-				Fragment fragment1 = new ScheduleDetailOfDayFragment();
-				Bundle args = new Bundle();
-				args.putString("title", title);
-				fragment1.setArguments(args);
-				return fragment1;
+				if(detailFragment == null) {
+					detailFragment = new ScheduleDetailOfDayFragment();
+				}
+				detailFragment.setArguments(args);
+				return detailFragment;
 			case 1:
-				Fragment fragment = new ScheduleMapFragment();
-				Bundle arg = new Bundle();
-				arg.putString("mapPosition", mapPosition);
-				fragment.setArguments(arg);
-				return fragment;
+				if(mapFragment == null){
+					
+					mapFragment = new ScheduleMapFragment();
+				}
+				mapFragment.setArguments(args);
+				return mapFragment;
 			}
 			
 			return null;

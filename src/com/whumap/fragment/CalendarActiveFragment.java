@@ -7,6 +7,7 @@ import java.util.Date;
 import com.whumap.activity.R;
 import com.whumap.calendar.CaldroidFragment;
 import com.whumap.calendar.CaldroidListener;
+import com.whumap.util.ScheduleOfXQ;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,24 +19,21 @@ import android.view.ViewGroup;
 
 public class CalendarActiveFragment extends Fragment{
 
-	/**标记校庆日期*/
-	private final int XQDAYONE = 28;
-	private final int XQDAYTWO = 29;
-	private final int XQMONTH = 10;
-	private final int XQYEAR = 2013;
 	/** 日历视图*/
 	private CaldroidFragment calendar;
 	/** 布局文件*/
 	private View view ; 
 	/** 记录当前时间*/
 	private Calendar currentDate ;
+	/** 用来加载当前选中日期的schedule*/
+	private Fragment fragment;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.calendar_frame, container, false);
 		currentDate = Calendar.getInstance();
 		initCalendarView();
-		initScheduleContainer(isXiaoQing(currentDate));
+		initScheduleContainer(currentDate);
 		return view; 
 	}
 
@@ -54,27 +52,32 @@ public class CalendarActiveFragment extends Fragment{
 	/**
 	 * 初始化schedule容器中的日程
 	 */
-	private void initScheduleContainer(boolean flag) {
+	private void initScheduleContainer(Calendar cal) {
 		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		boolean flag = isXiaoQing(year,month,day);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Bundle args = new Bundle();
 		if(flag == true) {
-			
-			ft.replace(R.id.schedule_container, new ScheduleFragment());
+			args.putInt("XiaoQing", day);
+			fragment = new ScheduleFragment();
+			fragment.setArguments(args);
 		} else {
-			ft.replace(R.id.schedule_container , new ScheduleEmptyFragment());
+			fragment = new ScheduleEmptyFragment();
 		}
+		ft.replace(R.id.schedule_container , fragment);
 		ft.commit();
 	}
 	
 	/**
 	 * 对当前日期与校庆日期对比，如果在校庆那两天则返回真，否则返回假
 	 */
-	private boolean isXiaoQing(Calendar cal) {
+	private boolean isXiaoQing(int year, int month, int day) {
 		
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		return year==XQYEAR&&month==XQMONTH&&day==XQDAYONE || year==XQYEAR&&month==XQMONTH&&day==XQDAYTWO ;
+		return year==ScheduleOfXQ.XIAOQINGYEAR&&month==ScheduleOfXQ.XIAOQINGMONTH&&day==ScheduleOfXQ.XIAOQINGFIRSTDAY 
+				|| year==ScheduleOfXQ.XIAOQINGYEAR&&month==ScheduleOfXQ.XIAOQINGMONTH&&day==ScheduleOfXQ.XIAOQINGSECONDDAY;
 	}
 	
 	
@@ -90,10 +93,6 @@ public class CalendarActiveFragment extends Fragment{
 	
 	/** 记录上次选中的时间点的View*/
 	private View lastView = null;
-	/** 记录上次选中的时间，如果是当前日期则需要将其的背景改变*/
-	private Date lastDate = null;
-	private Calendar calToDate = null ;
-	private View currentView = null;
 	/**
 	 * 设置calendar的监听事件
 	 * @author kb
@@ -104,12 +103,11 @@ public class CalendarActiveFragment extends Fragment{
 		@Override
 		public void onSelectDate(Date date, View view) {
 			selectDate(date , view);
-			currentView = view;
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
-			initScheduleContainer(isXiaoQing(cal));
-			
+			initScheduleContainer(cal);
 		}
+
 
 		@Override
 		public void onLongClickDate(Date date, View view) {
@@ -131,20 +129,13 @@ public class CalendarActiveFragment extends Fragment{
 		 */
 		private void selectDate(Date date , View view) {
 			
-			Date now = currentDate.getTime();
 			if(lastView == null) {
 				lastView = view;
-				lastDate = date;
 				view.setBackgroundColor(Color.RED);
 			} else {
-				if(lastDate.equals(now)) {
-					lastView.setBackgroundColor(R.drawable.red_border);
-				} else {
-					lastView.setBackgroundColor(Color.WHITE);
-				}
+				lastView.setBackgroundColor(Color.WHITE);
 				view.setBackgroundColor(Color.RED);
 				lastView = view;
-				lastDate = date;
 			}
 			
 		}
