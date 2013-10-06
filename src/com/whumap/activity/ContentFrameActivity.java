@@ -6,7 +6,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.whumap.fragment.CalendarActiveFragment;
-import com.whumap.fragment.NewsFragment;
+import com.whumap.fragment.ZhengWenFragment;
 import com.whumap.fragment.TextFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
@@ -32,7 +32,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	/** 地图fragment*/
 	private MyMapFragment myMapFragment ; 
 	/** 新闻fragment*/
-	private NewsFragment newsFragment;
+	private ZhengWenFragment zhengWenFragment;
 	/** 当前显示的fragment*/
 	private Fragment currentFragment ;
 	/** 倒计时日期*/
@@ -163,17 +163,17 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					switchContent(calendarFragment);
 					break;
 				case 2:
-					if(newsFragment == null) {
-						newsFragment = new NewsFragment();
+					if(zhengWenFragment == null) {
+						zhengWenFragment = new ZhengWenFragment();
 					}
-					setTitle("新闻");
-					switchContent(newsFragment);
+					setTitle("征文");
+					switchContent(zhengWenFragment);
 					break;
 				case 3:
 					if(textFragment == null) {
 						textFragment = new TextFragment();
 					}
-					setTitle("征文");
+					setTitle("校史");
 					switchContent(textFragment);
 				default :
 						break;
@@ -191,7 +191,6 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			if(!fragment.isAdded()) {
 				ft.hide(currentFragment).add(R.id.content_frame, fragment).commit();
-				System.out.println("123");
 			} else  {
 				ft.hide(currentFragment).show(fragment).commit();
 			}

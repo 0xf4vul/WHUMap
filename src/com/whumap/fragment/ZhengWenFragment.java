@@ -1,10 +1,10 @@
 package com.whumap.fragment;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,14 +22,17 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.whumap.activity.ArticleActivity;
 import com.whumap.activity.R;
 
-public class NewsFragment extends Fragment{
+public class ZhengWenFragment extends Fragment{
 
 	private View view; 
 	private PullToRefreshListView pullToRefreshListView;
 	private ListView actualListView;
 	private SimpleAdapter adapter;
+	private LinkedList<Map<String , Object>> listItems;
+	private int articleId;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +53,7 @@ public class NewsFragment extends Fragment{
 		// Need to use the Actual ListView when registering for Context Menu
 		registerForContextMenu(actualListView);
 		
-		List<Map<String , Object>> listItems = new ArrayList<Map<String, Object>>();
+	    listItems = new LinkedList<Map<String, Object>>();
 		for(int i=0; i<articleTitles.length ; i++ ) {
 			Map<String , Object> listItem = new HashMap<String, Object>();
 			listItem.put("title" , articleTitles[i]);
@@ -69,7 +72,12 @@ public class NewsFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Toast.makeText(getActivity(), arg2+"", Toast.LENGTH_LONG).show();
+				articleId = arg2-1;
+				Bundle id = new Bundle();
+				id.putInt("name", articleId);
+				Intent intent = new Intent(getActivity(), ArticleActivity.class);
+				intent.putExtras(id);
+				startActivity(intent);
 			}
 		});
 	}
@@ -90,7 +98,7 @@ public class NewsFragment extends Fragment{
 				// Update the LastUpdatedLabel
 				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 				// Do work to refresh the list here.
-				new GetDataTask().execute();
+				new MyGetDataTask().execute();
 			}
 		});
 		
@@ -128,7 +136,30 @@ public class NewsFragment extends Fragment{
 		}
 	}
 
+	private class MyGetDataTask extends AsyncTask<Void, Integer, Map<String, Object>> {
 
+		@Override
+		protected Map<String, Object> doInBackground(Void... params) {
+			//Map<String, Object> item = new HashMap<String, Object>();
+			try {
+			//	item.put("title", "新添加的");
+			//	item.put("author", "暂无");
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Map<String, Object> result) {
+		//	listItems.addFirst(result);
+		//	adapter.notifyDataSetChanged();
+			Toast.makeText(getActivity(), "没有新文章，赶快投稿吧!", Toast.LENGTH_LONG).show();
+			pullToRefreshListView.onRefreshComplete();
+			super.onPostExecute(result);
+		}
+	}
 	
 	private String[] articleTitles = { "别了，珞珈山"  ,"情意交融",
 			"共同的根和魂","怀念朱景尧先生","肯教 能教 善教",
