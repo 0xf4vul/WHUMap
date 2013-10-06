@@ -3,17 +3,19 @@ package com.whumap.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
 import com.amap.api.services.help.Tip;
 import com.whumap.map.ToastUtil;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -21,7 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SearchFrameActivity extends Activity implements TextWatcher,
+public class SearchFrameActivity extends SherlockActivity implements TextWatcher,
 	OnClickListener
 	 {
 	private EditText searchPosition; // 输入的是要查找的内容
@@ -33,6 +35,7 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	private String strStart = "";
 	private String strEnd = "";
 	private String back = "";
+	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 		findViewById(); // 初始化搜索界面中的所有按钮
 		searchRoute.setOnClickListener(this);
 		searchButton.setOnClickListener(this);
+		actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void findViewById() {
@@ -57,8 +62,18 @@ public class SearchFrameActivity extends Activity implements TextWatcher,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.search_frame, menu);
+		getSupportMenuInflater().inflate(R.menu.search_frame, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/**

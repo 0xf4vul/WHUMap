@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -29,18 +28,10 @@ public class ScheduleFragment extends Fragment{
 	private final static String[] scheduleFristDayTitles = ScheduleOfXQ.SCHEDULE_OF_FIRST_DAY_XQ;
 	/** 第一天活动时间*/
 	private final static String[] scheduleFirstDayTimes = ScheduleOfXQ.DETAIL_TIME_OF_FIRST_DAY_XQ;
-	/** 第一天活动说明*/
-	private final static String[] scheduleFirstDayDetails = ScheduleOfXQ.DETAIL_SCHEDULE_OF_FIRST_DAY_XQ; 
-	/** 第一天活动责任单位*/
-	private final static String[] scheduleFirstDayHosts = ScheduleOfXQ.HOST_OF_FIRST_DAY_XQ; 
 	/** 第二天活动名称*/
 	private final static String[] scheduleSecondDayTitles = ScheduleOfXQ.SCHEDULE_OF_SECOND_DAY_XQ;
 	/** 第二天活动时间*/
 	private final static String[] scheduleSecondDayTimes = ScheduleOfXQ.DETAIL_TIME_OF_SECOND_DAY_XQ;
-	/** 第二天活动说明*/
-	private final static String[] scheduleSecondDayDetails = ScheduleOfXQ.DETAIL_SCHEDULE_OF_SECOND_DAY_XQ;
-	/** 第二天活动责任单位*/
-	private final static String[] scheduleSecondDayHosts = ScheduleOfXQ.HOST_OF_SECOND_DAY_XQ;
 	/** 读取选中的校庆日期,28代表第一天，29代表第二天*/
 	private int day;
 	

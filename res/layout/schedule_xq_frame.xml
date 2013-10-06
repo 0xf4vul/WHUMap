@@ -8,12 +8,15 @@
         android:id="@+id/schedule_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/schedule_title_size" />
+        android:textSize="@dimen/schedule_title_size"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/schedule_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/schedule_time_size" />
+        android:textSize="@dimen/schedule_time_size"
+        android:textColor="@color/schedule_time_color"
+        android:layout_marginLeft="14dp" />
 
 </LinearLayout>

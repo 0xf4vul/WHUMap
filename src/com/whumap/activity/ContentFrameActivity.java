@@ -1,5 +1,6 @@
 package com.whumap.activity;
 
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -144,6 +145,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
+				flag = 0;
 				
 				switch(arg2) {
 				case 0:
@@ -214,5 +216,19 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu, menu);
 		return true;
+	}
+	
+	/**用来记录返回按钮被按下的次数*/
+	private int flag =0;
+	@Override
+	public void onBackPressed() {
+		flag++;
+		if(flag < 2) {
+			
+			slidingMenu.showMenu();
+		} else {
+			super.onBackPressed();
+			flag = 0;
+		}
 	}
 }
