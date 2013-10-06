@@ -3,8 +3,8 @@
         <string-array name="function_list">
         <item>导    航</item>
         <item>日    历</item>
-        <item>校    史</item>
         <item>征    文</item>
+        <item>校    史</item>
     </string-array>
     
 

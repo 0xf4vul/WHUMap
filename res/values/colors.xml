@@ -18,4 +18,6 @@
     <!-- A really bright Holo shade of blue -->
     <color name="caldroid_sky_blue">#FFA3E8F7</color>
     <color name="schedule_time_color">#8833CCFF</color>
+    <color name="drawable_whu_history_item_background">#eacd0f</color>
+    <color name="layout_whu_history_frame_background">#b8b8b8</color>
 </resources>

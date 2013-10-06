@@ -49,6 +49,7 @@ import com.amap.api.services.route.WalkRouteResult;
 import com.whumap.activity.R;
 import com.whumap.circlebutton.CircleButton;
 import com.whumap.map.RouteSearchPoiDialog.OnListItemClick;
+import com.whumap.util.ToastUtil;
 import com.whumap.activity.*;
 
 public class MyMapFragment extends Fragment {
@@ -211,7 +212,6 @@ public class MyMapFragment extends Fragment {
 	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
 		if(intent == null) return;
 		if (requestCode == 0 && resultCode == 0) {
@@ -385,25 +385,21 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public View getInfoContents(Marker arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public View getInfoWindow(Marker arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			// TODO Auto-generated method stub
 			marker.showInfoWindow();
 			return false;
 		}
@@ -443,17 +439,14 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onBusRouteSearched(BusRouteResult arg0, int arg1) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void onDriveRouteSearched(DriveRouteResult arg0, int arg1) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void onWalkRouteSearched(WalkRouteResult result, int rCode) {
-			// TODO Auto-generated method stub
 			dissmissProgressDialog();
 
 			if (rCode == 0) {
@@ -619,31 +612,26 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public View getInfoContents(Marker arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public View getInfoWindow(Marker arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			// TODO Auto-generated method stub
 			if (marker.isInfoWindowShown()) {
 				marker.hideInfoWindow();
 			} else {
@@ -654,7 +642,6 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onInfoWindowClick(Marker arg0) {
-			// TODO Auto-generated method stub
 
 		}
 	}

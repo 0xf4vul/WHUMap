@@ -38,8 +38,8 @@ public class ZhengWenFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		view = inflater.inflate(R.layout.news_frame, container, false);
-		pullToRefreshListView = (PullToRefreshListView)view.findViewById(R.id.pull_refresh_list);
+		view = inflater.inflate(R.layout.zheng_wen_frame, container, false);
+		pullToRefreshListView = (PullToRefreshListView)view.findViewById(R.id.zheng_wen_list);
 		initListView();
 		setRefreshListener();
 		return view; 

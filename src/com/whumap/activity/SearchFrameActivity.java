@@ -10,7 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
 import com.amap.api.services.help.Tip;
-import com.whumap.map.ToastUtil;
+import com.whumap.util.ToastUtil;
 
 import android.os.Bundle;
 import android.content.Intent;

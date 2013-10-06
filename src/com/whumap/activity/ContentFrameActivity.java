@@ -7,7 +7,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.whumap.fragment.CalendarActiveFragment;
 import com.whumap.fragment.ZhengWenFragment;
-import com.whumap.fragment.TextFragment;
+import com.whumap.fragment.WHUHistoryFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
 
@@ -44,7 +44,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	/** 日历活动视图*/
 	private CalendarActiveFragment calendarFragment;
 	/** 征文*/
-	private TextFragment textFragment;
+	private WHUHistoryFragment wHUHistoryFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -170,11 +170,11 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					switchContent(zhengWenFragment);
 					break;
 				case 3:
-					if(textFragment == null) {
-						textFragment = new TextFragment();
+					if(wHUHistoryFragment == null) {
+						wHUHistoryFragment = new WHUHistoryFragment();
 					}
 					setTitle("校史");
-					switchContent(textFragment);
+					switchContent(wHUHistoryFragment);
 				default :
 						break;
 				}

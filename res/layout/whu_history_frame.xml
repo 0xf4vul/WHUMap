@@ -1,0 +1,13 @@
+<com.handmark.pulltorefresh.library.PullToRefreshListView
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/whu_history_list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:dividerHeight="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:fadingEdge="none"
+    android:fastScrollEnabled="false"
+    android:smoothScrollbar="true" 
+    android:divider="@color/layout_whu_history_frame_background"
+    android:background="@color/layout_whu_history_frame_background"/>

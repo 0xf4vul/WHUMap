@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.whumap.map;
+package com.whumap.util;
 
 import android.content.Context;
 import android.widget.Toast;
