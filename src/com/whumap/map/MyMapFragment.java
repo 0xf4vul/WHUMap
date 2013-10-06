@@ -257,6 +257,7 @@ public class MyMapFragment extends Fragment {
 		mUiSettings.setScrollGesturesEnabled(true);
 		mUiSettings.setTiltGesturesEnabled(true);
 		mUiSettings.setZoomGesturesEnabled(true);
+		mUiSettings.setZoomControlsEnabled(false);
 		mUiSettings.setMyLocationButtonEnabled(false);
 	}
 
