@@ -25,6 +25,7 @@
     <string name="get_data_error">获取数据失败，请重试</string>
     <string name="title_activity_article">ArticleActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_building">BuildingActivity</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

@@ -52,6 +52,10 @@
             android:name="com.whumap.activity.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+          <activity
+            android:name="com.whumap.activity.BuildingText"
+            android:label="@string/title_activity_detail" >
+        </activity>
     </application>
 
 </manifest>
