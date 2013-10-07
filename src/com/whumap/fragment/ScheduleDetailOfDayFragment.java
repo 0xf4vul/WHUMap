@@ -13,21 +13,13 @@ import com.whumap.util.ScheduleOfXQ;
 
 public class ScheduleDetailOfDayFragment extends SherlockFragment{
 
-	/** 第一天活动名称*/
 	private final static String[] scheduleFristDayTitles = ScheduleOfXQ.SCHEDULE_OF_FIRST_DAY_XQ;
-	/** 第一天活动时间*/
 	private final static String[] scheduleFirstDayTimes = ScheduleOfXQ.DETAIL_TIME_OF_FIRST_DAY_XQ;
-	/** 第一天活动说明*/
 	private final static String[] scheduleFirstDayDetails = ScheduleOfXQ.DETAIL_SCHEDULE_OF_FIRST_DAY_XQ; 
-	/** 第一天活动责任单位*/
 	private final static String[] scheduleFirstDayHosts = ScheduleOfXQ.HOST_OF_FIRST_DAY_XQ; 
-	/** 第二天活动名称*/
 	private final static String[] scheduleSecondDayTitles = ScheduleOfXQ.SCHEDULE_OF_SECOND_DAY_XQ;
-	/** 第二天活动时间*/
 	private final static String[] scheduleSecondDayTimes = ScheduleOfXQ.DETAIL_TIME_OF_SECOND_DAY_XQ;
-	/** 第二天活动说明*/
 	private final static String[] scheduleSecondDayDetails = ScheduleOfXQ.DETAIL_SCHEDULE_OF_SECOND_DAY_XQ;
-	/** 第二天活动责任单位*/
 	private final static String[] scheduleSecondDayHosts = ScheduleOfXQ.HOST_OF_SECOND_DAY_XQ;
 	private View view;
 	/** 活动名称，活动信息，活动责任单位*/
@@ -67,12 +59,12 @@ public class ScheduleDetailOfDayFragment extends SherlockFragment{
 	private void initSchedule() {
 		
 		if(day == ScheduleOfXQ.XIAOQINGFIRSTDAY){
-			actionBar.setSubtitle("2013年11月28日"+scheduleFirstDayTimes[position]);
+			actionBar.setTitle("2013年11月28日"+scheduleFirstDayTimes[position]);
 			scheduleTitle.setText(scheduleFristDayTitles[position]);
 			scheduleMessage.setText(scheduleFirstDayDetails[position]);
 			scheduleHost.setText(scheduleFirstDayHosts[position]);
 		} else {
-			actionBar.setSubtitle("2013年11月29日" + scheduleSecondDayTimes[position]);
+			actionBar.setTitle("2013年11月29日" + scheduleSecondDayTimes[position]);
 			scheduleTitle.setText(scheduleSecondDayTitles[position]);
 			scheduleMessage.setText(scheduleSecondDayDetails[position]);
 			scheduleHost.setText(scheduleSecondDayHosts[position]);

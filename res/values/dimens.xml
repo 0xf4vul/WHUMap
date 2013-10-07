@@ -27,4 +27,5 @@
     <dimen name="schedule_time_size">15dp</dimen>
     <dimen name="schedule_detail_title">25dp</dimen>
     <dimen name="schedule_detail_message">20dp</dimen>
+    <dimen name="action_bar_tab">30dp</dimen>
 </resources>

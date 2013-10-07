@@ -844,8 +844,14 @@ public class CaldroidFragment extends DialogFragment {
 						"MMMM", Locale.getDefault()).toUpperCase()
 						+ " " + year); */
 		// 输出形式year + month
+	//	String yearString = new DateTime(year, month,1,0,0,0,0)
+	//				.format("YYYY", Locale.getDefault()).toUpperCase();
+	//	String monthString = new DateTime(year , month,1,0,0,0,0)
+	//				.format("MMMM" , Locale.getDefault()).toUpperCase();
+	//	monthTitleTextView.setText(yearString + monthString	);
+		
 		monthTitleTextView
-				.setText(year + " " + (new DateTime(year,month,1,0,0,0,0).format(
+				.setText(year + "年" + (new DateTime(year,month,1,0,0,0,0).format(
 						"MMMM" , Locale.getDefault()).toUpperCase()));
 		// Refresh the date grid views
 		for (CaldroidGridAdapter adapter : datePagerAdapters) {
@@ -1204,6 +1210,12 @@ public class CaldroidFragment extends DialogFragment {
 
 		/**
 		 * Return 4 adapters
+				onSelectDate(lastDate, lastView);
+				onSelectDate(lastDate, lastView);
+				onSelectDate(lastDate, lastView);
+				onSelectDate(lastDate, lastView);
+				onSelectDate(lastDate, lastView);
+				onSelectDate(lastDate, lastView);
 		 * 
 		 * @return
 		 */

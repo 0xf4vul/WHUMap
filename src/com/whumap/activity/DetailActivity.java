@@ -1,15 +1,20 @@
 package com.whumap.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.TabHost;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.LayoutParams;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.whumap.fragment.ScheduleDetailOfDayFragment;
@@ -36,9 +41,15 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 		init();
 		//添加两个Tab
 		for (int i=0; i<myAdapter.getCount();i++) {
+			ActionBar.Tab tab = actionBar.newTab();
+			tab.setText(myAdapter.getPageTitle(i));
+			tab.setTabListener(this);
+			actionBar.addTab(tab);
+		/*	
 			actionBar.addTab(actionBar.newTab()
 					.setText(myAdapter.getPageTitle(i))
 					.setTabListener(this));
+					*/
 		}
 		
 		viewPager.setAdapter(myAdapter);
@@ -62,7 +73,6 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 		//设置ActionBar使用Tab导航
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setSubtitle("时间");
 		
 		initSchedulePara();
 	}
