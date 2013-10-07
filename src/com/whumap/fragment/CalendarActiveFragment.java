@@ -9,7 +9,6 @@ import com.whumap.calendar.CaldroidFragment;
 import com.whumap.calendar.CaldroidListener;
 import com.whumap.util.ScheduleOfXQ;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,19 +19,21 @@ import android.view.ViewGroup;
 public class CalendarActiveFragment extends Fragment{
 
 	/** 日历视图*/
-	private CaldroidFragment calendar;
+	private CaldroidFragment calendarFragment;
 	/** 布局文件*/
 	private View view ; 
 	/** 记录当前时间*/
 	private Calendar currentDate ;
 	/** 用来加载当前选中日期的schedule*/
 	private Fragment fragment;
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.calendar_frame, container, false);
 		currentDate = Calendar.getInstance();
-		initCalendarView();
+		initcalendarFragmentView();
 		initScheduleContainer(currentDate);
 		return view; 
 	}
@@ -40,11 +41,11 @@ public class CalendarActiveFragment extends Fragment{
 	/**
 	 * 将日历视图添加到fragment中，并且初始化
 	 */
-	private void initCalendarView() {
+	private void initcalendarFragmentView() {
 		
-		calendar = new CaldroidFragment();
+		calendarFragment = new CaldroidFragment();
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(R.id.calendar_frame , calendar);
+		ft.replace(R.id.calendar_frame , calendarFragment);
 		ft.commit();
 		setListener();
 	}
@@ -71,6 +72,7 @@ public class CalendarActiveFragment extends Fragment{
 		ft.commit();
 	}
 	
+	
 	/**
 	 * 对当前日期与校庆日期对比，如果在校庆那两天则返回真，否则返回假
 	 */
@@ -86,28 +88,37 @@ public class CalendarActiveFragment extends Fragment{
 	 */
 	private void setListener() {
 		
-		calendar.setCaldroidListener(new MyCalendarListener());
+		calendarFragment.setCaldroidListener(new MycalendarFragmentListener());
 			
 	}
 	
 	
 	/** 记录上次选中的时间点的View*/
-	private View lastView = null;
+	private Date lastDate = null;
 	/**
-	 * 设置calendar的监听事件
+	 * 设置calendarFragment的监听事件
 	 * @author kb
 	 *
 	 */
-	private class MyCalendarListener extends CaldroidListener {
+	private class MycalendarFragmentListener extends CaldroidListener {
 
 		@Override
 		public void onSelectDate(Date date, View view) {
-			selectDate(date , view);
+			
+			if(lastDate == null) {
+				lastDate = date;
+				calendarFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_dark, date);
+				calendarFragment.refreshView();
+			} else {
+				calendarFragment.setBackgroundResourceForDate(R.color.caldroid_white, lastDate);
+				calendarFragment.setBackgroundResourceForDate(R.color.caldroid_holo_blue_dark, date);
+				calendarFragment.refreshView();
+				lastDate = date;
+			} 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
-			initScheduleContainer(cal);
+			initScheduleContainer(cal); 
 		}
-
 
 		@Override
 		public void onLongClickDate(Date date, View view) {
@@ -124,21 +135,6 @@ public class CalendarActiveFragment extends Fragment{
 			super.onCaldroidViewCreated();
 		}
 		
-		/**
-		 * 当点击一个新的日期时，取消上次点击留下的效果
-		 */
-		private void selectDate(Date date , View view) {
-			
-			if(lastView == null) {
-				lastView = view;
-				view.setBackgroundColor(Color.RED);
-			} else {
-				lastView.setBackgroundColor(Color.WHITE);
-				view.setBackgroundColor(Color.RED);
-				lastView = view;
-			}
-			
-		}
 		
 	}
 	
