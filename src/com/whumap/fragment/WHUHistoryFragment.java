@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -32,10 +33,12 @@ public class WHUHistoryFragment extends Fragment {
 	private SimpleAdapter adapter;
 	private int imageId;
 
-	private int[] imageIds = { R.drawable.whupl, R.drawable.whuxzl, R.drawable.whuly, R.drawable.whusq
-			,R.drawable.whuss, R.drawable.whutsg, R.drawable.whuwf, R.drawable.whul, R.drawable.whug, R.drawable.whubsl, R.drawable.whu18};
-	private String[] titles = { "牌楼", "行政楼", "六一纪念亭", "宋卿体育馆", "男生寄宿舍", "图书馆"
-			, "文、法学院", "理学院", "工学院", "半山庐", "十八栋"};
+	private int[] imageIds = { R.drawable.whupl, R.drawable.whuxzl,
+			R.drawable.whuly, R.drawable.whusq, R.drawable.whuss,
+			R.drawable.whutsg, R.drawable.whuwf, R.drawable.whul,
+			R.drawable.whug, R.drawable.whubsl, R.drawable.whu18 };
+	private String[] titles = { "牌楼", "行政楼", "六一纪念亭", "宋卿体育馆", "男生寄宿舍", "图书馆",
+			"文、法学院", "理学院", "工学院", "半山庐", "十八栋" };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +50,7 @@ public class WHUHistoryFragment extends Fragment {
 		setRefreshListener();
 		return view;
 	}
+
 
 	private void initListView() {
 
