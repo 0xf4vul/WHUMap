@@ -1,20 +1,16 @@
 package com.whumap.activity;
 
+
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.TabHost;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.LayoutParams;
 import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.whumap.fragment.ScheduleDetailOfDayFragment;
@@ -76,6 +72,7 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 		
 		initSchedulePara();
 	}
+	
 	/**
 	 * 初始化从日历中传递过来的参数title , mapPosition
 	 * @author kb

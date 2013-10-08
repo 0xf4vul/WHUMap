@@ -6,20 +6,34 @@
     -->
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBarStyle</item>
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
+        <!--  
+  		<item name="actionBarTabStyle">@style/MyActionBarStyle.Tab</item>
+  		<item name="android:actionBarTabStyle">@style/MyActionBarStyle.Tab</item>
+  		-->
+  		<item name="actionBarTabTextStyle">@style/MyActiongBarStyle.Tab.Text</item>
+  		<item name="android:actionBarTabTextStyle">@style/MyActiongBarStyle.Tab.Text</item>
     </style>
-    <style name="Widget.Styled.ActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-  		<item name="background">@color/action_bar_background</item>      
+    
+    <style name="MyActionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
   		<item name="android:background">@color/action_bar_background</item>
     </style>
-   	<style name="Widget.Styled.ActionBarTab" parent="@style/Widget.Sherlock.ActionBar.TabView">
-		<item name="android:background">@color/action_bar_tab_background</item>
-		<item name="android:textSize">@dimen/action_bar_tab</item>
-   	</style> 
-   	
+    
+    <style name="MyActionBarStyle.Tab" parent="@style/Widget.Sherlock.Light.ActionBar.TabBar">
+  		<item name="android:gravity">center</item>
+  		<item name="android:background">#eaf00c</item>
+  		<item name="android:dividerHeight">10dp</item>
+  		<item name="android:showDividers">end</item>
+	</style>
+	
+    
+   	<style name="MyActiongBarStyle.Tab.Text" parent="@style/Widget.Sherlock.Light.ActionBar.TabText">
+		<item name="android:textSize">@dimen/action_bar_tab_text</item>
+		<item name="android:textColor">@color/action_bar_tab_text</item>
+   	</style>
         
 
 </resources>

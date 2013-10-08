@@ -1,11 +1,12 @@
 package com.whumap.activity;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-public class BuildingText extends Activity {
+public class BuildingText extends SherlockActivity {
 	private int imageId;
 	WebView wv;
 

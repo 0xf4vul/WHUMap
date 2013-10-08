@@ -54,7 +54,7 @@
         </activity>
           <activity
             android:name="com.whumap.activity.BuildingText"
-            android:label="@string/title_activity_detail" >
+            android:label="@string/title_activity_building" >
         </activity>
     </application>
 

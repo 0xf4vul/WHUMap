@@ -2,8 +2,10 @@ package com.whumap.fragment;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -170,4 +173,41 @@ public class ZhengWenFragment extends Fragment{
 			"王洪英","王廷恺","王廷恺","刘代高","杨凤芹",
 			"贺芳琼","袁晓蒙","李清华","王伶鑫",
 			"何五元","文铭",};
+	
+	private class MyAdapter extends BaseAdapter{
+
+		private Context mContext;
+		private List<? extends Map<String , ?>> data;
+		private int resource;
+		private String[] from;
+		private int[] to;
+		public MyAdapter(Context context,List<? extends Map<String, ?>> data,
+				int resource,String[] from, int[] to){
+			mContext = context;
+			this.data = data;
+			this.resource = resource;
+			this.from = from;
+			this.to = to;
+		}
+		@Override
+		public int getCount() {
+			return 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return null;
+		}
+		
+	}
 }
