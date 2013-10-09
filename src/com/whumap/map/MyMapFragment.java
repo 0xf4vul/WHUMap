@@ -498,10 +498,10 @@ public class MyMapFragment extends Fragment {
 					walkRouteOverlay.addToMap();
 					walkRouteOverlay.zoomToSpan();
 				} else {
-					ToastUtil.show(getActivity(), R.string.no_result);
+					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.show(getActivity(), R.string.error_network);
+				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -638,10 +638,10 @@ public class MyMapFragment extends Fragment {
 						});
 					}
 				} else {
-					ToastUtil.show(getActivity(), R.string.no_result);
+					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.show(getActivity(), R.string.error_network);
+				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 

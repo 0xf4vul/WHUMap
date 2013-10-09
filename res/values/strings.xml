@@ -3,7 +3,6 @@
 
     <string name="app_name">WHUMap</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_menu_fragment">MenuFragment</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_test">TestActivity</string>
@@ -31,5 +30,9 @@
     <string name="title_section3">Section 3</string>
     <string name="scheudle_message">活动说明： </string>
     <string name="schedule_host">责任单位： </string>
-
+    <string name="main_menu_about_us">关于我们</string>
+	<string name="main_menu_feedback">意见反馈</string>
+	<string name="fail_to_send_email">对不起，请检查是否安装了Email Apps!</string>
+	<string name="contribute">没有新文章了，赶快投稿吧~！</string>
+	<string name="contribute_title">投稿</string>
 </resources>

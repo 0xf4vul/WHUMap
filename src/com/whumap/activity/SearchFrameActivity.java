@@ -86,11 +86,11 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 			strStart = "我的位置";
 		}
 		if (strEnd == null || strEnd.length() == 0) {
-			ToastUtil.show(SearchFrameActivity.this, "请选择终点");
+			ToastUtil.showLong(SearchFrameActivity.this, "请选择终点");
 			return;
 		}
 		if (strStart.equals(strEnd)) {
-			ToastUtil.show(SearchFrameActivity.this, "不能选择相同地点");
+			ToastUtil.showLong(SearchFrameActivity.this, "不能选择相同地点");
 			return;
 		}
 		
@@ -110,7 +110,7 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 	public void searchButton() {
 		keyWord = searchPosition.getText().toString().trim();
 		if (keyWord == null || keyWord.length() == 0) {
-			ToastUtil.show(SearchFrameActivity.this, "请选择要搜索的位置");
+			ToastUtil.showLong(SearchFrameActivity.this, "请选择要搜索的位置");
 			return;
 		}
 		Intent intent = getIntent();
