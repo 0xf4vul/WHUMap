@@ -25,7 +25,18 @@ public class Constants {
 
 	public static final LatLng WHU = new LatLng(30.540364,114.361774);//武汉大学
 	public static final LatLng WHU1 = new LatLng(30.538289,114.361954);//宋卿体育馆
-	public static final LatLng WHU2 = new LatLng(30.537832,114.365157); //梅园小操场
+	public static final LatLng WHU2 = new LatLng(30.538488, 114.364754);//梅园小操场
 	public static final LatLng WHU3 = new LatLng(30.540079,114.363741); //校史馆
 	public static final LatLng WHU4 = new LatLng(30.532158,114.358993); //珞珈山庄
+	public static final LatLng WHU5 = new LatLng(30.537628,114.366404); //行政楼
+	public static final LatLng WHU6 = new LatLng(30.534024,114.358608); //牌楼
+	public static final LatLng WHU7 = new LatLng(30.536926,114.361301); //六一纪念
+	public static final LatLng WHU8 = new LatLng(30.539717,114.363951);//老斋舍
+	public static final LatLng WHU9 = new LatLng(30.540225,114.363651);//老图书馆
+	public static final LatLng WHU10 = new LatLng(30.539220,114.371052);//法学院
+	public static final LatLng WHU11 = new LatLng(30.539929,114.366258);//理学院
+	public static final LatLng WHU13 = new LatLng(30.535545, 114.366956); //半山庐
+	public static final LatLng WHU12 = new LatLng(30.544734, 114.362192);//工学院
+	public static final LatLng WHU14 = new LatLng(30.534182, 114.370871);//18栋
+	
 }

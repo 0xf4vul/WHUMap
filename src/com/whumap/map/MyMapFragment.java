@@ -2,15 +2,22 @@ package com.whumap.map;
 
 import java.util.List;
 
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -19,7 +26,9 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnInfoWindowClickListener;
+import com.amap.api.maps.AMap.OnMapLoadedListener;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
+import com.amap.api.maps.AMap.OnMarkerDragListener;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
@@ -28,6 +37,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
@@ -73,6 +83,8 @@ public class MyMapFragment extends Fragment {
 	private LatLng CUR;
 	static final CameraPosition WHUS = new CameraPosition.Builder()
 			.target(Constants.WHU).zoom(13).bearing(0).tilt(0).build();
+	static final CameraPosition WHUM = new CameraPosition.Builder()
+			.target(Constants.WHU).zoom(15).bearing(0).tilt(0).build();
 	// route
 	private MySearchRoute mySearchRoute;
 	private String strStart = "";
@@ -89,6 +101,21 @@ public class MyMapFragment extends Fragment {
 	private RouteSearch routeSearch;
 	private LatLonPoint CURP;
 
+	private Marker mWHUQ;
+	private Marker mWHUX;
+	private Marker mWHUP;
+	private Marker mWHUY;
+	private Marker mWHUL;
+	private Marker mWHUT;
+	private Marker mWHUG;
+	private Marker mWHUW;
+	private Marker mWHUS;
+	private Marker mWHUZ;
+	private Marker mWHUB;
+	private int MarkerS = 0;
+	private BuildingMarker mBuildingMarker;
+	private RadioGroup radioOption;
+	private int imageId;
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
 			R.drawable.composer_music, R.drawable.composer_place,
@@ -121,11 +148,12 @@ public class MyMapFragment extends Fragment {
 		mapView = (MapView) v.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
 		myLocation = new MyLocation();
+		mBuildingMarker = new BuildingMarker();
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-//			myLocation.setUpMap();
+			// myLocation.setUpMap();
 		}
 	}
 
@@ -189,13 +217,20 @@ public class MyMapFragment extends Fragment {
 			if (v.getId() == BASIC_CHILD_BUTTON_ID + 0) {
 				setLayer();
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
-				aMap.animateCamera(CameraUpdateFactory.changeLatLng(Constants.WHU));
+				aMap.animateCamera(CameraUpdateFactory
+						.changeLatLng(Constants.WHU));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
 				Intent intent = new Intent(getActivity(),
 						SearchFrameActivity.class);
 				startActivityForResult(intent, 0);
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 3) {
-
+				if (MarkerS == 0) {
+					mBuildingMarker.addBuildingMarker();
+					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUM));
+				} else {
+					aMap.clear();
+					MarkerS = 0;
+				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 4) {
 
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 5) {
@@ -206,14 +241,14 @@ public class MyMapFragment extends Fragment {
 	}
 
 	/**
-	 * 用来处理从searchActivity中传回来的参数
-	 * 首先需要判断传回来的Intent是否为空，如果为空，则不做处理
+	 * 用来处理从searchActivity中传回来的参数 首先需要判断传回来的Intent是否为空，如果为空，则不做处理
 	 * 如果不判断Intent是否为空，在searchActivity里按下返回按钮时会出现NullPointerException
 	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
-		if(intent == null) return;
+		if (intent == null)
+			return;
 		if (requestCode == 0 && resultCode == 0) {
 			Bundle dataBundle = intent.getExtras();
 			keyWord = dataBundle.getString("key");
@@ -232,7 +267,7 @@ public class MyMapFragment extends Fragment {
 					mySearchRoute.startSearchResult();
 				}
 			}
-		} else if(requestCode == 0 && resultCode == 1) {
+		} else if (requestCode == 0 && resultCode == 1) {
 			return;
 		}
 	}
@@ -644,6 +679,144 @@ public class MyMapFragment extends Fragment {
 		public void onInfoWindowClick(Marker arg0) {
 
 		}
+	}
+
+	private class BuildingMarker implements OnMarkerClickListener,
+			OnInfoWindowClickListener, InfoWindowAdapter {
+
+		private void addBuildingMarker() {
+			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
+			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+			aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
+			MarkerS = 1;
+			mWHUQ = aMap.addMarker(new MarkerOptions().position(Constants.WHU1)
+					.title("宋卿体育馆").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUX = aMap.addMarker(new MarkerOptions().position(Constants.WHU5)
+					.title("行政楼").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUP = aMap.addMarker(new MarkerOptions().position(Constants.WHU6)
+					.title("牌楼").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUY = aMap.addMarker(new MarkerOptions().position(Constants.WHU7)
+					.title("六一纪念亭").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUZ = aMap.addMarker(new MarkerOptions().position(Constants.WHU8)
+					.title("老斋舍").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUT = aMap.addMarker(new MarkerOptions().position(Constants.WHU9)
+					.title("老图书馆").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUW = aMap.addMarker(new MarkerOptions()
+					.position(Constants.WHU10).title("文法学院").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUL = aMap.addMarker(new MarkerOptions()
+					.position(Constants.WHU11).title("理学院").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUG = aMap.addMarker(new MarkerOptions()
+					.position(Constants.WHU12).title("工学院").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUB = aMap.addMarker(new MarkerOptions()
+					.position(Constants.WHU13).title("半山庐").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+			mWHUS = aMap.addMarker(new MarkerOptions()
+					.position(Constants.WHU14).title("十八栋").snippet("点击查看详情")
+					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.draggable(true));
+		}
+
+		@Override
+		public void onInfoWindowClick(Marker marker) {
+			Bundle id = new Bundle();
+			id.putInt("name", imageId);
+			Intent intent = new Intent(getActivity(), BuildingText.class);
+			intent.putExtras(id);
+			startActivity(intent);
+		}
+
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			if (marker.equals(mWHUP))
+				imageId = 0;
+			else if (marker.equals(mWHUX))
+				imageId = 1;
+			else if (marker.equals(mWHUY))
+				imageId = 2;
+			else if (marker.equals(mWHUQ))
+				imageId = 3;
+			else if (marker.equals(mWHUZ))
+				imageId = 4;
+			else if (marker.equals(mWHUT))
+				imageId = 5;
+			else if (marker.equals(mWHUW))
+				imageId = 6;
+			else if (marker.equals(mWHUL))
+				imageId = 7;
+			else if (marker.equals(mWHUG))
+				imageId = 8;
+			else if (marker.equals(mWHUB))
+				imageId = 9;
+			else if (marker.equals(mWHUS))
+				imageId = 10;
+			return false;
+		}
+
+		@Override
+		public View getInfoContents(Marker marker) {
+			View infoContent = getLayoutInflater(getArguments()).inflate(
+					R.layout.custom_info_contents, null);
+			render(marker, infoContent);
+			return infoContent;
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			View infoWindow = getLayoutInflater(getArguments()).inflate(
+					R.layout.custom_info_window, null);
+
+			render(marker, infoWindow);
+			return infoWindow;
+		}
+
+		/**
+		 * 自定义infowinfow窗口
+		 */
+		public void render(Marker marker, View view) {
+			String title = marker.getTitle();
+			TextView titleUi = ((TextView) view.findViewById(R.id.title));
+			if (title != null) {
+				SpannableString titleText = new SpannableString(title);
+				titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+						titleText.length(), 0);
+				titleUi.setTextSize(13);
+				titleUi.setText(titleText);
+
+			} else {
+				titleUi.setText("");
+			}
+			String snippet = marker.getSnippet();
+			TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+			if (snippet != null) {
+				SpannableString snippetText = new SpannableString(snippet);
+				snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+						snippetText.length(), 0);
+				snippetUi.setTextSize(10);
+				snippetUi.setText(snippetText);
+			} else {
+				snippetUi.setText("");
+			}
+		}
+
 	}
 
 }

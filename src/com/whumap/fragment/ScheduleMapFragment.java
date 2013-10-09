@@ -1,10 +1,14 @@
 package com.whumap.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
+import android.widget.TextView;
+
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -171,12 +175,13 @@ public class ScheduleMapFragment extends Fragment {
 	}
 
 	private void addMarkersWHUX() {
-		mWHUX = aMap.addMarker(new MarkerOptions().position(Constants.WHU2)
+		mWHUX = aMap.addMarker(new MarkerOptions()
+				.position(Constants.WHU2)
 				.title("梅园小操场")
 				.snippet("梅园小操场")
-				// .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
-				// "AMap地图", "对marker自定义view")))).perspective(true)
-				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+				.icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
+						"地点", "梅园小操场")))).perspective(true)
+				// .icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
 				.draggable(true));// 设置远小近大效果,2.1.0版本新增
 		mWHUX.showInfoWindow();// 设置默认显示一个infowinfow
 	}
@@ -185,9 +190,9 @@ public class ScheduleMapFragment extends Fragment {
 		mWHUQ = aMap.addMarker(new MarkerOptions().position(Constants.WHU1)
 				.title("宋卿体育馆")
 				.snippet("宋卿体育馆")
-				// .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
-				// "AMap地图", "对marker自定义view")))).perspective(true)
-				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+				 .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
+				 "地点", "宋卿体育馆")))).perspective(true)
+//				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
 				.draggable(true));// 设置远小近大效果,2.1.0版本新增
 		mWHUQ.showInfoWindow();// 设置默认显示一个infowinfow
 	}
@@ -196,9 +201,9 @@ public class ScheduleMapFragment extends Fragment {
 		mWHUH = aMap.addMarker(new MarkerOptions().position(Constants.WHU3)
 				.title("校史馆")
 				.snippet("校史馆")
-				// .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
-				// "AMap地图", "对marker自定义view")))).perspective(true)
-				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+				 .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
+				 "地点", "校史馆")))).perspective(true)
+//				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
 				.draggable(true));// 设置远小近大效果,2.1.0版本新增
 		mWHUH.showInfoWindow();// 设置默认显示一个infowinfow
 	}
@@ -207,10 +212,36 @@ public class ScheduleMapFragment extends Fragment {
 		mWHUL = aMap.addMarker(new MarkerOptions().position(Constants.WHU4)
 				.title("珞珈山庄")
 				.snippet("珞珈山庄")
-				// .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
-				// "AMap地图", "对marker自定义view")))).perspective(true)
-				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+				 .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(getView(
+				 "地点", "珞珈山庄")))).perspective(true)
+//				.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
 				.draggable(true));// 设置远小近大效果,2.1.0版本新增
 		mWHUL.showInfoWindow();// 设置默认显示一个infowinfow
 	}
+
+	/**
+	 * 把一个xml布局文件转化成view
+	 */
+	public View getView(String title, String text) {
+		View view = getLayoutInflater(getArguments()).inflate(R.layout.marker,
+				null);
+		TextView text_title = (TextView) view.findViewById(R.id.marker_title);
+		TextView text_text = (TextView) view.findViewById(R.id.marker_text);
+		text_title.setText(title);
+		text_text.setText(text);
+		return view;
+	}
+
+	/**
+	 * 把一个view转化成bitmap对象
+	 */
+	public static Bitmap getViewBitmap(View view) {
+		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+		view.buildDrawingCache();
+		Bitmap bitmap = view.getDrawingCache();
+		return bitmap;
+	}
+
 }
