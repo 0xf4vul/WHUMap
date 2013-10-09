@@ -1,6 +1,8 @@
 package com.whumap.activity;
 
 
+import java.net.URLEncoder;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -10,7 +12,10 @@ import com.whumap.fragment.ZhengWenFragment;
 import com.whumap.fragment.WHUHistoryFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
+import com.whumap.util.ToastUtil;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -45,6 +50,9 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private CalendarActiveFragment calendarFragment;
 	/** 征文*/
 	private WHUHistoryFragment wHUHistoryFragment;
+	/**功能导航*/
+	private String[] functions;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +102,6 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	 */
 	private void initLeftMenu()	 {
 		
-		String[] functions = getResources().getStringArray(R.array.function_list);
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.left_menu_layout,R.id.left_menu_text,functions);
@@ -106,7 +113,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	 */
 	private void initSlidingMenu() {
 		
-		setTitle("地图");
+		functions = getResources().getStringArray(R.array.function_list);
+		setTitle(functions[0]);
 		slidingMenu = getSlidingMenu();
 		slidingMenu.setMode(SlidingMenu.LEFT);
 		slidingMenu.setShadowDrawable(R.drawable.shadow);
@@ -146,34 +154,35 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				flag = 0;
-				
+				setTitle(functions[arg2]);
 				switch(arg2) {
 				case 0:
 					if(myMapFragment == null) {
 						myMapFragment = new MyMapFragment();
 					}
-					setTitle("地图");
+					mainMenu.removeItem(R.id.contribute);
 					switchContent(myMapFragment);
 					break;
 				case 1:
 					if(calendarFragment == null) {
 						calendarFragment = new CalendarActiveFragment();
 					}
-					setTitle("日历");
+					mainMenu.removeItem(R.id.contribute);
 					switchContent(calendarFragment);
 					break;
 				case 2:
 					if(zhengWenFragment == null) {
 						zhengWenFragment = new ZhengWenFragment();
 					}
-					setTitle("征文");
+					initMenu(mainMenu, R.menu.contribute_menu);
 					switchContent(zhengWenFragment);
 					break;
 				case 3:
 					if(wHUHistoryFragment == null) {
 						wHUHistoryFragment = new WHUHistoryFragment();
 					}
-					setTitle("校史");
+					mainMenu.removeItem(R.id.contribute);
+					mainMenu.removeItem(R.id.contribute);
 					switchContent(wHUHistoryFragment);
 				default :
 						break;
@@ -207,16 +216,47 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 		case  android.R.id.home :
 			toggle();
 			return true;
+		case R.id.about:
+			break;
+		case R.id.feedback:
+			final Intent myEmail = new Intent(android.content.Intent.ACTION_SENDTO);
+			String uriText = "mailto:wangtongkb24@gmail.com" +
+					"?subject=" + URLEncoder.encode("意见反馈"); 
+			myEmail.setData(Uri.parse(uriText));
+			try {
+				startActivity(myEmail);
+			} catch (Exception e) {
+				ToastUtil.showLong(this, R.string.fail_to_send_email);
+			}
+			break;
+		case R.id.contribute:
+			final Intent toEmail = new Intent(android.content.Intent.ACTION_SENDTO);
+			String uriText2 = "mailto:wdxw@whu.edu.cn" +
+					"?subject="+URLEncoder.encode("征文");
+			toEmail.setData(Uri.parse(uriText2));
+			try {
+				startActivity(toEmail);
+			} catch (Exception e) {
+				ToastUtil.showLong(this, R.string.fail_to_send_email);
+			}
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
+	private Menu mainMenu;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		mainMenu = menu;
 		getSupportMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 	
+	private void initMenu(Menu menu,int resource){
+		
+		getSupportMenuInflater().inflate(resource, menu);
+		
+	}
 	/**用来记录返回按钮被按下的次数*/
 	private int flag =0;
 	@Override

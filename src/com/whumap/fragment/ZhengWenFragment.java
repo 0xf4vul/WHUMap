@@ -22,11 +22,13 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.whumap.activity.ArticleActivity;
 import com.whumap.activity.R;
+import com.whumap.util.ToastUtil;
 
 public class ZhengWenFragment extends Fragment{
 
@@ -36,18 +38,25 @@ public class ZhengWenFragment extends Fragment{
 	private SimpleAdapter adapter;
 	private LinkedList<Map<String , Object>> listItems;
 	private int articleId;
-	
+	private String[] articleTitles = null;
+	private String[] articleAuthors = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
 		view = inflater.inflate(R.layout.zheng_wen_frame, container, false);
 		pullToRefreshListView = (PullToRefreshListView)view.findViewById(R.id.zheng_wen_list);
+		initArticleData();
 		initListView();
 		setRefreshListener();
 		return view; 
 	}	
 	
+	private void initArticleData(){
+		
+		articleTitles = getActivity().getResources().getStringArray(R.array.article_titles); 
+		articleAuthors = getActivity().getResources().getStringArray(R.array.article_authors);
+	}
 	/**
 	 * 设置ListView
 	 */
@@ -55,6 +64,7 @@ public class ZhengWenFragment extends Fragment{
 		actualListView = pullToRefreshListView.getRefreshableView();
 		// Need to use the Actual ListView when registering for Context Menu
 		registerForContextMenu(actualListView);
+		pullToRefreshListView.setMode(Mode.BOTH);
 		
 	    listItems = new LinkedList<Map<String, Object>>();
 		for(int i=0; i<articleTitles.length ; i++ ) {
@@ -114,8 +124,11 @@ public class ZhengWenFragment extends Fragment{
 				Toast.makeText(getActivity(), "End of List!", Toast.LENGTH_SHORT).show();
 			}
 		});
+		
 
 	}
+	
+	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
 		@Override
@@ -158,21 +171,13 @@ public class ZhengWenFragment extends Fragment{
 		protected void onPostExecute(Map<String, Object> result) {
 		//	listItems.addFirst(result);
 		//	adapter.notifyDataSetChanged();
-			Toast.makeText(getActivity(), "没有新文章，赶快投稿吧!", Toast.LENGTH_LONG).show();
+			ToastUtil.showLong(getActivity(), R.string.contribute);
 			pullToRefreshListView.onRefreshComplete();
 			super.onPostExecute(result);
 		}
 	}
 	
-	private String[] articleTitles = { "别了，珞珈山"  ,"情意交融",
-			"共同的根和魂","怀念朱景尧先生","肯教 能教 善教",
-			"动人的故事","筑梦","登山览胜","晚来者语"
-			,"学府之美","新梦","书卷多情似故人","最美的年华",
-			"永是珞珈一少年","湖光山色两相宜" };	
-	private String[] articleAuthors = { "胡珊" , "黄庭瑞" , "郭灵彦" ,"徐业勤",
-			"王洪英","王廷恺","王廷恺","刘代高","杨凤芹",
-			"贺芳琼","袁晓蒙","李清华","王伶鑫",
-			"何五元","文铭",};
+			
 	
 	private class MyAdapter extends BaseAdapter{
 

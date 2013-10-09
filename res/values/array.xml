@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string-array name="function_list">
+    <string-array name="function_list">
         <item>导    航</item>
         <item>日    历</item>
         <item>征    文</item>
         <item>校    史</item>
     </string-array>
     
-
+    <string-array name="article_titles">
+        <item >别了，珞珈山</item>
+        <item >情意交融</item>
+        <item >共同的根和魂</item>
+        <item >怀念朱景尧先生</item>
+        <item >肯教 能教 善教</item>
+        <item >动人的故事</item>
+        <item >筑梦</item>
+        <item >登山览胜</item>
+        <item >晚来者语</item>
+        <item >学府之美</item>
+        <item >新梦</item>
+        <item >书卷多情似故人</item>
+        <item >最美的年华</item>
+        <item >永是珞珈一少年</item>
+        <item >湖光山色两相宜</item>
+    </string-array>
+    
+    <string-array name="article_authors">
+  		<item >胡珊</item>          
+  		<item >黄庭瑞</item>          
+  		<item >郭灵彦</item>          
+  		<item >徐业勤</item>          
+  		<item >王洪英</item>          
+  		<item >王廷恺</item>          
+  		<item >王廷恺</item>          
+  		<item >刘代高</item>          
+  		<item >杨凤芹</item>          
+  		<item >贺芳琼</item>          
+  		<item >袁晓蒙</item>          
+  		<item >李清华</item>          
+  		<item >王伶鑫</item>          
+  		<item >何五元</item>          
+  		<item >文铭</item>          
+    </string-array>
+    
 </resources>
