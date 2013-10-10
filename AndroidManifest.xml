@@ -52,9 +52,13 @@
             android:name="com.whumap.activity.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
-          <activity
+        <activity
             android:name="com.whumap.activity.BuildingText"
             android:label="@string/title_activity_building" >
+        </activity>
+        <activity
+            android:name="com.whumap.activity.WHUZhengWenActivity"
+            android:label="@string/title_activity_whuzheng_wen" >
         </activity>
     </application>
 

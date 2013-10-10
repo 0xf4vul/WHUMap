@@ -8,7 +8,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.whumap.fragment.CalendarActiveFragment;
-import com.whumap.fragment.ZhengWenFragment;
+import com.whumap.fragment.WHUZhengWenFragment;
 import com.whumap.fragment.WHUHistoryFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
@@ -30,27 +30,17 @@ import android.widget.TextView;
 
 public class ContentFrameActivity extends SlidingFragmentActivity{
 
-	/** slidingMenu */
 	private SlidingMenu slidingMenu;
-	/** slidingMenu左侧菜单 */
 	private ListView leftMenu;
-	/** 地图fragment*/
 	private MyMapFragment myMapFragment ; 
-	/** 新闻fragment*/
-	private ZhengWenFragment zhengWenFragment;
-	/** 当前显示的fragment*/
 	private Fragment currentFragment ;
-	/** 倒计时日期*/
 	private TextView countDownDate;
-	/** 左侧菜单的父容器，用来修改倒计时按钮*/
 	private LinearLayout ll;
-	/** 倒计时容器*/
 	private RelativeLayout rl;
-	/** 日历活动视图*/
 	private CalendarActiveFragment calendarFragment;
-	/** 征文*/
 	private WHUHistoryFragment wHUHistoryFragment;
-	/**功能导航*/
+	private WHUZhengWenFragment whuZhengWenFragment;
+	/**功能导航名称*/
 	private String[] functions;
 	
 	@Override
@@ -171,19 +161,19 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					switchContent(calendarFragment);
 					break;
 				case 2:
-					if(zhengWenFragment == null) {
-						zhengWenFragment = new ZhengWenFragment();
+					if(whuZhengWenFragment == null) {
+						whuZhengWenFragment = new WHUZhengWenFragment();
 					}
 					initMenu(mainMenu, R.menu.contribute_menu);
-					switchContent(zhengWenFragment);
+					switchContent(whuZhengWenFragment);
 					break;
 				case 3:
 					if(wHUHistoryFragment == null) {
 						wHUHistoryFragment = new WHUHistoryFragment();
 					}
 					mainMenu.removeItem(R.id.contribute);
-					mainMenu.removeItem(R.id.contribute);
 					switchContent(wHUHistoryFragment);
+					break;
 				default :
 						break;
 				}
