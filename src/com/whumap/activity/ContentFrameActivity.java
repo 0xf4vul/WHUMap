@@ -15,8 +15,10 @@ import com.whumap.util.CountDownDate;
 import com.whumap.util.ToastUtil;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 
 public class ContentFrameActivity extends SlidingFragmentActivity{
 
+	private final static int SYSTEM_SETTINGS = 0;
 	private SlidingMenu slidingMenu;
 	private ListView leftMenu;
 	private MyMapFragment myMapFragment ; 
@@ -42,6 +45,10 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private WHUZhengWenFragment whuZhengWenFragment;
 	/**功能导航名称*/
 	private String[] functions;
+	/** 用来存储从SharePreference中取得的值，当每次切换到MyMapFragment时将该参数传入MyMapFragment用来出初始化地图的基本设置*/
+	private Bundle data = new Bundle();
+	/** 设置界面中各种键通过SharePreference取得的值，获取后传入MyMapFragment*/
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private void initContent()  {
 		
 		myMapFragment = new MyMapFragment();
+		myMapFragment.setArguments(data);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.content_frame, myMapFragment);
 		currentFragment = myMapFragment;
@@ -194,6 +202,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 				ft.hide(currentFragment).show(fragment).commit();
 			}
 			currentFragment = fragment;
+			data.clear();
 		}
 		getSlidingMenu().showContent();
 	}
@@ -219,6 +228,10 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 				ToastUtil.showLong(this, R.string.fail_to_send_email);
 			}
 			break;
+		case R.id.settings:
+			Intent intent = new Intent(ContentFrameActivity.this,SettingsActivity.class);
+			startActivityForResult(intent, SYSTEM_SETTINGS);
+			break;
 		case R.id.contribute:
 			final Intent toEmail = new Intent(android.content.Intent.ACTION_SENDTO);
 			String uriText2 = "mailto:wdxw@whu.edu.cn" +
@@ -232,6 +245,11 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 	
 	private Menu mainMenu;

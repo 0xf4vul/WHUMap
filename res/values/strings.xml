@@ -32,10 +32,22 @@
     <string name="schedule_host">责任单位： </string>
     <string name="main_menu_about_us">关于我们</string>
     <string name="main_menu_feedback">意见反馈</string>
+    <string name="main_menu_settings">功能设置</string>
     <string name="fail_to_send_email">对不起，请检查是否安装了Email Apps!</string>
     <string name="contribute">没有新文章啦，点击右上角去投稿吧~！</string>
     <string name="contribute_title">投稿</string>
     <string name="title_activity_whuzheng_wen">WHUZhengWenActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    
+    <!-- 以下为settingsActivity中用到的一些设置名称 -->
+    <string name="map_settings">地图设置</string>
+    <string name="suo_fang">启用缩放按钮</string>
+    <string name='suo_fang_detail'>是否在地图上显示+/-表示缩放</string>
+    <string name="biao_chi">启用标尺</string>
+    <string name="biao_chi_detail">是否在地图上显示标尺</string>
+    <string name="zhi_nan_zhen">启用指南针</string>
+    <string name="zhi_nan_zhen_detail">是否在地图上显示指南针</string>
+    
 
 </resources>

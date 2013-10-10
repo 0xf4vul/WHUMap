@@ -1,15 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<item 
-	    android:id="@+id/about"
-	    android:title="@string/main_menu_about_us"
-	    android:showAsAction="never"
-	    android:orderInCategory="1"/>	
-	  
+    <item 
+        android:id="@+id/settings"
+        android:title="@string/main_menu_settings"
+        android:showAsAction="never"
+        android:orderInCategory="1"/>
 	<item 
 	    android:id="@+id/feedback"
 	    android:title="@string/main_menu_feedback"
 	    android:showAsAction="never"
 	    android:orderInCategory="2"/>
+	<item 
+	    android:id="@+id/about"
+	    android:title="@string/main_menu_about_us"
+	    android:showAsAction="never"
+	    android:orderInCategory="3"/>	
+	  
 	    
 </menu>

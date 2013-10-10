@@ -5,9 +5,11 @@ import java.util.List;
 import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -122,6 +124,10 @@ public class MyMapFragment extends Fragment {
 			R.drawable.composer_sleep, R.drawable.composer_sun,
 			R.drawable.composer_thought };
 
+	private SharedPreferences settings;
+	private Boolean suoFangValue = false;
+	private Boolean biaoChiValue;
+	private Boolean zhiNanZhenValue;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,14 +177,26 @@ public class MyMapFragment extends Fragment {
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
 
 	}
-
+	
+	
 	@Override
 	public void onResume() {
+		getSettingsKeys();
 		super.onResume();
 		mapView.onResume();
 
 	}
-
+	
+	/**
+	 * 获取从设置中读出的数据
+	 */
+	private void getSettingsKeys() {
+		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		suoFangValue = settings.getBoolean("suo_fang", false);
+		biaoChiValue = settings.getBoolean("biao_chi", true);
+		zhiNanZhenValue = settings.getBoolean("zhi_nan_zhen",false);	
+		ToastUtil.showLong(getActivity(), suoFangValue+" " + biaoChiValue + " " + zhiNanZhenValue );
+	}
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -292,7 +310,7 @@ public class MyMapFragment extends Fragment {
 		mUiSettings.setScrollGesturesEnabled(true);
 		mUiSettings.setTiltGesturesEnabled(true);
 		mUiSettings.setZoomGesturesEnabled(true);
-		mUiSettings.setZoomControlsEnabled(false);
+		mUiSettings.setZoomControlsEnabled(suoFangValue);
 		mUiSettings.setMyLocationButtonEnabled(false);
 	}
 

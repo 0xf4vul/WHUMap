@@ -60,6 +60,10 @@
             android:name="com.whumap.activity.WHUZhengWenActivity"
             android:label="@string/title_activity_whuzheng_wen" >
         </activity>
+        <activity
+            android:name="com.whumap.activity.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
