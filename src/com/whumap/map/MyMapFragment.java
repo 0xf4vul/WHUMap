@@ -1,8 +1,6 @@
 package com.whumap.map;
 
 import java.util.List;
-
-import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -28,9 +23,9 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.InfoWindowAdapter;
 import com.amap.api.maps.AMap.OnInfoWindowClickListener;
-import com.amap.api.maps.AMap.OnMapLoadedListener;
+import com.amap.api.maps.AMap.OnMapClickListener;
+import com.amap.api.maps.AMap.OnMapLongClickListener;
 import com.amap.api.maps.AMap.OnMarkerClickListener;
-import com.amap.api.maps.AMap.OnMarkerDragListener;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
@@ -43,6 +38,13 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.overlay.PoiOverlay;
 import com.amap.api.services.overlay.WalkRouteOverlay;
 import com.amap.api.services.poisearch.PoiItemDetail;
@@ -74,7 +76,6 @@ public class MyMapFragment extends Fragment {
 	private UiSettings mUiSettings;// uisetting
 	private View v;
 	// search
-	private static final int SHOW_SUBACTIVITY = 1;
 	private MySearchPoi mySearchPoi;
 	private PoiSearch.Query query;// Poi查询条件类
 	private PoiSearch poiSearch;// POI搜索
@@ -83,6 +84,7 @@ public class MyMapFragment extends Fragment {
 	private String keyWord = "";// poi搜索关键字
 	private PoiResult poiResult; // poi返回的结果
 	private LatLng CUR;
+
 	static final CameraPosition WHUS = new CameraPosition.Builder()
 			.target(Constants.WHU).zoom(13).bearing(0).tilt(0).build();
 	static final CameraPosition WHUM = new CameraPosition.Builder()
@@ -114,10 +116,22 @@ public class MyMapFragment extends Fragment {
 	private Marker mWHUS;
 	private Marker mWHUZ;
 	private Marker mWHUB;
+	private Marker mCurPoint;
 	private int MarkerS = 0;
 	private BuildingMarker mBuildingMarker;
-	private RadioGroup radioOption;
 	private int imageId;
+
+	private MyMapClick myMapClick;
+	private String addressName;
+	private String buildingName;
+	private GeocodeSearch geocoderSearch;
+	private MarkerOptions markerOption;
+	private LatLng mpositionLatLng;
+	private Boolean islongclick = false;
+	private Boolean isclick = false;
+	private LatLonPoint buildingPoint;
+	private LatLng mbuildingPoint;
+
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.composer_camera,
 			R.drawable.composer_music, R.drawable.composer_place,
@@ -125,7 +139,7 @@ public class MyMapFragment extends Fragment {
 			R.drawable.composer_thought };
 
 	private SharedPreferences settings;
-	private Boolean suoFangValue; 
+	private Boolean suoFangValue;
 	private Boolean biaoChiValue;
 	private Boolean zhiNanZhenValue;
 	private Boolean shouShiAllValue;
@@ -161,9 +175,11 @@ public class MyMapFragment extends Fragment {
 		mapView.onCreate(savedInstanceState);
 		myLocation = new MyLocation();
 		mBuildingMarker = new BuildingMarker();
+		myMapClick = new MyMapClick();
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
+			myMapClick.initMyMapClick();
 			// myLocation.setUpMap();
 		}
 	}
@@ -230,8 +246,7 @@ public class MyMapFragment extends Fragment {
 			if (v.getId() == BASIC_CHILD_BUTTON_ID + 0) {
 				setLayer();
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
-				aMap.animateCamera(CameraUpdateFactory
-						.changeLatLng(Constants.WHU));
+				aMap.animateCamera(CameraUpdateFactory.changeLatLng(CUR));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
 				Intent intent = new Intent(getActivity(),
 						SearchFrameActivity.class);
@@ -292,7 +307,6 @@ public class MyMapFragment extends Fragment {
 			aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
 		}
 	}
-
 
 	private void SettingsUI() {
 		mUiSettings = aMap.getUiSettings();
@@ -840,6 +854,165 @@ public class MyMapFragment extends Fragment {
 			} else {
 				snippetUi.setText("");
 			}
+		}
+
+	}
+
+	private class MyMapClick implements OnMapLongClickListener,
+			OnMarkerClickListener, OnInfoWindowClickListener,
+			InfoWindowAdapter, OnGeocodeSearchListener, OnMapClickListener {
+
+		private void initMyMapClick() {
+			aMap.setOnMapLongClickListener(this);
+			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
+			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+			aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
+			// aMap.setOnMapClickListener(this);
+			geocoderSearch = new GeocodeSearch(getActivity());
+			geocoderSearch.setOnGeocodeSearchListener(this);
+		}
+
+		@Override
+		public void onMapLongClick(LatLng point) {
+
+			double lat = point.latitude;
+			double lon = point.longitude;
+			getAddress(new LatLonPoint(lat, lon));
+			mpositionLatLng = point;
+			aMap.clear();
+			islongclick = true;
+		}
+
+		//
+		// @Override
+		// public void onMapClick(LatLng point) {
+		// double lat = point.latitude;
+		// double lon = point.longitude;
+		// getBuilding(new LatLonPoint(lat, lon));
+		// aMap.clear();
+		// isclick = true;
+		// }
+
+		@Override
+		public View getInfoContents(Marker marker) {
+			View infoContent = getLayoutInflater(getArguments()).inflate(
+					R.layout.mymapclick_info_window, null);
+			render(marker, infoContent);
+			return infoContent;
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			View infoWindow = getLayoutInflater(getArguments()).inflate(
+					R.layout.mymapclick_info_contents, null);
+
+			render(marker, infoWindow);
+			return infoWindow;
+		}
+
+		/**
+		 * 自定义infowinfow窗口
+		 */
+		public void render(Marker marker, View view) {
+			String title = marker.getTitle();
+			TextView titleUi = ((TextView) view.findViewById(R.id.title));
+			if (title != null) {
+				SpannableString titleText = new SpannableString(title);
+				titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+						titleText.length(), 0);
+				titleUi.setTextSize(13);
+				titleUi.setText(titleText);
+
+			} else {
+				titleUi.setText("");
+			}
+			String snippet = marker.getSnippet();
+			TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+			if (snippet != null) {
+				SpannableString snippetText = new SpannableString(snippet);
+				snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+						snippetText.length(), 0);
+				snippetUi.setTextSize(10);
+				snippetUi.setText(snippetText);
+			} else {
+				snippetUi.setText("");
+			}
+		}
+
+		@Override
+		public void onInfoWindowClick(Marker marker) {
+			startPoint = CURP;
+			endPoint = AMapUtil.convertToLatLonPoint(mCurPoint.getPosition());
+			mySearchRoute = new MySearchRoute();
+			mySearchRoute.searchRouteResult(startPoint, endPoint);
+		}
+
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			return false;
+		}
+
+		/**
+		 * 响应逆地理编码
+		 */
+		public void getAddress(LatLonPoint latLonPoint) {
+			RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
+					GeocodeSearch.AMAP);
+			geocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
+		}
+
+		/**
+		 * 逆地理编码回调
+		 */
+		@Override
+		public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
+			if (rCode == 0) {
+				if (result != null
+						&& result.getRegeocodeAddress() != null
+						&& result.getRegeocodeAddress().getFormatAddress() != null) {
+					addressName = result.getRegeocodeAddress()
+							.getFormatAddress();
+					buildingName = result.getRegeocodeAddress().getBuilding();
+					if (islongclick == true) {
+						markerOption = new MarkerOptions();
+						markerOption.position(mpositionLatLng);
+						markerOption.title(addressName).snippet("点击去那里~");
+						markerOption.anchor(0.5f, 1);
+						markerOption.draggable(true);
+						markerOption.icon(BitmapDescriptorFactory
+								.fromAsset("arrow.png"));
+						mCurPoint = aMap.addMarker(markerOption);
+						islongclick = false;
+					} else if (isclick = true) {
+						markerOption = new MarkerOptions();
+						markerOption.position(mbuildingPoint);
+						markerOption.title(buildingName).snippet("点击去那里~");
+						markerOption.anchor(0.5f, 1);
+						markerOption.draggable(true);
+						markerOption.icon(BitmapDescriptorFactory
+								.fromAsset("arrow.png"));
+						mCurPoint = aMap.addMarker(markerOption);
+						islongclick = false;
+						System.out.println(buildingName);
+					}
+				} else {
+					ToastUtil.showLong(getActivity(), R.string.no_result);
+				}
+			} else {
+				ToastUtil.showLong(getActivity(), R.string.error_network);
+			}
+		}
+
+		@Override
+		public void onMapClick(LatLng arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onGeocodeSearched(GeocodeResult arg0, int arg1) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}
