@@ -125,9 +125,15 @@ public class MyMapFragment extends Fragment {
 			R.drawable.composer_thought };
 
 	private SharedPreferences settings;
-	private Boolean suoFangValue = false;
+	private Boolean suoFangValue; 
 	private Boolean biaoChiValue;
 	private Boolean zhiNanZhenValue;
+	private Boolean shouShiAllValue;
+	private Boolean shouShiRotateValue;
+	private Boolean shouShiScrollValue;
+	private Boolean shouShiTiltValue;
+	private Boolean shouShiSuoFangValue;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -157,7 +163,6 @@ public class MyMapFragment extends Fragment {
 		mBuildingMarker = new BuildingMarker();
 		if (aMap == null) {
 			aMap = mapView.getMap();
-			DefaultUI();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
 			// myLocation.setUpMap();
 		}
@@ -177,26 +182,16 @@ public class MyMapFragment extends Fragment {
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
 
 	}
-	
-	
+
 	@Override
 	public void onResume() {
 		getSettingsKeys();
+		SettingsUI();
 		super.onResume();
 		mapView.onResume();
 
 	}
-	
-	/**
-	 * 获取从设置中读出的数据
-	 */
-	private void getSettingsKeys() {
-		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		suoFangValue = settings.getBoolean("suo_fang", false);
-		biaoChiValue = settings.getBoolean("biao_chi", true);
-		zhiNanZhenValue = settings.getBoolean("zhi_nan_zhen",false);	
-		ToastUtil.showLong(getActivity(), suoFangValue+" " + biaoChiValue + " " + zhiNanZhenValue );
-	}
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -298,20 +293,32 @@ public class MyMapFragment extends Fragment {
 		}
 	}
 
-	/**
-	 * 设置地图相关组件
-	 */
-	private void DefaultUI() {
+
+	private void SettingsUI() {
 		mUiSettings = aMap.getUiSettings();
-		mUiSettings.setScaleControlsEnabled(true);
-		mUiSettings.setAllGesturesEnabled(true);
-		mUiSettings.setCompassEnabled(true);
-		mUiSettings.setRotateGesturesEnabled(true);
-		mUiSettings.setScrollGesturesEnabled(true);
-		mUiSettings.setTiltGesturesEnabled(true);
-		mUiSettings.setZoomGesturesEnabled(true);
+		mUiSettings.setScaleControlsEnabled(biaoChiValue);
+		mUiSettings.setAllGesturesEnabled(shouShiAllValue);
+		mUiSettings.setCompassEnabled(zhiNanZhenValue);
+		mUiSettings.setRotateGesturesEnabled(shouShiRotateValue);
+		mUiSettings.setScrollGesturesEnabled(shouShiScrollValue);
+		mUiSettings.setTiltGesturesEnabled(shouShiTiltValue);
+		mUiSettings.setZoomGesturesEnabled(shouShiSuoFangValue);
 		mUiSettings.setZoomControlsEnabled(suoFangValue);
-		mUiSettings.setMyLocationButtonEnabled(false);
+	}
+
+	/**
+	 * 获取从设置中读出的数据
+	 */
+	private void getSettingsKeys() {
+		settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		suoFangValue = settings.getBoolean("suo_fang", false);
+		biaoChiValue = settings.getBoolean("biao_chi", true);
+		zhiNanZhenValue = settings.getBoolean("zhi_nan_zhen", true);
+		shouShiAllValue = settings.getBoolean("shou_shi_all", true);
+		shouShiRotateValue = settings.getBoolean("shou_shi_rotate", true);
+		shouShiScrollValue = settings.getBoolean("shou_shi_scroll", true);
+		shouShiTiltValue = settings.getBoolean("shou_shi_tilt", true);
+		shouShiSuoFangValue = settings.getBoolean("shou_shi_suo_fang", true);
 	}
 
 	private class MyLocation implements AMapLocationListener, LocationSource {

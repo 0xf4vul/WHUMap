@@ -44,10 +44,18 @@
     <string name="map_settings">地图设置</string>
     <string name="suo_fang">启用缩放按钮</string>
     <string name='suo_fang_detail'>是否在地图上显示+/-表示缩放</string>
-    <string name="biao_chi">启用标尺</string>
+    <string name="biao_chi">启用比例尺</string>
     <string name="biao_chi_detail">是否在地图上显示标尺</string>
     <string name="zhi_nan_zhen">启用指南针</string>
     <string name="zhi_nan_zhen_detail">是否在地图上显示指南针</string>
-    
-
+    <string name="shou_shi_all">启用所有手势</string>
+    <string name="shou_shi_all_detail">是否支持所有手势</string>
+    <string name="shou_shi_rotate">启用手势旋转</string>
+    <string name="shou_shi_rotate_detail">是否允许通过手势来旋转地图</string>
+    <string name="shou_shi_scroll">启用手势移动</string>
+    <string name="shou_shi_scroll_detail">是否允许通过手势移动地图</string>
+    <string name="shou_shi_tilt">启用手势倾斜</string>
+    <string name="shou_shi_tilt_detail">是否允许通过手势来倾斜地图</string>
+    <string name="shou_shi_suo_fang">启用手势缩放</string>
+    <string name="shou_shi_suo_fang_detail">是否允许通过手势来缩放地图</string>
 </resources>

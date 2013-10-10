@@ -1,19 +1,48 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-   <PreferenceCategory 
-       android:title="@string/map_settings"
-       android:key="map_settings">
-      <CheckBoxPreference
-          android:title="@string/suo_fang"
-          android:key="suo_fang"
-          android:summary="@string/suo_fang_detail"/> 
-      <CheckBoxPreference
-          android:title="@string/biao_chi"
-          android:key="biao_chi"	
-          android:defaultValue="true"
-          android:summary="@string/biao_chi_detail"/>
-      <CheckBoxPreference
-          android:title="@string/zhi_nan_zhen"
-          android:key="zhi_nan_zhen"
-          android:summary="@string/zhi_nan_zhen_detail"/>
-   </PreferenceCategory>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="map_settings"
+        android:title="@string/map_settings" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="suo_fang"
+            android:summary="@string/suo_fang_detail"
+            android:title="@string/suo_fang" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="biao_chi"
+            android:summary="@string/biao_chi_detail"
+            android:title="@string/biao_chi" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="zhi_nan_zhen"
+            android:summary="@string/zhi_nan_zhen_detail"
+            android:title="@string/zhi_nan_zhen" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shou_shi_all"
+            android:summary="@string/shou_shi_all_detail"
+            android:title="@string/shou_shi_all" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shou_shi_ratote"
+            android:summary="@string/shou_shi_rotate_detail"
+            android:title="@string/shou_shi_rotate" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shou_shi_scroll"
+            android:summary="@string/shou_shi_scroll_detail"
+            android:title="@string/shou_shi_scroll" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shou_shi_tile"
+            android:summary="@string/shou_shi_tilt_detail"
+            android:title="@string/shou_shi_tilt" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shou_shi_suo_fang"
+            android:summary="@string/shou_shi_suo_fang_detail"
+            android:title="@string/shou_shi_suo_fang" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
