@@ -4,11 +4,11 @@
     android:layout_height="fill_parent" >
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/xiao_qing_logo"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:layout_margin="14dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/xiaoqinglogo" />
 
     <RelativeLayout
         android:layout_width="match_parent"

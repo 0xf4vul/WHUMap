@@ -7,16 +7,6 @@
 	<dimen name="shadow_width">10dp</dimen>
 	<dimen name="slidingmenu_offset">150dp</dimen>
 	<dimen name="search_frame_text">30dp</dimen>
-	<dimen name="search_frame_margin_left">15dp</dimen>
-	<dimen name="search_frame_margin_right">15dp</dimen>
-	<dimen name="search_frame_margin_top">15dp</dimen>
-	<dimen name="search_frame_maring_bottom">15dp</dimen>
-	<dimen name="search_frame_maring">15dp</dimen>
-	<dimen name="search_frame_title_margin_left">10dp</dimen>
-	<dimen name="search_frame_title_margin_right">10dp</dimen>
-	<dimen name="search_frame_title_margin_top">10dp</dimen>
-	<dimen name="search_frame_title_margin_bottom">10dp</dimen>
-	<dimen name="search_frame_title_margin">10dp</dimen>
 	<dimen name="count_down_text_size">25dp</dimen>
 	<dimen name="count_down_days_size">45dp</dimen>
 	<dimen name="tab_padding_top_bottom">6.0dip</dimen>

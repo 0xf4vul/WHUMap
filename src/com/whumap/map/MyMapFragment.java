@@ -38,8 +38,6 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.geocoder.GeocodeAddress;
-import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
@@ -179,7 +177,7 @@ public class MyMapFragment extends Fragment {
 			aMap = mapView.getMap();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
 			myMapClick.initMyMapClick();
-			// myLocation.setUpMap();
+			myLocation.setUpMap();
 		}
 	}
 
@@ -343,7 +341,7 @@ public class MyMapFragment extends Fragment {
 			// 自定义系统定位小蓝点
 			MyLocationStyle myLocationStyle = new MyLocationStyle();
 			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
-					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
+					.fromResource(R.drawable.ic_position));// 设置小蓝点的图标
 			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
 			myLocationStyle.radiusFillColor(R.color.location_background);// 设置圆形的填充颜色
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
@@ -729,47 +727,47 @@ public class MyMapFragment extends Fragment {
 			MarkerS = 1;
 			mWHUQ = aMap.addMarker(new MarkerOptions().position(Constants.WHU1)
 					.title("宋卿体育馆").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUX = aMap.addMarker(new MarkerOptions().position(Constants.WHU5)
 					.title("行政楼").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUP = aMap.addMarker(new MarkerOptions().position(Constants.WHU6)
 					.title("牌楼").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUY = aMap.addMarker(new MarkerOptions().position(Constants.WHU7)
 					.title("六一纪念亭").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUZ = aMap.addMarker(new MarkerOptions().position(Constants.WHU8)
 					.title("老斋舍").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUT = aMap.addMarker(new MarkerOptions().position(Constants.WHU9)
 					.title("老图书馆").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUW = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU10).title("文法学院").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUL = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU11).title("理学院").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUG = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU12).title("工学院").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUB = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU13).title("半山庐").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUS = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU14).title("十八栋").snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory.fromAsset("arrow.png"))
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 		}
 
@@ -979,7 +977,7 @@ public class MyMapFragment extends Fragment {
 						markerOption.anchor(0.5f, 1);
 						markerOption.draggable(true);
 						markerOption.icon(BitmapDescriptorFactory
-								.fromAsset("arrow.png"));
+								.fromResource(R.drawable.ic_search));
 						mCurPoint = aMap.addMarker(markerOption);
 						islongclick = false;
 					} else if (isclick = true) {
@@ -989,7 +987,7 @@ public class MyMapFragment extends Fragment {
 						markerOption.anchor(0.5f, 1);
 						markerOption.draggable(true);
 						markerOption.icon(BitmapDescriptorFactory
-								.fromAsset("arrow.png"));
+								.fromResource(R.drawable.ic_search));
 						mCurPoint = aMap.addMarker(markerOption);
 						islongclick = false;
 						System.out.println(buildingName);

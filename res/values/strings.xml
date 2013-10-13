@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WHUMap</string>
+    <string name="app_name">珞珈足迹</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_menu_fragment">MenuFragment</string>
-    <string name="title_activity_base">BaseActivity</string>
-    <string name="title_activity_test">TestActivity</string>
-    <string name="normal">Normal</string>
-    <string name="satellite">Satellite</string>
-    <string name="title_activity_search_frame">SearchFrameActivity</string>
-    <string name="search_position">搜位置</string>
-    <string name="search_route">搜路线</string>
+    <string name="title_activity_search_frame">地图搜索</string>
+    <string name="search_position">位置搜索</string>
+    <string name="search_route">路线搜索</string>
     <string name="my_position">我的位置</string>
     <string name="search_text">搜索</string>
     <string name="search_the_route">查找路线</string>
     <string name="input_destination">输入终点</string>
     <string name="count_down_text_1">距离校庆</string>
     <string name="count_down_text_2">天</string>
-    <string name="search_position">搜位置</string>
     <string name="no_result">对不起，没有搜索到相关数据！</string>
     <string name="error_network">搜索失败,请检查网络连接！</string>
     <string name="load_ing">加载中···</string>
     <string name="get_data_error">获取数据失败，请重试</string>
-    <string name="title_activity_article">ArticleActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_building">BuildingActivity</string>
+    <string name="title_activity_building">珞珈风光</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -36,9 +29,8 @@
     <string name="fail_to_send_email">对不起，请检查是否安装了Email Apps!</string>
     <string name="contribute">没有新文章啦，点击右上角去投稿吧~！</string>
     <string name="contribute_title">投稿</string>
-    <string name="title_activity_whuzheng_wen">WHUZhengWenActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_whuzheng_wen">校庆征文</string>
+    <string name="title_activity_settings">功能设置</string>
     
     <!-- 以下为settingsActivity中用到的一些设置名称 -->
     <string name="map_settings">地图设置</string>

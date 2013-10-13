@@ -49,8 +49,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	/**功能导航名称*/
 	private String[] functions;
 	/** 用来存储从SharePreference中取得的值，当每次切换到MyMapFragment时将该参数传入MyMapFragment用来出初始化地图的基本设置*/
-	private int[] imageIds = { R.drawable.ic_map,R.drawable.ic_calendar,
-				R.drawable.ic_article,R.drawable.ic_view};
+	private int[] imageIds = { R.drawable.ic_menu_map,R.drawable.ic_menu_calendar,
+				R.drawable.ic_menu_contribute,R.drawable.ic_menu_view};
 	
 	private Bundle data = new Bundle();
 	/** 设置界面中各种键通过SharePreference取得的值，获取后传入MyMapFragment*/

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#cccccc">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:background="@color/search_activity_background">   
+
+        <ImageView
+            android:id="@+id/search_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_for_search"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/search_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_position"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp" 
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/search_frame_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        
+        <AutoCompleteTextView
+            android:id="@+id/search_position_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/search_text" >
+        </AutoCompleteTextView>
+        
+        <Button
+            android:id="@+id/search_postition_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="@string/search_text"
+            android:background="@color/search_activity_background"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#cccccc">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" 
+	        android:background="@color/search_activity_background" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_for_route" 
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+		        android:id="@+id/search_route"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="15dp"
+		        android:layout_marginBottom="5dp"
+		        android:text="@string/search_route"
+		        android:textSize="@dimen/search_frame_text" />
+	
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+	        <AutoCompleteTextView
+		        android:id="@+id/search_route_my_position"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="15dp"
+		        android:layout_marginTop="15dp"
+		        android:ems="10"
+		        android:hint="@string/my_position" 
+		        android:textColorHint="@color/text_hint_color">
+		    </AutoCompleteTextView>
+		    
+            <AutoCompleteTextView
+		        android:id="@+id/search_route_destination_position"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="15dp"
+		        android:layout_marginTop="10dp"
+		        android:ems="10"
+		        android:hint="@string/input_destination" >
+		    </AutoCompleteTextView>
+		
+		    <Button
+		        android:id="@+id/search_the_route"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="15dp"
+		        android:layout_marginRight="15dp"
+		        android:text="@string/search_the_route"
+		        android:background="@color/search_activity_background"
+		        android:layout_marginBottom="5dp" />
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+</LinearLayout>

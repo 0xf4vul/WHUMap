@@ -2,7 +2,6 @@ package com.whumap.activity;
 
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.whumap.zhengwenutils.GetDetailArticle;
 
@@ -29,11 +28,6 @@ public class WHUZhengWenActivity extends SherlockActivity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.whuzheng_wen, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

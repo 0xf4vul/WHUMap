@@ -34,13 +34,12 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 	private String keyWord = "";// poi搜索关键字
 	private String strStart = "";
 	private String strEnd = "";
-	private String back = "";
 	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.search_frame);
+		setContentView(R.layout.search_activity);
 		findViewById(); // 初始化搜索界面中的所有按钮
 		searchRoute.setOnClickListener(this);
 		searchButton.setOnClickListener(this);
