@@ -133,10 +133,9 @@ public class MyMapFragment extends Fragment {
 	private LatLng mbuildingPoint;
 
 	// 定义功能按钮图片
-	private int[] imgResId = { R.drawable.composer_camera,
-			R.drawable.composer_music, R.drawable.composer_place,
-			R.drawable.composer_sleep, R.drawable.composer_sun,
-			R.drawable.composer_thought };
+	private int[] imgResId = { R.drawable.ic_circlebutton_layer,
+			R.drawable.ic_circlebutton_position, R.drawable.ic_circlebutton_search,
+			R.drawable.ic_circlebutton_view, R.drawable.ic_circlebutton_volunteer};
 
 	private SharedPreferences settings;
 	private Boolean suoFangValue;
@@ -191,8 +190,8 @@ public class MyMapFragment extends Fragment {
 	private void initCircleButton() {
 
 		circleButton = (CircleButton) v.findViewById(R.id.test);
-		circleButton.init(imgResId, R.drawable.composer_button,
-				R.drawable.composer_icn_plus, CircleButton.RIGHTCENTER, 180,
+		circleButton.init(imgResId, R.drawable.ic_circlebutton_bg,
+				R.drawable.ic_circlebutton_foot, CircleButton.RIGHTCENTER, 180,
 				300);
 		// 为菜单的子按钮添加点击监听,将地图的每个功能写在对应的按钮Id中
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
@@ -1005,13 +1004,11 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onMapClick(LatLng arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onGeocodeSearched(GeocodeResult arg0, int arg1) {
-			// TODO Auto-generated method stub
 
 		}
 

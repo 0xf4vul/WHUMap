@@ -20,7 +20,7 @@
     <color name="schedule_time_color">#8833CCFF</color>
     <color name="drawable_whu_history_item_background">#eacd0f</color>
     <color name="layout_whu_history_frame_background">#b8b8b8</color>
-    <color name="action_bar_background">#E60039</color>
+    <color name="action_bar_background">#CC0000</color>
     <color name="action_bar_tab_background">#00B8F5</color>
     <color name="action_bar_tab_text">#ffffff</color>
 </resources>

@@ -248,7 +248,7 @@ public class CaldroidGridAdapter extends BaseAdapter {
 			}
 
 			if (dateTime.equals(getToday())) {
-				cellView.setBackgroundResource(R.drawable.red_border_gray_bg);
+				cellView.setBackgroundResource(R.color.caldroid_gray);
 			}
 		} else {
 			shouldResetDiabledView = true;

@@ -2,33 +2,35 @@ package com.whumap.activity;
 
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.whumap.fragment.CalendarActiveFragment;
-import com.whumap.fragment.WHUZhengWenFragment;
 import com.whumap.fragment.WHUHistoryFragment;
+import com.whumap.fragment.WHUZhengWenFragment;
 import com.whumap.map.MyMapFragment;
 import com.whumap.util.CountDownDate;
 import com.whumap.util.ToastUtil;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class ContentFrameActivity extends SlidingFragmentActivity{
 
@@ -43,9 +45,13 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	private CalendarActiveFragment calendarFragment;
 	private WHUHistoryFragment wHUHistoryFragment;
 	private WHUZhengWenFragment whuZhengWenFragment;
+	private List<Map<String,Object>> listItems = new ArrayList<Map<String,Object>>();
 	/**功能导航名称*/
 	private String[] functions;
 	/** 用来存储从SharePreference中取得的值，当每次切换到MyMapFragment时将该参数传入MyMapFragment用来出初始化地图的基本设置*/
+	private int[] imageIds = { R.drawable.ic_map,R.drawable.ic_calendar,
+				R.drawable.ic_article,R.drawable.ic_view};
+	
 	private Bundle data = new Bundle();
 	/** 设置界面中各种键通过SharePreference取得的值，获取后传入MyMapFragment*/
 	
@@ -100,9 +106,15 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	 */
 	private void initLeftMenu()	 {
 		
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.left_menu_layout,R.id.left_menu_text,functions);
+		for(int i=0;i<4;i++) {
+			Map<String,Object> listItem = new HashMap<String, Object>();
+			listItem.put("image", imageIds[i]);
+			listItem.put("title", functions[i]);
+			listItems.add(listItem);
+		}
+		SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.left_menu_layout,
+				new String[] { "image" , "title" },
+				new int[] {R.id.left_menu_image,R.id.left_menu_text});
 		leftMenu.setAdapter(adapter);
 	}
 	
