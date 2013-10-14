@@ -1,0 +1,31 @@
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory
+            android:key="team"
+            android:title="@string/team">
+            <Preference
+                android:key="team_name"
+                android:title="@string/team_name"
+                android:summary="@string/team_name_detail"/>
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:key="member"
+            android:title="@string/member">
+            <Preference 
+                android:key="member_one"
+                android:title="@string/member_name_one"
+                android:summary="@string/menuber_name_one_detail"/>
+            <Preference 
+                android:key="member_two"
+                android:title="@string/member_name_two"
+                android:summary="@string/member_name_two_detail"/>
+        </PreferenceCategory>
+        <PreferenceCategory 
+            android:key="contact"
+            android:title="@string/contact">
+            <Preference 
+                android:key="email"
+                android:title="@string/send_email"
+                android:summary="@string/contact_detail"/>
+        </PreferenceCategory>
+</PreferenceScreen>

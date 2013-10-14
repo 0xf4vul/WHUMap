@@ -4,24 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
-    android:background="#3d3d3d">
+    android:background="#999999">
 	
-    <TableRow 
+    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ccdd00">
-        
+        android:orientation="vertical">
         <TextView 
-            android:layout_width="match_parent"	
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="武汉大学"
-            android:textSize="36dp" 
-            android:gravity="center"/>
-    </TableRow>
+            android:layout_gravity="center"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:textColor="@color/action_bar_background"
+            android:textSize="21sp"
+            android:text="珞珈传雅韵     百甘聚归鸿"/>
+        <!--
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:textColor="@color/action_bar_background"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:text="百甘聚归鸿"/>
+          -->
+        
+    </LinearLayout>
     <ListView
         android:id="@+id/menulist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:dividerHeight="0dp"
         android:layout_marginBottom="10dp" />
     
     

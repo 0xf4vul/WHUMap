@@ -363,7 +363,7 @@ public class MyMapFragment extends Fragment {
 			// 自定义系统定位小蓝点
 			MyLocationStyle myLocationStyle = new MyLocationStyle();
 			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
-					.fromResource(R.drawable.ic_position));// 设置小蓝点的图标
+					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
 			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
 			myLocationStyle.radiusFillColor(R.color.location_background);// 设置圆形的填充颜色
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
@@ -429,7 +429,6 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
 
 		}
 	}

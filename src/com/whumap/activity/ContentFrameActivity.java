@@ -127,10 +127,10 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 		setTitle(functions[0]);
 		slidingMenu = getSlidingMenu();
 		slidingMenu.setMode(SlidingMenu.LEFT);
-		slidingMenu.setShadowDrawable(R.drawable.shadow);
+//		slidingMenu.setShadowDrawable(R.drawable.shadow);
 		slidingMenu.setShadowWidthRes(R.dimen.shadow_width);
 		slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		slidingMenu.setFadeDegree(0.35f);
+//		slidingMenu.setFadeDegree(0.35f);
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		getSupportActionBar().setHomeButtonEnabled(true);
 	}
@@ -228,6 +228,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			toggle();
 			return true;
 		case R.id.about:
+			Intent toAbout = new Intent(ContentFrameActivity.this,AboutUsActivity.class);
+			startActivity(toAbout);
 			break;
 		case R.id.feedback:
 			final Intent myEmail = new Intent(android.content.Intent.ACTION_SENDTO);

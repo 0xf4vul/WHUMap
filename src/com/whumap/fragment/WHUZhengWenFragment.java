@@ -53,7 +53,11 @@ public class WHUZhengWenFragment extends Fragment{
 		refreshView.setMode(Mode.BOTH);
 		actuallListView = refreshView.getRefreshableView();
 		registerForContextMenu(actuallListView);
+//		MyRefreshListViewListener refreshListener = new MyRefreshListViewListener();
+//		refreshListener.onPullDownToRefresh(refreshView);
 		new MyAsyncTask().execute(0);
+		refreshView.demo();
+		refreshView.setRefreshing(true);
 		initListView();
 		setListener();
 		return view;

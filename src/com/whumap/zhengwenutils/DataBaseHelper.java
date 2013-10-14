@@ -13,7 +13,6 @@ import android.util.Log;
 
 public class DataBaseHelper extends SQLiteOpenHelper{
 
-	private static DataBaseHelper dataBaseHelper;
 	private static final String DATABASE_NAME="whuzhengwen.database";
 	private static final int DATEBASE_VERSION=1;
 	private static final String CREATE_TABLE_NEWSLIST = "CREATE TABLE IF NOT EXISTS newslist" +

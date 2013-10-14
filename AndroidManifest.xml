@@ -29,7 +29,8 @@
 
         <activity
             android:name="com.whumap.activity.ContentFrameActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:logo="@drawable/ic_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,6 +56,10 @@
         <activity
             android:name="com.whumap.activity.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.whumap.activity.AboutUsActivity"
+            android:label="@string/title_activity_about_us" >
         </activity>
     </application>
 
