@@ -516,7 +516,6 @@ public class MyMapFragment extends Fragment {
 						// 取得搜索到的poiitems有多少页
 						List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
 						if (poiItems != null && poiItems.size() > 0) {
-							myLocation.setMapMarker();
 							PoiOverlay poiOverlay = new PoiOverlay(aMap,
 									poiItems);
 							poiOverlay.removeFromMap();
