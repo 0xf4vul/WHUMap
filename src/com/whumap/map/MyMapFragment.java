@@ -1,6 +1,8 @@
 package com.whumap.map;
 
 import java.util.List;
+
+import android.R.bool;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -115,7 +117,7 @@ public class MyMapFragment extends Fragment {
 	private Marker mWHUS;
 	private Marker mWHUZ;
 	private Marker mWHUB;
-	private Marker mCurPoint;
+	private Marker mCurPoint = null;
 	private int MarkerS = 0;
 	private int MarkerV = 0;
 	private BuildingMarker mBuildingMarker;
@@ -132,9 +134,7 @@ public class MyMapFragment extends Fragment {
 
 	private MyMapClick myMapClick;
 	private String addressName;
-	private String buildingName;
 	private GeocodeSearch geocoderSearch;
-	private MarkerOptions markerOption;
 	private LatLng mpositionLatLng;
 
 	// 定义功能按钮图片
@@ -261,6 +261,7 @@ public class MyMapFragment extends Fragment {
 				if (MarkerS == 0) {
 					if (MarkerV == 1) {
 						mVolunteerMarker.removeVolunteerMarker();
+						MarkerV = 0;
 					}
 					mBuildingMarker.addBuildingMarker();
 					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUM));
@@ -272,6 +273,7 @@ public class MyMapFragment extends Fragment {
 				if (MarkerV == 0) {
 					if (MarkerS == 1) {
 						mBuildingMarker.removeBuildingMarker();
+						MarkerS = 0;
 					}
 					mVolunteerMarker.addVolunteerMarker();
 					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUM));
@@ -958,7 +960,10 @@ public class MyMapFragment extends Fragment {
 		public void onMapLongClick(LatLng point) {
 			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
-			mCurPoint.remove();
+
+			if (mCurPoint != null) {
+				mCurPoint.remove();
+			}
 			// aMap.setOnMapClickListener(this);
 			double lat = point.latitude;
 			double lon = point.longitude;
