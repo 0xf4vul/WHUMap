@@ -38,6 +38,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
@@ -135,10 +136,6 @@ public class MyMapFragment extends Fragment {
 	private GeocodeSearch geocoderSearch;
 	private MarkerOptions markerOption;
 	private LatLng mpositionLatLng;
-	private Boolean islongclick = false;
-	private Boolean isclick = false;
-	private LatLonPoint buildingPoint;
-	private LatLng mbuildingPoint;
 
 	// 定义功能按钮图片
 	private int[] imgResId = { R.drawable.ic_circlebutton_layer,
@@ -188,9 +185,8 @@ public class MyMapFragment extends Fragment {
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
-			myMapClick.initMyMapClick();
+
 			myLocation.setUpMap();
-			aMap.getMyLocation();
 		}
 	}
 
@@ -206,13 +202,13 @@ public class MyMapFragment extends Fragment {
 				300);
 		// 为菜单的子按钮添加点击监听,将地图的每个功能写在对应的按钮Id中
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
-
 	}
 
 	@Override
 	public void onResume() {
 		getSettingsKeys();
 		SettingsUI();
+		myMapClick.initMyMapClick();
 		super.onResume();
 		mapView.onResume();
 
@@ -256,7 +252,6 @@ public class MyMapFragment extends Fragment {
 			if (v.getId() == BASIC_CHILD_BUTTON_ID + 0) {
 				setLayer();
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
-				myLocation.setUpMap();
 				aMap.animateCamera(CameraUpdateFactory.changeLatLng(CUR));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
 				Intent intent = new Intent(getActivity(),
@@ -264,20 +259,24 @@ public class MyMapFragment extends Fragment {
 				startActivityForResult(intent, 0);
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 3) {
 				if (MarkerS == 0) {
+					if (MarkerV == 1) {
+						mVolunteerMarker.removeVolunteerMarker();
+					}
 					mBuildingMarker.addBuildingMarker();
 					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUM));
 				} else {
-					aMap.clear();
-					myLocation.setUpMap();
+					mBuildingMarker.removeBuildingMarker();
 					MarkerS = 0;
 				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 4) {
 				if (MarkerV == 0) {
+					if (MarkerS == 1) {
+						mBuildingMarker.removeBuildingMarker();
+					}
 					mVolunteerMarker.addVolunteerMarker();
 					aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUM));
 				} else {
-					aMap.clear();
-					myLocation.setUpMap();
+					mVolunteerMarker.removeVolunteerMarker();
 					MarkerV = 0;
 				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 5) {
@@ -358,10 +357,9 @@ public class MyMapFragment extends Fragment {
 		private OnLocationChangedListener mListener;
 		private LocationManagerProxy mAMapLocationManager;
 
-		public void setUpMap() {
-
-			// 自定义系统定位小蓝点
+		public void setMapMarker() {
 			MyLocationStyle myLocationStyle = new MyLocationStyle();
+			// 自定义系统定位小蓝点
 			myLocationStyle.myLocationIcon(BitmapDescriptorFactory
 					.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
 			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
@@ -369,6 +367,10 @@ public class MyMapFragment extends Fragment {
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
 			myLocationStyle.strokeWidth(2);// 设置圆形的边框粗细
 			aMap.setMyLocationStyle(myLocationStyle);
+		}
+
+		public void setUpMap() {
+			setMapMarker();
 			aMap.setLocationSource(this);// 设置定位监听
 			aMap.getUiSettings().setMyLocationButtonEnabled(false);//
 			aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
@@ -493,7 +495,12 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			marker.showInfoWindow();
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			} else {
+				marker.showInfoWindow();
+			}
+			endPoint = AMapUtil.convertToLatLonPoint(marker.getPosition());
 			return false;
 		}
 
@@ -507,17 +514,25 @@ public class MyMapFragment extends Fragment {
 						// 取得搜索到的poiitems有多少页
 						List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
 						if (poiItems != null && poiItems.size() > 0) {
-							aMap.clear();// 清理之前的图标
+							myLocation.setMapMarker();
 							PoiOverlay poiOverlay = new PoiOverlay(aMap,
 									poiItems);
 							poiOverlay.removeFromMap();
 							poiOverlay.addToMap();
 							poiOverlay.zoomToSpan();
+						} else {
+							ToastUtil.showLong(getActivity(),
+									R.string.no_result);
 						}
 					}
+				} else {
+					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
+			} else {
+				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
+
 	}
 
 	/**
@@ -547,7 +562,6 @@ public class MyMapFragment extends Fragment {
 						&& result.getPaths().size() > 0) {
 					walkRouteResult = result;
 					WalkPath walkPath = walkRouteResult.getPaths().get(0);
-					aMap.clear();// 清理地图上的所有覆盖物
 					WalkRouteOverlay walkRouteOverlay = new WalkRouteOverlay(
 							getActivity(), aMap, walkPath,
 							walkRouteResult.getStartPos(),
@@ -742,6 +756,20 @@ public class MyMapFragment extends Fragment {
 	private class BuildingMarker implements OnMarkerClickListener,
 			OnInfoWindowClickListener, InfoWindowAdapter {
 
+		private void removeBuildingMarker() {
+			mWHUQ.remove();
+			mWHUX.remove();
+			mWHUP.remove();
+			mWHUY.remove();
+			mWHUZ.remove();
+			mWHUT.remove();
+			mWHUW.remove();
+			mWHUL.remove();
+			mWHUG.remove();
+			mWHUB.remove();
+			mWHUS.remove();
+		}
+
 		private void addBuildingMarker() {
 			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
@@ -859,6 +887,11 @@ public class MyMapFragment extends Fragment {
 				imageId = 9;
 			else if (marker.equals(mWHUS))
 				imageId = 10;
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			} else {
+				marker.showInfoWindow();
+			}
 			return false;
 		}
 
@@ -916,24 +949,21 @@ public class MyMapFragment extends Fragment {
 
 		private void initMyMapClick() {
 			aMap.setOnMapLongClickListener(this);
-			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
-			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
 			aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
-			// aMap.setOnMapClickListener(this);
 			geocoderSearch = new GeocodeSearch(getActivity());
 			geocoderSearch.setOnGeocodeSearchListener(this);
 		}
 
 		@Override
 		public void onMapLongClick(LatLng point) {
-
+			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
+			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+			mCurPoint.remove();
+			// aMap.setOnMapClickListener(this);
 			double lat = point.latitude;
 			double lon = point.longitude;
 			getAddress(new LatLonPoint(lat, lon));
 			mpositionLatLng = point;
-			aMap.clear();
-			myLocation.setUpMap();
-			islongclick = true;
 		}
 
 		//
@@ -998,10 +1028,20 @@ public class MyMapFragment extends Fragment {
 			endPoint = AMapUtil.convertToLatLonPoint(mCurPoint.getPosition());
 			mySearchRoute = new MySearchRoute();
 			mySearchRoute.searchRouteResult(startPoint, endPoint);
+			return;
 		}
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			} else {
+				marker.showInfoWindow();
+			}
+			if (marker.equals(mCurPoint)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mCurPoint
+						.getPosition());
+			}
 			return false;
 		}
 
@@ -1025,29 +1065,13 @@ public class MyMapFragment extends Fragment {
 						&& result.getRegeocodeAddress().getFormatAddress() != null) {
 					addressName = result.getRegeocodeAddress()
 							.getFormatAddress();
-					buildingName = result.getRegeocodeAddress().getBuilding();
-					if (islongclick == true) {
-						markerOption = new MarkerOptions();
-						markerOption.position(mpositionLatLng);
-						markerOption.title(addressName).snippet("点击去那里~");
-						markerOption.anchor(0.5f, 1);
-						markerOption.draggable(true);
-						markerOption.icon(BitmapDescriptorFactory
-								.fromResource(R.drawable.ic_search));
-						mCurPoint = aMap.addMarker(markerOption);
-						islongclick = false;
-					} else if (isclick = true) {
-						markerOption = new MarkerOptions();
-						markerOption.position(mbuildingPoint);
-						markerOption.title(buildingName).snippet("点击去那里~");
-						markerOption.anchor(0.5f, 1);
-						markerOption.draggable(true);
-						markerOption.icon(BitmapDescriptorFactory
-								.fromResource(R.drawable.ic_search));
-						mCurPoint = aMap.addMarker(markerOption);
-						islongclick = false;
-						System.out.println(buildingName);
-					}
+					mCurPoint = aMap.addMarker(new MarkerOptions()
+							.position(mpositionLatLng)
+							.title(addressName)
+							.snippet("点击到那去~")
+							.icon(BitmapDescriptorFactory
+									.fromResource(R.drawable.ic_search)));
+
 				} else {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
@@ -1071,6 +1095,16 @@ public class MyMapFragment extends Fragment {
 	private class VolunteerMarker implements OnMarkerClickListener,
 			OnInfoWindowClickListener, InfoWindowAdapter {
 
+		private void removeVolunteerMarker() {
+			mWHU1.remove();
+			mWHU2.remove();
+			mWHU3.remove();
+			mWHU4.remove();
+			mWHU5.remove();
+			mWHU6.remove();
+			mWHU7.remove();
+		}
+
 		private void addVolunteerMarker() {
 			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
@@ -1078,50 +1112,50 @@ public class MyMapFragment extends Fragment {
 			MarkerV = 1;
 			mWHU1 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV1)
-					.title("1")
-					.snippet("志愿者")
+					.title("志愿者1")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU2 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV2)
-					.title("2")
-					.snippet("志愿者")
+					.title("志愿者2")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU4 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV3)
-					.title("3")
-					.snippet("志愿者")
+					.title("志愿者3")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU5 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV4)
-					.title("4")
-					.snippet("志愿者")
+					.title("志愿者4")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU6 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV5)
-					.title("5")
-					.snippet("志愿者")
+					.title("志愿者5")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU7 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV6)
-					.title("6")
-					.snippet("志愿者")
+					.title("志愿者6")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU3 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV7)
-					.title("7")
-					.snippet("志愿者")
+					.title("志愿者7")
+					.snippet("点击到那去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
@@ -1146,12 +1180,35 @@ public class MyMapFragment extends Fragment {
 		}
 
 		@Override
-		public void onInfoWindowClick(Marker arg0) {
-
+		public void onInfoWindowClick(Marker marker) {
+			startPoint = CURP;
+			mySearchRoute = new MySearchRoute();
+			mySearchRoute.searchRouteResult(startPoint, endPoint);
+			return;
 		}
 
 		@Override
-		public boolean onMarkerClick(Marker arg0) {
+		public boolean onMarkerClick(Marker marker) {
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			} else {
+				marker.showInfoWindow();
+			}
+			if (marker.equals(mWHU1)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU1.getPosition());
+			} else if (marker.equals(mWHU2)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU2.getPosition());
+			} else if (marker.equals(mWHU3)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU3.getPosition());
+			} else if (marker.equals(mWHU4)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU4.getPosition());
+			} else if (marker.equals(mWHU5)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU5.getPosition());
+			} else if (marker.equals(mWHU6)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU6.getPosition());
+			} else if (marker.equals(mWHU6)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHU7.getPosition());
+			}
 			return false;
 		}
 
