@@ -24,10 +24,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.whumap.activity.R;
 import com.whumap.activity.WHUZhengWenActivity;
 import com.whumap.util.ToastUtil;
-import com.whumap.zhengwenutils.GetNewsListService;
-import com.whumap.zhengwenutils.News;
+import com.whumap.zhengwenutils.Article;
 import com.whumap.zhengwenutils.NewsListDataBaseService;
 import com.whumap.zhengwenutils.ObjectListToHashMap;
+import com.whumap.zhengwenutils.SetNews;
 
 public class WHUZhengWenFragment extends Fragment{
 
@@ -42,7 +42,6 @@ public class WHUZhengWenFragment extends Fragment{
 	private int page_load = 1;
 	/**在上一次加载征文时记录加载的文章数，当再次刷新第一页时与上一次加载的做判断，如果增加了再把它加进去*/
 	private int lastPageSize = 0;
-	private boolean firstInit = true;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,7 +101,7 @@ public class WHUZhengWenFragment extends Fragment{
 	 */
 	public List<HashMap<String,Object>> getNewsListByDatabase(String type){
 		List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
-		List<News> newss = NewsListDataBaseService.getNewsList(getActivity(), type);
+		List<Article> newss = NewsListDataBaseService.getNewsList(getActivity(), type);
 		list = ObjectListToHashMap.newsListToHashMapList(newss);
 		if(list.size()>0){
 			newsMaps.clear();
@@ -110,11 +109,11 @@ public class WHUZhengWenFragment extends Fragment{
 		return list;
 	}
 	
-	private class MyAsyncTask extends AsyncTask<Integer, String, List<News>> {
+	private class MyAsyncTask extends AsyncTask<Integer, String, List<Article>> {
 
 		@Override
-		protected List<News> doInBackground(Integer... arg0) {
-			List<News> list = GetNewsListService.getNewsList(page_load);
+		protected List<Article> doInBackground(Integer... arg0) {
+			List<Article> list = SetNews.getNewsList(page_load);
 			if(page_load==1 && list.size()>0 ) {
 				NewsListDataBaseService.addNewsList(list, getActivity(),arg0[0]+"");
 			}
@@ -122,7 +121,7 @@ public class WHUZhengWenFragment extends Fragment{
 		}
 		
 		@Override
-		protected void onPostExecute(List<News> list) {
+		protected void onPostExecute(List<Article> list) {
 			if(list.size()<1){
 				ToastUtil.showLong(getActivity(), R.string.contribute);
 			}else{

@@ -1,6 +1,6 @@
 package com.whumap.zhengwenutils;
 
-public class News {
+public class Article {
 
 	private String title;
 	private String date;

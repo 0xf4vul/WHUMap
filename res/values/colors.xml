@@ -26,4 +26,5 @@
     <color name="search_activity_background">#33B5E5</color>
     <color name="left_menu_item_secleted">#336699</color>
     <color name="left_menu_item_unsecleted">#0099cc</color>
+    <color name="left_menu_background">#dd1F1F1F</color>
 </resources>

@@ -32,12 +32,12 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 		
 	}
 	
-	public boolean isExist(News news){
+	public boolean isExist(Article article){
 		boolean isexist=true;
 		SQLiteDatabase sq = this.getReadableDatabase();
 		Cursor cursor = sq.query("newslist", new String[] { "title",
 				"details", "url"}, "url=?",
-				new String[] { news.getUrl()}, null, null, null);
+				new String[] { article.getUrl()}, null, null, null);
 		if(cursor.getCount()==0){
 			isexist=false;
 		}
@@ -53,39 +53,39 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 		sqLiteDatabase.close();
 	}
 	
-	public List<News> getNewsListByType(String type){
-		List<News> list = new ArrayList<News>();
+	public List<Article> getNewsListByType(String type){
+		List<Article> list = new ArrayList<Article>();
 		SQLiteDatabase sqLiteDatabase = getReadableDatabase();
 		Cursor cursor = sqLiteDatabase.query("newslist", new String[] { "title",
 				"details", "url", "date" ,"last_date"}, "type=?",
 				new String[] { type }, null, null, null);
 		while (cursor.moveToNext()) {
-			News news = new News();
-			news.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-			news.setDetails(cursor.getString(cursor.getColumnIndex("details")));
-			news.setUrl(cursor.getString(cursor.getColumnIndex("url")));
-			news.setDate(cursor.getString(cursor.getColumnIndex("date")));
-			news.setLast_date(cursor.getString(cursor.getColumnIndex("last_date")));
-			list.add(news);
+			Article article = new Article();
+			article.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+			article.setDetails(cursor.getString(cursor.getColumnIndex("details")));
+			article.setUrl(cursor.getString(cursor.getColumnIndex("url")));
+			article.setDate(cursor.getString(cursor.getColumnIndex("date")));
+			article.setLast_date(cursor.getString(cursor.getColumnIndex("last_date")));
+			list.add(article);
 		}
 		sqLiteDatabase.close();
 		return list;
 	}
 
-	public void addNewsList(List<News> list,String type){
-		for(News news:list){
-			addNews(news,type);
+	public void addNewsList(List<Article> list,String type){
+		for(Article article:list){
+			addNews(article,type);
 		}
 	}
 
-	public void addNews(News news,String type){
+	public void addNews(Article article,String type){
 		ContentValues value = new ContentValues();
-		if (!isExist(news)) {
+		if (!isExist(article)) {
 			value.put("type", type);
-			value.put("title", news.getTitle());
-			value.put("details", news.getDetails());
-			value.put("url", news.getUrl());
-			value.put("date", news.getDate());
+			value.put("title", article.getTitle());
+			value.put("details", article.getDetails());
+			value.put("url", article.getUrl());
+			value.put("date", article.getDate());
 			value.put("last_date", new Date().toLocaleString());
 			SQLiteDatabase sqLiteDatabase=getWritableDatabase();
 			if(sqLiteDatabase!=null){
