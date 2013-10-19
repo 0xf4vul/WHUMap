@@ -104,7 +104,7 @@ public class MyMapFragment extends Fragment {
 	private int walkMode = RouteSearch.WalkDefault;// 步行默认模式
 	private WalkRouteResult walkRouteResult;// 步行模式查询结果
 	private RouteSearch routeSearch;
-	private LatLonPoint CURP;
+	private LatLonPoint CURP = null;
 
 	private Marker mWHUQ;
 	private Marker mWHUX;
@@ -185,8 +185,29 @@ public class MyMapFragment extends Fragment {
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			aMap.moveCamera(CameraUpdateFactory.newCameraPosition(WHUS));
+			if (CURP == null) {
+				showLocationDialog();
+				myLocation.setUpMap();
+			}
+			if (CURP != null) {
+				dissmissLocationDialog();
+			}
+		}
+	}
 
-			myLocation.setUpMap();
+	private void showLocationDialog() {
+		if (progDialog == null)
+			progDialog = new ProgressDialog(getActivity());
+		progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progDialog.setIndeterminate(false);
+		progDialog.setCancelable(true);
+		progDialog.setMessage("正在定位");
+		progDialog.show();
+	}
+
+	private void dissmissLocationDialog() {
+		if (progDialog != null) {
+			progDialog.dismiss();
 		}
 	}
 
@@ -254,9 +275,14 @@ public class MyMapFragment extends Fragment {
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
 				aMap.animateCamera(CameraUpdateFactory.changeLatLng(CUR));
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
-				Intent intent = new Intent(getActivity(),
-						SearchFrameActivity.class);
-				startActivityForResult(intent, 0);
+				if (CURP != null) {
+					Intent intent = new Intent(getActivity(),
+							SearchFrameActivity.class);
+					startActivityForResult(intent, 0);
+				} else {
+					ToastUtil.showLong(getActivity(), R.string.no_location);
+					myLocation.setUpMap();
+				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 3) {
 				if (MarkerS == 0) {
 					if (MarkerV == 1) {
@@ -309,6 +335,10 @@ public class MyMapFragment extends Fragment {
 			if (!("".equals(strEnd))) {
 				mySearchRoute = new MySearchRoute();
 				if ("我的位置".equals(strStart)) {
+					if (CURP == null) {
+						ToastUtil.showLong(getActivity(), R.string.no_location);
+						myLocation.setUpMap();
+					}
 					startPoint = CURP;
 					mySearchRoute.endSearchResult();
 				} else {
@@ -526,8 +556,6 @@ public class MyMapFragment extends Fragment {
 									R.string.no_result);
 						}
 					}
-				} else {
-					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
 				ToastUtil.showLong(getActivity(), R.string.error_network);
@@ -1028,6 +1056,10 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onInfoWindowClick(Marker marker) {
+			if (CURP == null) {
+				ToastUtil.showLong(getActivity(), R.string.no_location);
+				myLocation.setUpMap();
+			}
 			startPoint = CURP;
 			endPoint = AMapUtil.convertToLatLonPoint(mCurPoint.getPosition());
 			mySearchRoute = new MySearchRoute();
@@ -1185,6 +1217,10 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onInfoWindowClick(Marker marker) {
+			if (CURP == null) {
+				ToastUtil.showLong(getActivity(), R.string.no_location);
+				myLocation.setUpMap();
+			}
 			startPoint = CURP;
 			mySearchRoute = new MySearchRoute();
 			mySearchRoute.searchRouteResult(startPoint, endPoint);
