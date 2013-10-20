@@ -350,7 +350,8 @@ public class MyMapFragment extends Fragment {
 				}
 			}
 		} else if (requestCode == 0 && resultCode == 1) {
-			return;
+			aMap.clear();
+			myLocation.setUpMap();
 		}
 	}
 
