@@ -203,10 +203,9 @@ public class MyMapFragment extends Fragment {
 		circleButton = (CircleButton) v.findViewById(R.id.test);
 		circleButton.init(imgResId, R.drawable.ic_circlebutton_bg,
 				R.drawable.ic_circlebutton_foot, CircleButton.RIGHTCENTER, 180,
-				300);
+				360);
 		// 为菜单的子按钮添加点击监听,将地图的每个功能写在对应的按钮Id中
 		circleButton.setChildOnClickListener(new CircleChildButtonOnClick());
-
 	}
 
 	@Override

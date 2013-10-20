@@ -242,6 +242,30 @@ public class CircleButton extends RelativeLayout {
 		// TODO Auto-generated method stub
 		return super.isShown();
 	}
+	
+	/**
+	 * 为按钮添加事件监听
+	 * @param l
+	 */
+	public void setCircleButtononClickListener(final OnClickListener l) {
+		mainButton.setOnClickListener(new OnClickListener() {
+			
+			@SuppressWarnings("static-access")
+			@Override
+			public void onClick(View v) {
+			if (areButtonClicked) {
+				cbAnimation.startAnimationsOut(dureTime);
+				mainImage.startAnimation(cbAnimation.getRotateAnimation(-270,
+						0, dureTime));
+			} else {
+				cbAnimation.startAnimationsIn(dureTime);
+				mainImage.startAnimation(cbAnimation.getRotateAnimation(0,
+						-270, dureTime));
+			}
+				areButtonClicked = !areButtonClicked;
+			}
+		});
+	}
 	/**
 	 * 为子按钮的点击添加事件监听
 	 * @param l
