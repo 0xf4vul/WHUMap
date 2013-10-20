@@ -1,0 +1,15 @@
+body{
+	font-size:17px;
+	font-family:"宋体"
+}
+h1{ 
+	text-align:center; 
+	font-weight:bold;
+	font-size:30px; 
+	color:#ca0000;
+}
+.br{ border-bottom:2px solid #ca0000;}
+.blank{ height:10px; font-size:1px; clear:both;overflow:hidden;}
+.blank15{ height:15px; font-size:1px; clear:both;overflow:hidden;}
+.site {width:100%; background:url(back1.jpg) repeat-y;}
+.post {color:#7d4a17}
