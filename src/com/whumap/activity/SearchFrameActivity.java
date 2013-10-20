@@ -23,9 +23,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SearchFrameActivity extends SherlockActivity implements TextWatcher,
-	OnClickListener
-	 {
+public class SearchFrameActivity extends SherlockActivity implements
+		TextWatcher, OnClickListener {
 	private EditText searchPosition; // 输入的是要查找的内容
 	private EditText searchMyPosition; // 输入的是起始位置，默认为我的位置
 	private EditText searchDePosition; // 输入的是终点位置
@@ -67,7 +66,7 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
+		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
 			return true;
@@ -92,7 +91,7 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 			ToastUtil.showLong(SearchFrameActivity.this, "不能选择相同地点");
 			return;
 		}
-		
+
 		Intent intent = getIntent();
 		Bundle dataBundle = new Bundle();
 		dataBundle.putString("start", strStart);
@@ -162,7 +161,7 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-	
+
 		case R.id.search_postition_button:
 			searchButton();
 			break;
@@ -173,5 +172,5 @@ public class SearchFrameActivity extends SherlockActivity implements TextWatcher
 			break;
 		}
 	}
-	
+
 }
