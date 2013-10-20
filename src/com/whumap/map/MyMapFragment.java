@@ -3,6 +3,7 @@ package com.whumap.map;
 import java.util.List;
 
 import android.R.bool;
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -141,7 +142,8 @@ public class MyMapFragment extends Fragment {
 	private int[] imgResId = { R.drawable.ic_circlebutton_layer,
 			R.drawable.ic_circlebutton_position,
 			R.drawable.ic_circlebutton_search, R.drawable.ic_circlebutton_view,
-			R.drawable.ic_circlebutton_volunteer };
+			R.drawable.ic_circlebutton_volunteer,
+			R.drawable.ic_circlebutton_position };
 
 	private SharedPreferences settings;
 	private Boolean suoFangValue;
@@ -188,9 +190,6 @@ public class MyMapFragment extends Fragment {
 			if (CURP == null) {
 				showLocationDialog();
 				myLocation.setUpMap();
-			}
-			if (CURP != null) {
-				dissmissLocationDialog();
 			}
 		}
 	}
@@ -273,7 +272,12 @@ public class MyMapFragment extends Fragment {
 			if (v.getId() == BASIC_CHILD_BUTTON_ID + 0) {
 				setLayer();
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 1) {
-				aMap.animateCamera(CameraUpdateFactory.changeLatLng(CUR));
+				if (CURP != null) {
+					aMap.animateCamera(CameraUpdateFactory.changeLatLng(CUR));
+				} else {
+					ToastUtil.showLong(getActivity(), R.string.no_location);
+					myLocation.setUpMap();
+				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 2) {
 				if (CURP != null) {
 					Intent intent = new Intent(getActivity(),
@@ -457,6 +461,7 @@ public class MyMapFragment extends Fragment {
 						alocation.getLongitude());
 				CURP = new LatLonPoint(alocation.getLatitude(),
 						alocation.getLongitude());
+				dissmissLocationDialog();
 			}
 
 		}
@@ -987,6 +992,9 @@ public class MyMapFragment extends Fragment {
 		public void onMapLongClick(LatLng point) {
 			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+			if (CURP == null) {
+				ToastUtil.showLong(getActivity(), R.string.no_location);
+			}
 
 			if (mCurPoint != null) {
 				mCurPoint.remove();
