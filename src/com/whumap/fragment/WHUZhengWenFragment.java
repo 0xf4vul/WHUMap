@@ -25,9 +25,9 @@ import com.whumap.activity.R;
 import com.whumap.activity.WHUZhengWenActivity;
 import com.whumap.util.ToastUtil;
 import com.whumap.zhengwenutils.Article;
-import com.whumap.zhengwenutils.NewsListDataBaseService;
+import com.whumap.zhengwenutils.ArticlesListDataBaseService;
 import com.whumap.zhengwenutils.ObjectListToHashMap;
-import com.whumap.zhengwenutils.SetNews;
+import com.whumap.zhengwenutils.SetArticles;
 
 public class WHUZhengWenFragment extends Fragment{
 
@@ -97,7 +97,7 @@ public class WHUZhengWenFragment extends Fragment{
 	 */
 	public List<HashMap<String,Object>> getNewsListByDatabase(String type){
 		List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
-		List<Article> newss = NewsListDataBaseService.getNewsList(getActivity(), type);
+		List<Article> newss = ArticlesListDataBaseService.getNewsList(getActivity(), type);
 		list = ObjectListToHashMap.newsListToHashMapList(newss);
 		if(list.size()>0){
 			newsMaps.clear();
@@ -109,9 +109,9 @@ public class WHUZhengWenFragment extends Fragment{
 
 		@Override
 		protected List<Article> doInBackground(Integer... arg0) {
-			List<Article> list = SetNews.getNewsList(page_load);
+			List<Article> list = SetArticles.getNewsList(page_load);
 			if(page_load==1 && list.size()>0 ) {
-				NewsListDataBaseService.addNewsList(list, getActivity(),arg0[0]+"");
+				ArticlesListDataBaseService.addNewsList(list, getActivity(),arg0[0]+"");
 			}
 			return list;
 		}

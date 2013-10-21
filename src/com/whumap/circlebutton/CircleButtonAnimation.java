@@ -33,8 +33,6 @@ public class CircleButtonAnimation {
 	private boolean isOpen = false;//记录打开还是关上的状态
 	private List<ViewPropertyAnimator> viewAnimators = new ArrayList<ViewPropertyAnimator>();
 	
-	
-	
 	/**
 	 * 
 	 * @param circleButton 
@@ -95,7 +93,6 @@ public class CircleButtonAnimation {
 	private class AnimListener implements AnimatorListener {
 
 		private View target;
-
 		public AnimListener(View _target) {
 			target = _target;
 		}
@@ -114,14 +111,10 @@ public class CircleButtonAnimation {
 
 		@Override
 		public void onAnimationCancel(Animator animation) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onAnimationRepeat(Animator animation) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 	

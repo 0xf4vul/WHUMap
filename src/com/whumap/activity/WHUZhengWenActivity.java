@@ -3,7 +3,7 @@ package com.whumap.activity;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.whumap.zhengwenutils.SetNews;
+import com.whumap.zhengwenutils.SetArticles;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +43,7 @@ public class WHUZhengWenActivity extends SherlockActivity {
 
 		@Override
 		protected String doInBackground(String... urls) {
-			String data=SetNews.getNewsDetails(urls[0],urls[1],urls[2]);
+			String data=SetArticles.getNewsDetails(urls[0],urls[1],urls[2]);
 			return data;
 		}
 

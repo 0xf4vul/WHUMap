@@ -54,6 +54,7 @@ public class CircleButton extends RelativeLayout {
 	 * 
 	 * @param durationMillis 定义动画时间
 	 */
+	@SuppressWarnings("static-access")
 	public void init(int[] imgResId, int showhideButtonId, int crossId,
 			byte positionId, int radius, final int durationMillis) {
 		//动画时间
@@ -200,6 +201,7 @@ public class CircleButton extends RelativeLayout {
 	/**
 	 * 收起菜单按钮
 	 */
+	@SuppressWarnings("static-access")
 	public void collapse() {
 		cbAnimation.startAnimationsOut(dureTime);
 		mainImage.startAnimation(cbAnimation.getRotateAnimation(-270, 0, dureTime));
@@ -218,6 +220,7 @@ public class CircleButton extends RelativeLayout {
 	/**
 	 * 打开菜单按钮
 	 */
+	@SuppressWarnings("static-access")
 	public void expand() {
 		cbAnimation.startAnimationsIn(dureTime);
 		mainImage.startAnimation(cbAnimation.getRotateAnimation(0, -270, dureTime));
@@ -239,7 +242,6 @@ public class CircleButton extends RelativeLayout {
 	
 	@Override
 	public boolean isShown() {
-		// TODO Auto-generated method stub
 		return super.isShown();
 	}
 	
