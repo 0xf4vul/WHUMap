@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -39,6 +40,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
@@ -59,11 +61,12 @@ import com.amap.api.services.route.RouteSearch.OnRouteSearchListener;
 import com.amap.api.services.route.RouteSearch.WalkRouteQuery;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
+import com.whumap.activity.BuildingText;
 import com.whumap.activity.R;
+import com.whumap.activity.SearchFrameActivity;
 import com.whumap.circlebutton.CircleButton;
 import com.whumap.map.RouteSearchPoiDialog.OnListItemClick;
 import com.whumap.util.ToastUtil;
-import com.whumap.activity.*;
 
 public class MyMapFragment extends Fragment {
 
@@ -559,15 +562,15 @@ public class MyMapFragment extends Fragment {
 								&& suggestionCities.size() > 0) {
 							showSuggestCity(suggestionCities);
 						} else {
-							ToastUtil.showLong(getActivity(),
-									R.string.no_result);
+//							ToastUtil.showLong(getActivity(),
+//									R.string.no_result);
 						}
 					}
 				} else {
-					ToastUtil.showLong(getActivity(), R.string.no_result);
+//					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.showLong(getActivity(), R.string.error_network);
+//				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -624,7 +627,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.showLong(getActivity(), R.string.error_network);
+//				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -764,7 +767,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.showLong(getActivity(), R.string.error_network);
+//				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -1137,7 +1140,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-				ToastUtil.showLong(getActivity(), R.string.error_network);
+//				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
