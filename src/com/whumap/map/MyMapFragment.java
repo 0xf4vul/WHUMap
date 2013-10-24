@@ -550,16 +550,42 @@ public class MyMapFragment extends Fragment {
 						poiResult = result;
 						// 取得搜索到的poiitems有多少页
 						List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+						List<SuggestionCity> suggestionCities = poiResult
+								.getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
 						if (poiItems != null && poiItems.size() > 0) {
 							PoiOverlay poiOverlay = new PoiOverlay(aMap,
 									poiItems);
 							poiOverlay.removeFromMap();
 							poiOverlay.addToMap();
 							poiOverlay.zoomToSpan();
+						} else if (suggestionCities != null
+								&& suggestionCities.size() > 0) {
+							showSuggestCity(suggestionCities);
+						} else {
+							ToastUtil.showLong(getActivity(),
+									R.string.no_result);
 						}
 					}
+				} else {
+					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
+			} else {
+				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
+		}
+
+		/**
+		 * poi没有搜索到数据，返回一些推荐城市的信息
+		 */
+		private void showSuggestCity(List<SuggestionCity> cities) {
+			String infomation = "推荐城市\n";
+			for (int i = 0; i < cities.size(); i++) {
+				infomation += "城市名称:" + cities.get(i).getCityName() + "城市区号:"
+						+ cities.get(i).getCityCode() + "城市编码:"
+						+ cities.get(i).getAdCode() + "\n";
+			}
+			ToastUtil.showLong(getActivity(), infomation);
+
 		}
 	}
 
