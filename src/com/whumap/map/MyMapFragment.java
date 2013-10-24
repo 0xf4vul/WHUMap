@@ -312,7 +312,8 @@ public class MyMapFragment extends Fragment {
 					MarkerV = 0;
 				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 5) {
-
+				aMap.clear();
+				myLocation.setUpMap();
 			}
 
 		}
@@ -350,8 +351,6 @@ public class MyMapFragment extends Fragment {
 				}
 			}
 		} else if (requestCode == 0 && resultCode == 1) {
-			aMap.clear();
-			myLocation.setUpMap();
 		}
 	}
 
@@ -557,17 +556,11 @@ public class MyMapFragment extends Fragment {
 							poiOverlay.removeFromMap();
 							poiOverlay.addToMap();
 							poiOverlay.zoomToSpan();
-						} else {
-							ToastUtil.showLong(getActivity(),
-									R.string.no_result);
 						}
 					}
 				}
-			} else {
-				ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
-
 	}
 
 	/**
