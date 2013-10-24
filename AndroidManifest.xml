@@ -20,7 +20,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name="com.whumap.activity.WHUZhengWenActivity"
-            android:label="@string/title_activity_whuzheng_wen" >
+            android:label="@string/title_activity_whuzheng_wen">
         </activity>
         <activity
             android:name="com.whumap.activity.SettingsActivity"

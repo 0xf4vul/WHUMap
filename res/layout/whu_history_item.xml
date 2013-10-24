@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" 
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:background="@drawable/whu_history_item">
-
+    android:background="#ffffff">
     <ImageView
         android:id="@+id/history_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="5dp"
-        android:layout_gravity="center"
+        android:contentDescription="@string/abs__action_bar_home_description"
         android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/history_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:layout_gravity="center"
+        android:gravity="center"
         android:textSize="20sp" />
-
 </LinearLayout>

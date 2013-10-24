@@ -2,8 +2,6 @@ package com.whumap.map;
 
 import java.util.List;
 
-import android.R.bool;
-import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +39,6 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.GeocodeSearch.OnGeocodeSearchListener;
@@ -143,7 +140,7 @@ public class MyMapFragment extends Fragment {
 			R.drawable.ic_circlebutton_position,
 			R.drawable.ic_circlebutton_search, R.drawable.ic_circlebutton_view,
 			R.drawable.ic_circlebutton_volunteer,
-			R.drawable.ic_circlebutton_position };
+			R.drawable.ic_circlebutton_remove };
 
 	private SharedPreferences settings;
 	private Boolean suoFangValue;

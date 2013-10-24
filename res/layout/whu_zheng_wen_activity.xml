@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WHUZhengWenActivity" >
+    tools:context=".WHUZhengWenActivity"
+    android:background="@drawable/background">
 
     <WebView
         android:id="@+id/article_details_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+       
 
     <ProgressBar
         android:id="@+id/article_details_progressbar"
