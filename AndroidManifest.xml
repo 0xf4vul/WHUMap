@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name="com.whumap.activity.WHUZhengWenActivity"
-            android:label="@string/title_activity_whuzheng_wen">
+            android:label="@string/title_activity_whuzheng_wen" >
         </activity>
         <activity
             android:name="com.whumap.activity.SettingsActivity"
@@ -60,6 +60,10 @@
         <activity
             android:name="com.whumap.activity.AboutUsActivity"
             android:label="@string/title_activity_about_us" >
+        </activity>
+        <activity
+            android:name="com.whumap.activity.ZhengWenIntroductionActivity"
+            android:label="@string/title_activity_zheng_wen_introduction" >
         </activity>
     </application>
 

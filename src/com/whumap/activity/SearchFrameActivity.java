@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.Inputtips.InputtipsListener;
@@ -44,6 +43,7 @@ public class SearchFrameActivity extends SherlockActivity implements
 		searchButton.setOnClickListener(this);
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
 	}
 
 	public void findViewById() {
@@ -55,13 +55,6 @@ public class SearchFrameActivity extends SherlockActivity implements
 		searchDePosition.addTextChangedListener(this);// 添加文本输入框监听事件
 		searchButton = (Button) findViewById(R.id.search_postition_button);
 		searchRoute = (Button) findViewById(R.id.search_the_route);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getSupportMenuInflater().inflate(R.menu.search_frame, menu);
-		return true;
 	}
 
 	@Override

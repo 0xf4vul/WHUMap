@@ -18,46 +18,34 @@
             android:layout_marginBottom="9dp"
             android:textColor="@color/action_bar_background"
             android:textSize="21sp"
-            android:text="珞珈传雅韵     百甘聚归鸿"/>
-        <!--
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="25dp"
-            android:textColor="@color/action_bar_background"
-            android:layout_marginBottom="5dp"
-            android:textSize="15sp"
-            android:text="百甘聚归鸿"/>
-          -->
-        
+            android:text="@string/xiao_qing_kou_hao"/>
+       
     </LinearLayout>
+    
     <ListView
         android:id="@+id/menulist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="0dp"
-        android:layout_marginBottom="10dp" />
-    
-    
-    
-<RelativeLayout
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="40dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:background="@drawable/count_down_background" 
-    android:id="@+id/count_down_container" >
-
-    
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="0dp" />
+<!-- 圆形倒计时 
+	<RelativeLayout
+	    android:layout_width="150dp"
+	    android:layout_height="150dp"
+	    android:layout_gravity="center_horizontal"
+	    android:layout_marginTop="40dp"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:background="@drawable/count_down_background" 
+	    android:id="@+id/count_down_container" >
+	    
         <TextView
             android:id="@+id/count_down_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:textColor="#fff143"
             android:textSize="@dimen/count_down_days_size" />
 
         <TextView
@@ -67,6 +55,7 @@
             android:layout_below="@+id/count_down_days"
             android:layout_centerHorizontal="true"
             android:text="@string/count_down_text_2"
+            android:textColor="#faff72"
             android:textSize="@dimen/count_down_text_size" />
 
         <TextView
@@ -76,7 +65,43 @@
             android:layout_above="@+id/count_down_days"
             android:layout_centerHorizontal="true"
             android:text="@string/count_down_text_1"
+            android:textColor="#faff72"
             android:textSize="@dimen/count_down_text_size" />
-    
-</RelativeLayout>
+	    
+	</RelativeLayout>
+	-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="150dp"
+        android:id="@+id/count_down_container">
+
+        <TextView
+            android:id="@+id/count_down_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/count_down_text_1"
+            android:textSize="@dimen/count_down_text_size"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/count_down_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/count_down_days_size"
+            android:textColor="#fff143" />
+
+        <TextView
+            android:id="@+id/count_down_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/count_down_text_2" 
+            android:textSize="@dimen/count_down_text_size"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
+
 </LinearLayout>

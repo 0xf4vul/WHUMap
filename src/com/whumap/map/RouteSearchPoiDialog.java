@@ -17,7 +17,6 @@ public class RouteSearchPoiDialog extends Dialog implements OnItemClickListener,
 
 	
 	private List<PoiItem> poiItems;
-	private Context context;
 	private RouteSearchAdapter adapter;
 	protected OnListItemClick mOnClickListener;
 	 
@@ -32,7 +31,6 @@ public class RouteSearchPoiDialog extends Dialog implements OnItemClickListener,
 			List<PoiItem> poiItems) {
 		this(context,android.R.style.Theme_Dialog);
 		this.poiItems=poiItems;
-		this.context=context;
 		adapter=new RouteSearchAdapter(context,poiItems);
 	}
 	@Override

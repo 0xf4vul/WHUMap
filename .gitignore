@@ -7,5 +7,6 @@ libs/
 .settings/
 proguard-project.txt
 project.properties
+META-INF/
 
 

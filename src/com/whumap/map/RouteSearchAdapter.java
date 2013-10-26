@@ -12,12 +12,10 @@ import com.amap.api.services.core.PoiItem;
 import com.whumap.activity.R;
 
 public class RouteSearchAdapter extends BaseAdapter {
-	private Context context;
 	private List<PoiItem> poiItems = null;
 	private LayoutInflater mInflater;
 
 	public RouteSearchAdapter(Context context, List<PoiItem> poiItems) {
-		this.context = context;
 		this.poiItems = poiItems;
 		mInflater = LayoutInflater.from(context);
 	}

@@ -24,6 +24,7 @@ public class WHUZhengWenActivity extends SherlockActivity {
 		String url = getIntent().getStringExtra("news_url");
 		container.getSettings().getJavaScriptEnabled();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		new MyAsnycTask().execute(url,getIntent().getStringExtra("news_title"),getIntent().getStringExtra("news_date"));
 
 	}

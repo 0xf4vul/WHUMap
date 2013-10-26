@@ -69,7 +69,6 @@ public class DetailActivity extends SherlockFragmentActivity implements ActionBa
 		//设置ActionBar使用Tab导航
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
 		initSchedulePara();
 	}
 	

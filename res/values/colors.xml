@@ -19,9 +19,9 @@
     <color name="caldroid_sky_blue">#FFA3E8F7</color>
     <color name="schedule_time_color">#8833CCFF</color>
     <color name="drawable_whu_history_item_background">#eeeeee</color>
-    <color name="layout_whu_history_frame_background">#eaeaea</color>
+    <color name="layout_whu_history_frame_background">#cccccc</color>
     <color name="action_bar_background">#CC0000</color>
-    <color name="action_bar_tab_background">#00B8F5</color>
+    <color name="action_bar_tab_background">#888888</color>
     <color name="action_bar_tab_text">#ffffff</color>
     <color name="search_activity_background">#33B5E5</color>
     <color name="left_menu_item_secleted">#336699</color>

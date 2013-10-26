@@ -18,6 +18,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnPr
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		suoFangBox = (CheckBoxPreference)findPreference("suo_fang");

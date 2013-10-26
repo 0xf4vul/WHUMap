@@ -5,6 +5,7 @@
 
     <ImageView
         android:id="@+id/xiao_qing_logo"
+        android:contentDescription="@string/image_content_description"
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_margin="14dp"
@@ -23,7 +24,6 @@
             android:layout_alignRight="@+id/zheng_wen_date"
             android:layout_marginTop="18dp"
             android:maxLines="2"
-            android:text="TextView"
             android:textSize="20sp" />
 
         <TextView
@@ -34,8 +34,8 @@
             android:layout_below="@+id/zheng_wen_title"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="TextView" />
+            android:gravity="center" />
+           
 
     </RelativeLayout>
 

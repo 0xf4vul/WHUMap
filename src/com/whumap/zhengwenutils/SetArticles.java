@@ -18,7 +18,8 @@ public class SetArticles {
 	private final static String LUOJIAFU = "珞珈赋";
 	private final static String URL = "http://news.whu.edu.cn/012/";
 	private final static String IMAGEABS = "http://news.whu.edu.cn";
-
+	private final static String INTRODUCTION = "http://news.whu.edu.cn/019/2011-12-21/12813.html";
+	private final static String CONTRIBUTE = "点击右上角去投稿吧~~!";
 	
 	/**
 	 * 通过url来加载选择的文章的具体内容，
@@ -76,6 +77,7 @@ public class SetArticles {
 	 * @param page_load
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public static List<Article> getNewsList(int page_load){
 		List<Article> list = new ArrayList<Article>();
 		Document document = null;
@@ -156,7 +158,6 @@ public class SetArticles {
 		return title.replaceFirst(XIAOQINGZHWNGWEN, "");
 	}
 	
-	
 	/**
 	 * 获得作者名
 	 * @param str
@@ -174,6 +175,31 @@ public class SetArticles {
 			}
 		}
 		return name;
+	}
+	
+	public static String getZhengWentIntroduction() {
+		String data = null;
+		String url = INTRODUCTION;
+		Document document = null;
+		try {
+			document = Jsoup.connect(url).timeout(4000).get();
+			Element titleE = document.getElementsByClass("news_title").first();
+			String title = titleE.toString();
+			data = "<center><h2>" + title + "</center></h2>";
+			data += "<br/>";
+			data += "<hr size='1' />";
+			Element content = document.getElementsByClass("news_content").first();
+			if(content != null) {
+				int elementSize = content.select("p").size();
+				for(int i=0;i<elementSize - 2;i++) {
+					data += content.child(i).toString();
+				}
+			}
+			data += "<p align='center'>" + CONTRIBUTE + "</p>";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 	
 }

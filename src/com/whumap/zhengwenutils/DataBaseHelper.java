@@ -78,6 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void addNews(Article article,String type){
 		ContentValues value = new ContentValues();
 		if (!isExist(article)) {

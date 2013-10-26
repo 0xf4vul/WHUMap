@@ -21,6 +21,7 @@ public class AboutUsActivity extends SherlockPreferenceActivity implements OnPre
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.about_us);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		memberOne = (Preference)findPreference("member_one");
 		memberTwo = (Preference)findPreference("member_two");
 		contact = (Preference)findPreference("email");

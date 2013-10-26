@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -34,14 +33,14 @@ import com.whumap.util.ToastUtil;
 
 public class ContentFrameActivity extends SlidingFragmentActivity{
 
-	private final static int SYSTEM_SETTINGS = 0;
+//	private final static int SYSTEM_SETTINGS = 0;
 	private SlidingMenu slidingMenu;
 	private ListView leftMenu;
 	private MyMapFragment myMapFragment ; 
 	private Fragment currentFragment ;
 	private TextView countDownDate;
 	private LinearLayout ll;
-	private RelativeLayout rl;
+	private LinearLayout countL;
 	private CalendarActiveFragment calendarFragment;
 	private WHUHistoryFragment wHUHistoryFragment;
 	private WHUZhengWenFragment whuZhengWenFragment;
@@ -85,7 +84,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 		leftMenu = (ListView)findViewById(R.id.menulist);
 		countDownDate = (TextView)findViewById(R.id.count_down_days);
 		ll = (LinearLayout)findViewById(R.id.menu_frame);
-		rl = (RelativeLayout)findViewById(R.id.count_down_container);
+		countL = (LinearLayout)findViewById(R.id.count_down_container);
 	}
 	
 	/**
@@ -148,9 +147,9 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			countDownDate.setText(days+"");
 		} else {
 		
-			ll.removeView(rl);
+			ll.removeView(countL);
 		}
-		
+
 	}
 	
 	/**
@@ -165,19 +164,20 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					long arg3) {
 				flag = 0;
 				setTitle(functions[arg2]);
+				mainMenu.removeItem(R.id.contribute);
 				switch(arg2) {
 				case 0:
 					if(myMapFragment == null) {
 						myMapFragment = new MyMapFragment();
 					}
-					mainMenu.removeItem(R.id.contribute);
+//					mainMenu.removeItem(R.id.contribute);
 					switchContent(myMapFragment);
 					break;
 				case 1:
 					if(calendarFragment == null) {
 						calendarFragment = new CalendarActiveFragment();
 					}
-					mainMenu.removeItem(R.id.contribute);
+//					mainMenu.removeItem(R.id.contribute);
 					switchContent(calendarFragment);
 					break;
 				case 2:
@@ -191,7 +191,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 					if(wHUHistoryFragment == null) {
 						wHUHistoryFragment = new WHUHistoryFragment();
 					}
-					mainMenu.removeItem(R.id.contribute);
+//					mainMenu.removeItem(R.id.contribute);
 					switchContent(wHUHistoryFragment);
 					break;
 				default :
@@ -220,6 +220,7 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
@@ -244,9 +245,14 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 			break;
 		case R.id.settings:
 			Intent intent = new Intent(ContentFrameActivity.this,SettingsActivity.class);
-			startActivityForResult(intent, SYSTEM_SETTINGS);
+//			startActivityForResult(intent, SYSTEM_SETTINGS);
+			startActivity(intent);
 			break;
 		case R.id.contribute:
+			Intent introduction = new Intent(ContentFrameActivity.this,ZhengWenIntroductionActivity.class);
+			startActivity(introduction);
+			break;
+			/*
 			final Intent toEmail = new Intent(android.content.Intent.ACTION_SENDTO);
 			String uriText2 = "mailto:wdxw@whu.edu.cn" +
 					"?subject="+URLEncoder.encode("征文");
@@ -255,8 +261,8 @@ public class ContentFrameActivity extends SlidingFragmentActivity{
 				startActivity(toEmail);
 			} catch (Exception e) {
 				ToastUtil.showLong(this, R.string.fail_to_send_email);
-			}
-			break;
+			} 
+			*/
 		}
 		return super.onOptionsItemSelected(item);
 	}

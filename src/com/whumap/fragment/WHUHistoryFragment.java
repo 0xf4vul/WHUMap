@@ -5,10 +5,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +16,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.whumap.activity.BuildingText;
 import com.whumap.activity.R;
 
 public class WHUHistoryFragment extends Fragment {
 
 	private View view;
-	private PullToRefreshListView refreshView;
-	private ListView actualListView;
+	private ListView listView;
 	private LinkedList<Map<String, Object>> listItems;
 	private SimpleAdapter adapter;
 	private int imageId;
@@ -44,18 +38,14 @@ public class WHUHistoryFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.whu_history_frame, container, false);
-		refreshView = (PullToRefreshListView) view
-				.findViewById(R.id.whu_history_list);
+		listView = (ListView)view.findViewById(R.id.whu_history_list);
 		initListView();
-		setRefreshListener();
 		return view;
 	}
 
 
 	private void initListView() {
 
-		actualListView = refreshView.getRefreshableView();
-		registerForContextMenu(actualListView);
 
 		listItems = new LinkedList<Map<String, Object>>();
 		for (int i = 0; i < imageIds.length; i++) {
@@ -68,14 +58,14 @@ public class WHUHistoryFragment extends Fragment {
 		adapter = new SimpleAdapter(getActivity(), listItems,
 				R.layout.whu_history_item, new String[] { "image", "title" },
 				new int[] { R.id.history_image, R.id.history_text });
-		actualListView.setAdapter(adapter);
+		listView.setAdapter(adapter);
 
-		actualListView.setOnItemClickListener(new OnItemClickListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				imageId = arg2 - 1;
+				imageId = arg2;
 				Bundle id = new Bundle();
 				id.putInt("name", imageId);
 				Intent intent = new Intent(getActivity(), BuildingText.class);
@@ -85,6 +75,7 @@ public class WHUHistoryFragment extends Fragment {
 		});
 	}
 
+	/*
 	private void setRefreshListener() {
 
 		refreshView.setOnRefreshListener(new OnRefreshListener<ListView>() {
@@ -125,4 +116,6 @@ public class WHUHistoryFragment extends Fragment {
 			super.onPostExecute(result);
 		}
 	}
+
+	*/
 }
