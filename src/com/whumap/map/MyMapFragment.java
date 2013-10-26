@@ -1173,53 +1173,55 @@ public class MyMapFragment extends Fragment {
 			aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
 			aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
 			aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
+			String volunteer = getResources().getString(R.string.volunteer);
+			String clickAndGo = getResources().getString(R.string.click_and_go);
 			MarkerV = 1;
 			mWHU1 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV1)
-					.title("志愿者1")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU2 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV2)
-					.title("志愿者2")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU4 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV3)
-					.title("志愿者3")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU5 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV4)
-					.title("志愿者4")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU6 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV5)
-					.title("志愿者5")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU7 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV6)
-					.title("志愿者6")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));
 			mWHU3 = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHUV7)
-					.title("志愿者7")
-					.snippet("点击到那去")
+					.title(volunteer)
+					.snippet(clickAndGo)
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_volunteer_one))
 					.draggable(true));

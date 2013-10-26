@@ -68,5 +68,7 @@
     <string name="image_content_description">图片描述</string>
     <string name="xiao_qing_kou_hao">珞珈传雅韵     百甘聚归鸿</string>
     <string name="title_activity_zheng_wen_introduction">校庆征文</string>
+    <string name="volunteer">志愿者服务点</string>
+    <string name="click_and_go">点击到那里去</string>
 
 </resources>

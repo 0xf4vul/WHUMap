@@ -37,7 +37,7 @@ public class Constants {
 	public static final LatLng WHU11 = new LatLng(30.539929,114.366258);//理学院
 	public static final LatLng WHU13 = new LatLng(30.535545, 114.366956); //半山庐
 	public static final LatLng WHU12 = new LatLng(30.544734, 114.362192);//工学院
-	public static final LatLng WHU14 = new LatLng(30.534182, 114.370871);//18栋
+	public static final LatLng WHU14 = new LatLng(30.534182, 114.370871);//十八栋
 	
 	public static final LatLng WHUV1 = new LatLng(30.534098, 114.358598);
 	public static final LatLng WHUV2 = new LatLng(30.538793, 114.361462);
