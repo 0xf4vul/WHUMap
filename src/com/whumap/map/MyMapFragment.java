@@ -313,6 +313,8 @@ public class MyMapFragment extends Fragment {
 				}
 			} else if (v.getId() == BASIC_CHILD_BUTTON_ID + 5) {
 				aMap.clear();
+				MarkerS = 0;
+				MarkerV = 0;
 				myLocation.setUpMap();
 			}
 
@@ -562,15 +564,15 @@ public class MyMapFragment extends Fragment {
 								&& suggestionCities.size() > 0) {
 							showSuggestCity(suggestionCities);
 						} else {
-//							ToastUtil.showLong(getActivity(),
-//									R.string.no_result);
+							// ToastUtil.showLong(getActivity(),
+							// R.string.no_result);
 						}
 					}
 				} else {
-//					ToastUtil.showLong(getActivity(), R.string.no_result);
+					// ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-//				ToastUtil.showLong(getActivity(), R.string.error_network);
+				// ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -627,7 +629,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-//				ToastUtil.showLong(getActivity(), R.string.error_network);
+				// ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -767,7 +769,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-//				ToastUtil.showLong(getActivity(), R.string.error_network);
+				// ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
@@ -832,77 +834,70 @@ public class MyMapFragment extends Fragment {
 			mWHUQ = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU1)
 					.title("宋卿体育馆")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUX = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU5)
 					.title("行政楼")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUP = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU6)
 					.title("牌楼")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUY = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU7)
 					.title("六一纪念亭")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUZ = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU8)
 					.title("老斋舍")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUT = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU9)
 					.title("老图书馆")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUW = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU10)
 					.title("文法学院")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUL = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU11)
 					.title("理学院")
-					.snippet("点击查看详情")
-					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.ic_view_orange))
-					.draggable(true));
-			mWHUG = aMap.addMarker(new MarkerOptions()
-					.position(Constants.WHU12)
-					.title("工学院")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUB = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU13)
 					.title("半山庐")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
 			mWHUS = aMap.addMarker(new MarkerOptions()
 					.position(Constants.WHU14)
 					.title("十八栋")
-					.snippet("点击查看详情")
+					.snippet("点击到那里去")
 					.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.ic_view_orange))
 					.draggable(true));
@@ -910,41 +905,43 @@ public class MyMapFragment extends Fragment {
 
 		@Override
 		public void onInfoWindowClick(Marker marker) {
-			Bundle id = new Bundle();
-			id.putInt("name", imageId);
-			Intent intent = new Intent(getActivity(), BuildingText.class);
-			intent.putExtras(id);
-			startActivity(intent);
+			if (CURP == null) {
+				ToastUtil.showLong(getActivity(), R.string.no_location);
+				myLocation.setUpMap();
+			}
+			startPoint = CURP;
+			mySearchRoute = new MySearchRoute();
+			mySearchRoute.searchRouteResult(startPoint, endPoint);
+			return;
 		}
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			if (marker.equals(mWHUP))
-				imageId = 0;
-			else if (marker.equals(mWHUX))
-				imageId = 1;
-			else if (marker.equals(mWHUY))
-				imageId = 2;
-			else if (marker.equals(mWHUQ))
-				imageId = 3;
-			else if (marker.equals(mWHUZ))
-				imageId = 4;
-			else if (marker.equals(mWHUT))
-				imageId = 5;
-			else if (marker.equals(mWHUW))
-				imageId = 6;
-			else if (marker.equals(mWHUL))
-				imageId = 7;
-			else if (marker.equals(mWHUG))
-				imageId = 8;
-			else if (marker.equals(mWHUB))
-				imageId = 9;
-			else if (marker.equals(mWHUS))
-				imageId = 10;
 			if (marker.isInfoWindowShown()) {
 				marker.hideInfoWindow();
 			} else {
 				marker.showInfoWindow();
+			}
+			if (marker.equals(mWHUQ)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUQ.getPosition());
+			} else if (marker.equals(mWHUX)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUX.getPosition());
+			} else if (marker.equals(mWHUP)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUP.getPosition());
+			} else if (marker.equals(mWHUY)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUY.getPosition());
+			} else if (marker.equals(mWHUZ)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUZ.getPosition());
+			} else if (marker.equals(mWHUT)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUT.getPosition());
+			} else if (marker.equals(mWHUW)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUW.getPosition());
+			} else if (marker.equals(mWHUL)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUL.getPosition());
+			} else if (marker.equals(mWHUB)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUB.getPosition());
+			} else if (marker.equals(mWHUS)) {
+				endPoint = AMapUtil.convertToLatLonPoint(mWHUS.getPosition());
 			}
 			return false;
 		}
@@ -1140,7 +1137,7 @@ public class MyMapFragment extends Fragment {
 					ToastUtil.showLong(getActivity(), R.string.no_result);
 				}
 			} else {
-//				ToastUtil.showLong(getActivity(), R.string.error_network);
+				// ToastUtil.showLong(getActivity(), R.string.error_network);
 			}
 		}
 
