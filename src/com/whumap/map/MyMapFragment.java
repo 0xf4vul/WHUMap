@@ -61,7 +61,6 @@ import com.amap.api.services.route.RouteSearch.OnRouteSearchListener;
 import com.amap.api.services.route.RouteSearch.WalkRouteQuery;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
-import com.whumap.activity.BuildingText;
 import com.whumap.activity.R;
 import com.whumap.activity.SearchFrameActivity;
 import com.whumap.circlebutton.CircleButton;
@@ -123,7 +122,6 @@ public class MyMapFragment extends Fragment {
 	private int MarkerV = 0;
 	private BuildingMarker mBuildingMarker;
 	private VolunteerMarker mVolunteerMarker;
-	private int imageId;
 
 	private Marker mWHU1;
 	private Marker mWHU2;

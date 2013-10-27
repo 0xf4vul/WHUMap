@@ -52,7 +52,7 @@ public class CountDownDate {
 				days = day - currentDay;
 			} else if(month - currentMonth == 1) {
 				
-				days = daysRemainOfMonth + day -1 ;
+				days = daysRemainOfMonth + day;
 			} else {
 				days = daysRemainOfMonth + day + daysBetweenMonths(year, currentMonth, month);
 			}
