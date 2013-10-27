@@ -30,9 +30,9 @@ public class WHUHistoryFragment extends Fragment {
 	private int[] imageIds = { R.drawable.whupl, R.drawable.whuxzl,
 			R.drawable.whuly, R.drawable.whusq, R.drawable.whuss,
 			R.drawable.whutsg, R.drawable.whuwf, R.drawable.whul,
-			R.drawable.whug, R.drawable.whubsl, R.drawable.whu18 };
+			R.drawable.whubsl, R.drawable.whu18 };
 	private String[] titles = { "牌楼", "行政楼", "六一纪念亭", "宋卿体育馆", "男生寄宿舍", "图书馆",
-			"文、法学院", "理学院", "工学院", "半山庐", "十八栋" };
+			"文、法学院", "理学院", "半山庐", "十八栋" };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
