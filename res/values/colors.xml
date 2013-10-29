@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="location_background">#33C6FF1E</color>
-    <color name="location_edge_background">#DDFF7A</color>
+    <color name="location_background">#000080ff</color>
+    <color name="location_edge_background">#0080ff</color>
     <color name="text_hint_color">#33ccff</color>
     <color name="tab_text_color">#00ccee</color>
     <color name="caldroid_white">#FFFFFF</color>

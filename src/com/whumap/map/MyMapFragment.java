@@ -112,7 +112,6 @@ public class MyMapFragment extends Fragment {
 	private Marker mWHUY;
 	private Marker mWHUL;
 	private Marker mWHUT;
-	private Marker mWHUG;
 	private Marker mWHUW;
 	private Marker mWHUS;
 	private Marker mWHUZ;
@@ -401,7 +400,7 @@ public class MyMapFragment extends Fragment {
 			myLocationStyle.strokeColor(R.color.location_edge_background);// 设置圆形的边框颜色
 			myLocationStyle.radiusFillColor(R.color.location_background);// 设置圆形的填充颜色
 			// myLocationStyle.anchor(;//设置小蓝点的锚点
-			myLocationStyle.strokeWidth(2);// 设置圆形的边框粗细
+			myLocationStyle.strokeWidth(1);// 设置圆形的边框粗细
 			aMap.setMyLocationStyle(myLocationStyle);
 		}
 
@@ -819,7 +818,6 @@ public class MyMapFragment extends Fragment {
 			mWHUT.remove();
 			mWHUW.remove();
 			mWHUL.remove();
-			mWHUG.remove();
 			mWHUB.remove();
 			mWHUS.remove();
 		}

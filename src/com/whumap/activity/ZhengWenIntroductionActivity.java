@@ -41,7 +41,7 @@ public class ZhengWenIntroductionActivity extends SherlockActivity {
 		case R.id.contribute:
 			final Intent toEmail = new Intent(android.content.Intent.ACTION_SENDTO);
 			String uriText2 = "mailto:wdxw@whu.edu.cn" +
-					"?subject="+URLEncoder.encode("请填写正文类型");
+					"?subject="+URLEncoder.encode("请填写征文类型");
 			toEmail.setData(Uri.parse(uriText2));
 			try {
 				startActivity(toEmail);
